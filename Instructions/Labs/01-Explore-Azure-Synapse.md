@@ -89,7 +89,7 @@ One of the key tasks you can perform with Azure Synapse Analytics is to define *
         - **Name**: Products
         - **Description**: Product list via HTTP
         - **Connect via integration runtime**: AutoResolveIntegrationRuntime
-        - **Base URL**: `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/Labs/01/adventureworks/products.csv`
+        - **Base URL**: `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/adventureworks/products.csv`
         - **Server Certificate Validation**: Enable
         - **Authentication type**: Anonymous
 4. After creating the connection, on the **Source data store** page, ensure the following settings are selected, and then select **Next >**:
