@@ -1,0 +1,21 @@
+14.0
+19
+1       SQLNCHAR            0       24      "\t\0"       1     DateKey                                      ""
+2       SQLNCHAR            0       22      "\t\0"       2     FullDateAlternateKey                         ""
+3       SQLNCHAR            0       10      "\t\0"       3     DayNumberOfWeek                              ""
+4       SQLNCHAR            0       20      "\t\0"       4     EnglishDayNameOfWeek                         SQL_Latin1_General_CP1_CI_AS
+5       SQLNCHAR            0       20      "\t\0"       5     SpanishDayNameOfWeek                         SQL_Latin1_General_CP1_CI_AS
+6       SQLNCHAR            0       20      "\t\0"       6     FrenchDayNameOfWeek                          SQL_Latin1_General_CP1_CI_AS
+7       SQLNCHAR            0       10      "\t\0"       7     DayNumberOfMonth                             ""
+8       SQLNCHAR            0       14      "\t\0"       8     DayNumberOfYear                              ""
+9       SQLNCHAR            0       10      "\t\0"       9     WeekNumberOfYear                             ""
+10      SQLNCHAR            0       20      "\t\0"       10    EnglishMonthName                             SQL_Latin1_General_CP1_CI_AS
+11      SQLNCHAR            0       20      "\t\0"       11    SpanishMonthName                             SQL_Latin1_General_CP1_CI_AS
+12      SQLNCHAR            0       20      "\t\0"       12    FrenchMonthName                              SQL_Latin1_General_CP1_CI_AS
+13      SQLNCHAR            0       10      "\t\0"       13    MonthNumberOfYear                            ""
+14      SQLNCHAR            0       10      "\t\0"       14    CalendarQuarter                              ""
+15      SQLNCHAR            0       14      "\t\0"       15    CalendarYear                                 ""
+16      SQLNCHAR            0       10      "\t\0"       16    CalendarSemester                             ""
+17      SQLNCHAR            0       10      "\t\0"       17    FiscalQuarter                                ""
+18      SQLNCHAR            0       14      "\t\0"       18    FiscalYear                                   ""
+19      SQLNCHAR            0       10      "\r\0\n\0"   19    FiscalSemester                               ""

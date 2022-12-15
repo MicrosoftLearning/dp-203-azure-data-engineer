@@ -4,22 +4,14 @@ permalink: index.html
 layout: home
 ---
 
-# Content Directory
+# Data Engineering Exercises
 
-Hyperlinks to each of the lab exercises and demos are listed below.
+The following exercises support the training modules on Microsoft Learn that support the [Microsoft Certified: Azure Data Engineer Associate](https://learn.microsoft.com/certifications/azure-data-engineer/) certification.
 
-## Labs
+To complete these exercises, you'll need a [Microsoft Azure subscription](https://azure.microsoft.com/free) in which you have administrative access. For some exercises, you may also need access to a [Microsoft Power BI tenant](https://learn.microsoft.com/power-bi/fundamentals/service-self-service-signup-for-power-bi).
 
 {% assign labs = site.pages | where_exp:"page", "page.url contains '/Instructions/Labs'" %}
-| Module | Lab |
-| --- | --- | 
-{% for activity in labs  %}| {{ activity.lab.module }} | [{{ activity.lab.title }}{% if activity.lab.type %} - {{ activity.lab.type }}{% endif %}]({{ site.github.url }}{{ activity.url }}) |
-{% endfor %}
-
-## Demos
-
-{% assign demos = site.pages | where_exp:"page", "page.url contains '/Instructions/Demos'" %}
-| Module | Demo |
-| --- | --- | 
-{% for activity in demos  %}| {{ activity.demo.module }} | [{{ activity.demo.title }}]({{ site.github.url }}{{ activity.url }}) |
+| Exercise |
+| --- | 
+{% for activity in labs  %}| [{{ activity.lab.title }}{% if activity.lab.type %} - {{ activity.lab.type }}{% endif %}]({{ site.github.url }}{{ activity.url }}) |
 {% endfor %}

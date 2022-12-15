@@ -1,0 +1,233 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "workspaceName": {
+        "type": "String",
+        "metadata": {
+          "description": "Synapse Workspace name"
+        }
+      },
+      "dataLakeAccountName": {
+        "type": "String",
+        "metadata": {
+          "description": "Azure storage account name for data lake."
+        }
+      },
+      "sparkPoolName": {
+        "type": "String",
+        "metadata": {
+          "description": "Name for Spark pool."
+        }
+      },
+      "sqlUser": {
+        "type": "String",
+        "metadata": {
+          "description": "SQL user name"
+        }
+      },
+      "sqlPassword": {
+        "type": "String",
+        "metadata": {
+          "description": "Password for SQL User"
+        }
+      },
+      "uniqueSuffix": {
+        "type": "String",
+        "metadata": {
+          "description": "Suffix added to all resource name to make them unique."
+        }
+      }
+    },
+    "variables": {
+      "location": "[resourceGroup().location]",
+      "defaultDataLakeStorageFilesystemName": "files",
+      "computeSubnetId": "",
+      "storageBlobDataOwnerRoleID": "b7e6dc6d-f1e8-4753-8033-0f276bb0955b",
+      "defaultDataLakeStorageAccountUrl": "[concat('https://', parameters('dataLakeAccountName'), '.dfs.core.windows.net')]",
+      "sparkAutoScaleEnabled": "true",
+      "sparkMinNodeCount": "3",
+      "sparkMaxNodeCount": "4",
+      "sparkNodeCount": "0",
+      "sparkNodeSizeFamily": "MemoryOptimized",
+      "sparkNodeSize": "Small",
+      "sparkAutoPauseEnabled": "true",
+      "sparkAutoPauseDelayInMinutes": "15",
+      "sparkVersion": "3.1"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Resources/tags",
+        "name": "default",
+        "apiVersion": "2019-10-01",
+        "dependsOn": [],
+        "properties": {
+            "tags": {
+                "DeploymentId": "[parameters('uniqueSuffix')]"
+            }
+        }
+    },
+      {
+        "type": "Microsoft.Storage/storageAccounts",
+        "apiVersion": "2019-06-01",
+        "name": "[parameters('dataLakeAccountName')]",
+        "location": "[variables('location')]",
+        "dependsOn": [],
+        "tags": {},
+        "sku": {
+          "name": "Standard_LRS"
+        },
+        "kind": "StorageV2",
+        "properties": {
+          "accessTier": "Hot",
+          "supportsHttpsTrafficOnly": "true",
+          "isHnsEnabled": "true",
+          "largeFileSharesState": "Disabled"
+        },
+        "resources": [
+          {
+            "type": "blobServices/containers",
+            "apiVersion": "2018-07-01",
+            "name": "[concat('default/', variables('defaultDataLakeStorageFilesystemName'))]",
+            "dependsOn": [
+              "[concat('Microsoft.Storage/storageAccounts/', parameters('dataLakeAccountName'))]"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Microsoft.Storage/storageAccounts/blobServices",
+        "apiVersion": "2019-06-01",
+        "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
+        "dependsOn": [
+          "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeAccountName'))]"
+        ],
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "properties": {
+          "cors": {
+            "corsRules": []
+          },
+          "deleteRetentionPolicy": {
+            "enabled": false
+          }
+        }
+      },
+      {
+        "type": "Microsoft.Storage/storageAccounts/fileServices",
+        "apiVersion": "2019-06-01",
+        "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
+        "dependsOn": [
+          "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeAccountName'))]"
+        ],
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "properties": {
+          "cors": {
+            "corsRules": []
+          }
+        }
+      },
+      {
+        "type": "Microsoft.Synapse/workspaces",
+        "apiVersion": "2019-06-01-preview",
+        "name": "[parameters('workspaceName')]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+          "[concat('Microsoft.Storage/storageAccounts/', parameters('dataLakeAccountName'), '/blobServices/default/containers/', variables('defaultDataLakeStorageFilesystemName'))]"
+        ],
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "defaultDataLakeStorage": {
+            "accountUrl": "[variables('defaultDataLakeStorageAccountUrl')]",
+            "filesystem": "[variables('defaultDataLakeStorageFilesystemName')]"
+          },
+          "virtualNetworkProfile": {
+            "computeSubnetId": "[variables('computeSubnetId')]"
+          },
+          "sqlAdministratorLogin": "[parameters('sqlUser')]",
+          "sqlAdministratorLoginPassword": "[parameters('sqlPassword')]"
+        },
+        "resources": [
+          {
+            "type": "firewallrules",
+            "apiVersion": "2019-06-01-preview",
+            "name": "allowAll",
+            "location": "[variables('location')]",
+            "dependsOn": [
+              "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+            ],
+            "properties": {
+              "startIpAddress": "0.0.0.0",
+              "endIpAddress": "255.255.255.255"
+            }
+          }
+        ]
+      },
+      {
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers/providers/roleAssignments",
+        "apiVersion": "2018-09-01-preview",
+        "name": "[concat(parameters('dataLakeAccountName'), '/default/', variables('defaultDataLakeStorageFilesystemName'), '/Microsoft.Authorization/',  guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', parameters('workspaceName'))))]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+          "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+        ],
+        "properties": {
+          "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataOwnerRoleID'))]",
+          "principalId": "[reference(concat('Microsoft.Synapse/workspaces/', parameters('workspaceName')), '2019-06-01-preview', 'Full').identity.principalId]",
+          "principalType": "ServicePrincipal"
+        }
+      },
+      {
+        "type": "Microsoft.Authorization/roleAssignments",
+        "apiVersion": "2018-09-01-preview",
+        "name": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', parameters('workspaceName'), '2'))]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+          "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+        ],
+        "properties": {
+          "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataOwnerRoleID'))]",
+          "principalId": "[reference(concat('Microsoft.Synapse/workspaces/', parameters('workspaceName')), '2019-06-01-preview', 'Full').identity.principalId]",
+          "principalType": "ServicePrincipal"
+        }
+      },
+      {
+        "type": "Microsoft.Synapse/workspaces/bigDataPools",
+        "apiVersion": "2019-06-01-preview",
+        "name": "[concat(parameters('workspaceName'), '/', parameters('sparkPoolName'))]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+          "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+        ],
+        "properties": {
+          "nodeCount": "[variables('sparkNodeCount')]",
+          "nodeSizeFamily": "[variables('sparkNodeSizeFamily')]",
+          "nodeSize": "[variables('sparkNodeSize')]",
+          "autoScale": {
+            "enabled": "[variables('sparkAutoScaleEnabled')]",
+            "minNodeCount": "[variables('sparkMinNodeCount')]",
+            "maxNodeCount": "[variables('sparkMaxNodeCount')]"
+          },
+          "autoPause": {
+            "enabled": "[variables('sparkAutoPauseEnabled')]",
+            "delayInMinutes": "[variables('sparkAutoPauseDelayInMinutes')]"
+          },
+          "sparkVersion": "[variables('sparkVersion')]"
+        }
+      }
+    ],
+    "outputs": {
+      "workspaceid": {
+      "type": "string",
+      "value":"[reference(resourceId('Microsoft.Synapse/workspaces', parameters('workspaceName'))).workspaceUID]"
+      }
+    }
+  }
+  

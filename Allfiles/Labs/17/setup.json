@@ -1,0 +1,190 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "storageAccountName": {
+        "type": "String",
+        "metadata": {
+          "description": "Azure storage account name."
+        }
+      },
+      "uniqueSuffix": {
+        "type": "String",
+        "metadata": {
+          "description": "Suffix added to all resource name to make them unique."
+        }
+      },
+      "eventNsName": {
+        "type": "String",
+        "metadata": {
+          "description": "EventHubs namespace name"
+        }
+      },
+      "eventHubName": {
+        "type": "String",
+        "metadata": {
+          "description": "EventHub name"
+        }
+      }
+    },
+    "variables": {
+      "location": "[resourceGroup().location]",
+      "containerName": "data"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Resources/tags",
+        "name": "default",
+        "apiVersion": "2019-10-01",
+        "dependsOn": [],
+        "properties": {
+            "tags": {
+                "DeploymentId": "[parameters('uniqueSuffix')]"
+            }
+        }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-06-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[variables('location')]",
+      "dependsOn": [],
+      "tags": {},
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot",
+        "supportsHttpsTrafficOnly": "true",
+        "isHnsEnabled": "true",
+        "largeFileSharesState": "Disabled"
+      },
+      "resources": [
+        {
+          "type": "blobServices/containers",
+          "apiVersion": "2018-07-01",
+          "name": "[concat('default/', variables('containerName'))]",
+          "dependsOn": [
+            "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('storageAccountName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ],
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "cors": {
+          "corsRules": []
+        },
+        "deleteRetentionPolicy": {
+          "enabled": false
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/fileServices",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('storageAccountName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ],
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "cors": {
+          "corsRules": []
+        }
+      }
+    },
+      {
+        "type": "Microsoft.EventHub/namespaces",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[parameters('eventNsName')]",
+        "location": "[variables('location')]",
+        "sku": {
+            "name": "Standard",
+            "tier": "Standard",
+            "capacity": 1
+        },
+        "properties": {
+            "minimumTlsVersion": "1.2",
+            "publicNetworkAccess": "Enabled",
+            "disableLocalAuth": false,
+            "zoneRedundant": false,
+            "isAutoInflateEnabled": false,
+            "maximumThroughputUnits": 0,
+            "kafkaEnabled": false
+        }
+    },
+    {
+        "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[concat(parameters('eventNsName'), '/RootManageSharedAccessKey')]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.EventHub/namespaces', parameters('eventNsName'))]"
+        ],
+        "properties": {
+            "rights": [
+                "Listen",
+                "Manage",
+                "Send"
+            ]
+        }
+    },
+    {
+        "type": "Microsoft.EventHub/namespaces/eventhubs",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[concat(parameters('eventNsName'), '/', parameters('eventHubName'))]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.EventHub/namespaces', parameters('eventNsName'))]"
+        ],
+        "properties": {
+            "messageRetentionInDays": 1,
+            "partitionCount": 2,
+            "status": "Active"
+        }
+    },
+    {
+        "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[concat(parameters('eventNsName'), '/default')]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.EventHub/namespaces', parameters('eventNsName'))]"
+        ],
+        "properties": {
+            "publicNetworkAccess": "Enabled",
+            "defaultAction": "Allow",
+            "virtualNetworkRules": [],
+            "ipRules": []
+        }
+    },
+    {
+        "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[concat(parameters('eventNsName'), '/', parameters('eventHubName'), '/$Default')]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('eventNsName'), parameters('eventHubName'))]",
+            "[resourceId('Microsoft.EventHub/namespaces', parameters('eventNsName'))]"
+        ],
+        "properties": {}
+    }
+    ],
+    "outputs": {}
+  }
+  

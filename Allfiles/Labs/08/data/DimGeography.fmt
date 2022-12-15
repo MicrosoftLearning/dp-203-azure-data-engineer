@@ -1,0 +1,13 @@
+14.0
+11
+1       SQLNCHAR            0       24      "\t\0"       1     GeographyKey                                         ""
+2       SQLNCHAR            0       60      "\t\0"       2     City                                                 SQL_Latin1_General_CP1_CI_AS
+3       SQLNCHAR            0       6       "\t\0"       3     StateProvinceCode                                    SQL_Latin1_General_CP1_CI_AS
+4       SQLNCHAR            0       100     "\t\0"       4     StateProvinceName                                    SQL_Latin1_General_CP1_CI_AS
+5       SQLNCHAR            0       6       "\t\0"       5     CountryRegionCode                                    SQL_Latin1_General_CP1_CI_AS
+6       SQLNCHAR            0       100     "\t\0"       6     EnglishCountryRegionName                             SQL_Latin1_General_CP1_CI_AS
+7       SQLNCHAR            0       100     "\t\0"       7     SpanishCountryRegionName                             SQL_Latin1_General_CP1_CI_AS
+8       SQLNCHAR            0       100     "\t\0"       8     FrenchCountryRegionName                              SQL_Latin1_General_CP1_CI_AS
+9       SQLNCHAR            0       30      "\t\0"       9     PostalCode                                           SQL_Latin1_General_CP1_CI_AS
+10      SQLNCHAR            0       24      "\t\0"       10    SalesTerritoryKey                                    ""
+11      SQLNCHAR            0       30      "\r\0\n\0"   11    IpAddressLocator                                     SQL_Latin1_General_CP1_CI_AS

@@ -1,0 +1,7 @@
+14.0
+5
+1       SQLNCHAR            0       24      "\t\0"       1     OrganizationKey                                ""
+2       SQLNCHAR            0       24      "\t\0"       2     ParentOrganizationKey                          ""
+3       SQLNCHAR            0       32      "\t\0"       3     PercentageOfOwnership                          SQL_Latin1_General_CP1_CI_AS
+4       SQLNCHAR            0       100     "\t\0"       4     OrganizationName                               SQL_Latin1_General_CP1_CI_AS
+5       SQLNCHAR            0       24      "\r\0\n\0"   5     CurrencyKey                                    ""

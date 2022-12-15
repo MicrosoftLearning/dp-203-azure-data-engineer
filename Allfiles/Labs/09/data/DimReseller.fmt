@@ -1,0 +1,22 @@
+14.0
+20
+1       SQLNCHAR            0       24      "\t\0"       1     ResellerKey                                  ""
+2       SQLNCHAR            0       24      "\t\0"       2     GeographyKey                                 ""
+3       SQLNCHAR            0       30      "\t\0"       3     ResellerAlternateKey                         SQL_Latin1_General_CP1_CI_AS
+4       SQLNCHAR            0       50      "\t\0"       4     Phone                                        SQL_Latin1_General_CP1_CI_AS
+5       SQLNCHAR            0       40      "\t\0"       5     BusinessType                                 SQL_Latin1_General_CP1_CI_AS
+6       SQLNCHAR            0       100     "\t\0"       6     ResellerName                                 SQL_Latin1_General_CP1_CI_AS
+7       SQLNCHAR            0       24      "\t\0"       7     NumberEmployees                              ""
+8       SQLNCHAR            0       2       "\t\0"       8     OrderFrequency                               SQL_Latin1_General_CP1_CI_AS
+9       SQLNCHAR            0       10      "\t\0"       9     OrderMonth                                   ""
+10      SQLNCHAR            0       24      "\t\0"       10    FirstOrderYear                               ""
+11      SQLNCHAR            0       24      "\t\0"       11    LastOrderYear                                ""
+12      SQLNCHAR            0       100     "\t\0"       12    ProductLine                                  SQL_Latin1_General_CP1_CI_AS
+13      SQLNCHAR            0       120     "\t\0"       13    AddressLine1                                 SQL_Latin1_General_CP1_CI_AS
+14      SQLNCHAR            0       120     "\t\0"       14    AddressLine2                                 SQL_Latin1_General_CP1_CI_AS
+15      SQLNCHAR            0       60      "\t\0"       15    AnnualSales                                  ""
+16      SQLNCHAR            0       100     "\t\0"       16    BankName                                     SQL_Latin1_General_CP1_CI_AS
+17      SQLNCHAR            0       10      "\t\0"       17    MinPaymentType                               ""
+18      SQLNCHAR            0       60      "\t\0"       18    MinPaymentAmount                             ""
+19      SQLNCHAR            0       60      "\t\0"       19    AnnualRevenue                                ""
+20      SQLNCHAR            0       24      "\r\0\n\0"   20    YearOpened                                   ""

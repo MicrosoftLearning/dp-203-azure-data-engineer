@@ -1,0 +1,18 @@
+14.0
+16
+1       SQLNCHAR            0       24      "\t\0"       1     PromotionKey                                         ""
+2       SQLNCHAR            0       24      "\t\0"       2     PromotionAlternateKey                                ""
+3       SQLNCHAR            0       510     "\t\0"       3     EnglishPromotionName                                 SQL_Latin1_General_CP1_CI_AS
+4       SQLNCHAR            0       510     "\t\0"       4     SpanishPromotionName                                 SQL_Latin1_General_CP1_CI_AS
+5       SQLNCHAR            0       510     "\t\0"       5     FrenchPromotionName                                  SQL_Latin1_General_CP1_CI_AS
+6       SQLNCHAR            0       60      "\t\0"       6     DiscountPct                                          ""
+7       SQLNCHAR            0       100     "\t\0"       7     EnglishPromotionType                                 SQL_Latin1_General_CP1_CI_AS
+8       SQLNCHAR            0       100     "\t\0"       8     SpanishPromotionType                                 SQL_Latin1_General_CP1_CI_AS
+9       SQLNCHAR            0       100     "\t\0"       9     FrenchPromotionType                                  SQL_Latin1_General_CP1_CI_AS
+10      SQLNCHAR            0       100     "\t\0"       10    EnglishPromotionCategory                             SQL_Latin1_General_CP1_CI_AS
+11      SQLNCHAR            0       100     "\t\0"       11    SpanishPromotionCategory                             SQL_Latin1_General_CP1_CI_AS
+12      SQLNCHAR            0       100     "\t\0"       12    FrenchPromotionCategory                              SQL_Latin1_General_CP1_CI_AS
+13      SQLNCHAR            0       48      "\t\0"       13    StartDate                                            ""
+14      SQLNCHAR            0       48      "\t\0"       14    EndDate                                              ""
+15      SQLNCHAR            0       24      "\t\0"       15    MinQty                                               ""
+16      SQLNCHAR            0       24      "\r\0\n\0"   16    MaxQty                                               ""

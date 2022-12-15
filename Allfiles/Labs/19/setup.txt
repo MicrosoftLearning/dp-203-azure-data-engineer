@@ -1,0 +1,34 @@
+const { EventHubProducerClient } = require("@azure/event-hubs");
+
+const connectionString = "EVENTHUBCONNECTIONSTRING";
+const eventHubName = "EVENTHUBNAME";
+
+async function main() {
+
+  // Create a producer client to send messages to the event hub.
+  const producer = new EventHubProducerClient(connectionString, eventHubName);
+
+
+  var i;
+
+  for (i = 0; i < 100; i++)
+  {
+
+    // Generate a random order
+    var p = Math.floor(Math.random() * 10) + 1;
+    var q = Math.floor(Math.random() * 3) + 1;
+    var batch = await producer.createBatch();
+    batch.tryAdd({ body: {ProductID:p, Quantity:q} });   
+
+    // Send the batch to the event hub.
+    await producer.sendBatch(batch);
+
+    console.log("{ProductID:" + p + ", Quantity:" + q + "}");
+  }
+  // Close the producer client.
+    await producer.close();
+}
+
+main().catch((err) => {
+  console.log("Error occurred: ", err);
+});

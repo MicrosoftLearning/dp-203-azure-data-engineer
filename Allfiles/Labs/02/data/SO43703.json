@@ -1,0 +1,11 @@
+{
+   "SalesOrderNumber": "SO43703",
+   "SalesOrderLineItem": 1,
+   "OrderDate": "2019-07-01",
+   "CustomerName": "Albert Alvarez",
+   "EmailAddress": "albert7@adventure-works.com",
+   "Item": "Road-150 Red, 62",
+   "Quantity": 1,
+   "UnitPrice": 3578.27,
+   "TaxAmount": 286.2616
+ }

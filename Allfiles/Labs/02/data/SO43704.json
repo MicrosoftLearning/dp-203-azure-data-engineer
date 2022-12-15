@@ -1,0 +1,11 @@
+{
+   "SalesOrderNumber": "SO43704",
+   "SalesOrderLineItem": 1,
+   "OrderDate": "2019-07-01",
+   "CustomerName": "Julio Ruiz",
+   "EmailAddress": "julio1@adventure-works.com",
+   "Item": "Mountain-100 Black, 48",
+   "Quantity": 1,
+   "UnitPrice": 3374.99,
+   "TaxAmount": 269.9992
+ }

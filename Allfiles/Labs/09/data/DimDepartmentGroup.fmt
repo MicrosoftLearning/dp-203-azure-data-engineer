@@ -1,0 +1,5 @@
+14.0
+3
+1       SQLNCHAR            0       24      "\t\0"       1     DepartmentGroupKey                                   ""
+2       SQLNCHAR            0       24      "\t\0"       2     ParentDepartmentGroupKey                             ""
+3       SQLNCHAR            0       100     "\r\0\n\0"   3     DepartmentGroupName                                  SQL_Latin1_General_CP1_CI_AS

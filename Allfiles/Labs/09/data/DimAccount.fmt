@@ -1,0 +1,12 @@
+14.0
+10
+1       SQLNCHAR            0       24      "\t\0"       1     AccountKey                                                     ""
+2       SQLNCHAR            0       24      "\t\0"       2     ParentAccountKey                                               ""
+3       SQLNCHAR            0       24      "\t\0"       3     AccountCodeAlternateKey                                        ""
+4       SQLNCHAR            0       24      "\t\0"       4     ParentAccountCodeAlternateKey                                  ""
+5       SQLNCHAR            0       100     "\t\0"       5     AccountDescription                                             SQL_Latin1_General_CP1_CI_AS
+6       SQLNCHAR            0       100     "\t\0"       6     AccountType                                                    SQL_Latin1_General_CP1_CI_AS
+7       SQLNCHAR            0       100     "\t\0"       7     Operator                                                       SQL_Latin1_General_CP1_CI_AS
+8       SQLNCHAR            0       600     "\t\0"       8     CustomMembers                                                  SQL_Latin1_General_CP1_CI_AS
+9       SQLNCHAR            0       100     "\t\0"       9     ValueType                                                      SQL_Latin1_General_CP1_CI_AS
+10      SQLNCHAR            0       400     "\r\0\n\0"   10    CustomMemberOptions                                            SQL_Latin1_General_CP1_CI_AS

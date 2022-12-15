@@ -1,0 +1,300 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "workspaceName": {
+        "type": "String",
+        "metadata": {
+          "description": "Synapse Workspace name"
+        }
+      },
+      "dataLakeAccountName": {
+        "type": "String",
+        "metadata": {
+          "description": "Azure storage account name for data lake."
+        }
+      },
+      "uniqueSuffix": {
+        "type": "String",
+        "metadata": {
+          "description": "Suffix added to all resource name to make them unique."
+        }
+      },
+      "sqlDatabaseName": {
+        "type": "String",
+        "metadata": {
+          "description": "Name for dedicated SQL pool"
+        }
+      },
+      "sqlUser": {
+        "type": "String",
+        "metadata": {
+          "description": "SQL user name"
+        }
+      },
+      "sqlPassword": {
+        "type": "String",
+        "metadata": {
+          "description": "Password for SQL User"
+        }
+      },
+      "eventNsName": {
+        "type": "String",
+        "metadata": {
+          "description": "EventHubs namespace name"
+        }
+      },
+      "eventHubName": {
+        "type": "String",
+        "metadata": {
+          "description": "EventHub name"
+        }
+      }
+    },
+    "variables": {
+      "location": "[resourceGroup().location]",
+      "defaultDataLakeStorageFilesystemName": "files",
+      "computeSubnetId": "",
+      "sqlSKU": "DW100c",
+      "storageBlobDataOwnerRoleID": "b7e6dc6d-f1e8-4753-8033-0f276bb0955b",
+      "defaultDataLakeStorageAccountUrl": "[concat('https://', parameters('dataLakeAccountName'), '.dfs.core.windows.net')]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Resources/tags",
+        "name": "default",
+        "apiVersion": "2019-10-01",
+        "dependsOn": [],
+        "properties": {
+            "tags": {
+                "DeploymentId": "[parameters('uniqueSuffix')]"
+            }
+        }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-06-01",
+      "name": "[parameters('dataLakeAccountName')]",
+      "location": "[variables('location')]",
+      "dependsOn": [],
+      "tags": {},
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot",
+        "supportsHttpsTrafficOnly": "true",
+        "isHnsEnabled": "true",
+        "largeFileSharesState": "Disabled"
+      },
+      "resources": [
+        {
+          "type": "blobServices/containers",
+          "apiVersion": "2018-07-01",
+          "name": "[concat('default/', variables('defaultDataLakeStorageFilesystemName'))]",
+          "dependsOn": [
+            "[concat('Microsoft.Storage/storageAccounts/', parameters('dataLakeAccountName'))]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeAccountName'))]"
+      ],
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "cors": {
+          "corsRules": []
+        },
+        "deleteRetentionPolicy": {
+          "enabled": false
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/fileServices",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeAccountName'))]"
+      ],
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "cors": {
+          "corsRules": []
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Synapse/workspaces",
+      "apiVersion": "2019-06-01-preview",
+      "name": "[parameters('workspaceName')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', parameters('dataLakeAccountName'), '/blobServices/default/containers/', variables('defaultDataLakeStorageFilesystemName'))]"
+      ],
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "defaultDataLakeStorage": {
+          "accountUrl": "[variables('defaultDataLakeStorageAccountUrl')]",
+          "filesystem": "[variables('defaultDataLakeStorageFilesystemName')]"
+        },
+        "virtualNetworkProfile": {
+          "computeSubnetId": "[variables('computeSubnetId')]"
+        },
+        "sqlAdministratorLogin": "[parameters('sqlUser')]",
+        "sqlAdministratorLoginPassword": "[parameters('sqlPassword')]"
+      },
+      "resources": [
+        {
+          "type": "firewallrules",
+          "apiVersion": "2019-06-01-preview",
+          "name": "allowAll",
+          "location": "[variables('location')]",
+          "dependsOn": [
+            "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+          ],
+          "properties": {
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "255.255.255.255"
+          }
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers/providers/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[concat(parameters('dataLakeAccountName'), '/default/', variables('defaultDataLakeStorageFilesystemName'), '/Microsoft.Authorization/',  guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', parameters('workspaceName'))))]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataOwnerRoleID'))]",
+        "principalId": "[reference(concat('Microsoft.Synapse/workspaces/', parameters('workspaceName')), '2019-06-01-preview', 'Full').identity.principalId]",
+        "principalType": "ServicePrincipal"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', parameters('workspaceName'), '2'))]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataOwnerRoleID'))]",
+        "principalId": "[reference(concat('Microsoft.Synapse/workspaces/', parameters('workspaceName')), '2019-06-01-preview', 'Full').identity.principalId]",
+        "principalType": "ServicePrincipal"
+      }
+    },
+    {
+        "type": "Microsoft.Synapse/workspaces/sqlPools",
+        "apiVersion": "2019-06-01-preview",
+        "name": "[concat(parameters('workspaceName'), '/', parameters('sqlDatabaseName'))]",
+        "location": "[variables('location')]",
+        "sku": {
+          "name": "[variables('sqlSKU')]"
+        },
+        "dependsOn": [
+          "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+        ],
+        "properties": {
+          "createMode": "Default",
+          "collation": "SQL_Latin1_General_CP1_CI_AS"
+        }
+      },
+      {
+        "type": "Microsoft.EventHub/namespaces",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[parameters('eventNsName')]",
+        "location": "[variables('location')]",
+        "sku": {
+            "name": "Standard",
+            "tier": "Standard",
+            "capacity": 1
+        },
+        "properties": {
+            "minimumTlsVersion": "1.2",
+            "publicNetworkAccess": "Enabled",
+            "disableLocalAuth": false,
+            "zoneRedundant": false,
+            "isAutoInflateEnabled": false,
+            "maximumThroughputUnits": 0,
+            "kafkaEnabled": false
+        }
+    },
+    {
+        "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[concat(parameters('eventNsName'), '/RootManageSharedAccessKey')]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.EventHub/namespaces', parameters('eventNsName'))]"
+        ],
+        "properties": {
+            "rights": [
+                "Listen",
+                "Manage",
+                "Send"
+            ]
+        }
+    },
+    {
+        "type": "Microsoft.EventHub/namespaces/eventhubs",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[concat(parameters('eventNsName'), '/', parameters('eventHubName'))]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.EventHub/namespaces', parameters('eventNsName'))]"
+        ],
+        "properties": {
+            "messageRetentionInDays": 1,
+            "partitionCount": 2,
+            "status": "Active"
+        }
+    },
+    {
+        "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[concat(parameters('eventNsName'), '/default')]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.EventHub/namespaces', parameters('eventNsName'))]"
+        ],
+        "properties": {
+            "publicNetworkAccess": "Enabled",
+            "defaultAction": "Allow",
+            "virtualNetworkRules": [],
+            "ipRules": []
+        }
+    },
+    {
+        "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[concat(parameters('eventNsName'), '/', parameters('eventHubName'), '/$Default')]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('eventNsName'), parameters('eventHubName'))]",
+            "[resourceId('Microsoft.EventHub/namespaces', parameters('eventNsName'))]"
+        ],
+        "properties": {}
+    }
+    ],
+    "outputs": {}
+  }
+  

@@ -1,0 +1,33 @@
+14.0
+31
+1       SQLNCHAR            0       24      "\t\0"       1     EmployeeKey                                                                  ""
+2       SQLNCHAR            0       24      "\t\0"       2     ParentEmployeeKey                                                            ""
+3       SQLNCHAR            0       30      "\t\0"       3     EmployeeNationalIDAlternateKey                                               SQL_Latin1_General_CP1_CI_AS
+4       SQLNCHAR            0       30      "\t\0"       4     ParentEmployeeNationalIDAlternateKey                                         SQL_Latin1_General_CP1_CI_AS
+5       SQLNCHAR            0       24      "\t\0"       5     SalesTerritoryKey                                                            ""
+6       SQLNCHAR            0       100     "\t\0"       6     FirstName                                                                    SQL_Latin1_General_CP1_CI_AS
+7       SQLNCHAR            0       100     "\t\0"       7     LastName                                                                     SQL_Latin1_General_CP1_CI_AS
+8       SQLNCHAR            0       100     "\t\0"       8     MiddleName                                                                   SQL_Latin1_General_CP1_CI_AS
+9       SQLNCHAR            0       2       "\t\0"       9     NameStyle                                                                    ""
+10      SQLNCHAR            0       100     "\t\0"       10    Title                                                                        SQL_Latin1_General_CP1_CI_AS
+11      SQLNCHAR            0       22      "\t\0"       11    HireDate                                                                     ""
+12      SQLNCHAR            0       22      "\t\0"       12    BirthDate                                                                    ""
+13      SQLNCHAR            0       512     "\t\0"       13    LoginID                                                                      SQL_Latin1_General_CP1_CI_AS
+14      SQLNCHAR            0       100     "\t\0"       14    EmailAddress                                                                 SQL_Latin1_General_CP1_CI_AS
+15      SQLNCHAR            0       50      "\t\0"       15    Phone                                                                        SQL_Latin1_General_CP1_CI_AS
+16      SQLNCHAR            0       2       "\t\0"       16    MaritalStatus                                                                SQL_Latin1_General_CP1_CI_AS
+17      SQLNCHAR            0       100     "\t\0"       17    EmergencyContactName                                                         SQL_Latin1_General_CP1_CI_AS
+18      SQLNCHAR            0       50      "\t\0"       18    EmergencyContactPhone                                                        SQL_Latin1_General_CP1_CI_AS
+19      SQLNCHAR            0       2       "\t\0"       19    SalariedFlag                                                                 ""
+20      SQLNCHAR            0       2       "\t\0"       20    Gender                                                                       SQL_Latin1_General_CP1_CI_AS
+21      SQLNCHAR            0       10      "\t\0"       21    PayFrequency                                                                 ""
+22      SQLNCHAR            0       60      "\t\0"       22    BaseRate                                                                     ""
+23      SQLNCHAR            0       14      "\t\0"       23    VacationHours                                                                ""
+24      SQLNCHAR            0       14      "\t\0"       24    SickLeaveHours                                                               ""
+25      SQLNCHAR            0       2       "\t\0"       25    CurrentFlag                                                                  ""
+26      SQLNCHAR            0       2       "\t\0"       26    SalespersonFlag                                                              ""
+27      SQLNCHAR            0       100     "\t\0"       27    DepartmentName                                                               SQL_Latin1_General_CP1_CI_AS
+28      SQLNCHAR            0       22      "\t\0"       28    StartDate                                                                    ""
+29      SQLNCHAR            0       22      "\t\0"       29    EndDate                                                                      ""
+30      SQLNCHAR            0       100     "\t\0"       30    Status                                                                       SQL_Latin1_General_CP1_CI_AS
+31      SQLNCHAR            0       0       "\r\0\n\0"   31    EmployeePhoto                                                                ""

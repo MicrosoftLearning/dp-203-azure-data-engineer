@@ -1,0 +1,6 @@
+14.0
+4
+1       SQLNCHAR            0       24      "\t\0"       1     CurrencyKey                                  ""
+2       SQLNCHAR            0       6       "\t\0"       2     CurrencyAlternateKey                         SQL_Latin1_General_CP1_CI_AS
+3       SQLNCHAR            0       100     "\t\0"       3     CurrencyName                                 SQL_Latin1_General_CP1_CI_AS
+4       SQLNCHAR            0       40      "\r\0\n\0"   4     FormatString                                 SQL_Latin1_General_CP1_CI_AS
