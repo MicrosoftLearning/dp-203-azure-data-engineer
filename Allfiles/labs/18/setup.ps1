@@ -147,6 +147,7 @@ $eventNsName = "events$suffix"
 $eventHubName = "eventhub$suffix"
 
 write-host "Creating Azure resources in $resourceGroupName resource group..."
+write-host "(This may take some time!)"
 New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
   -TemplateFile "setup.json" `
   -Mode Complete `
