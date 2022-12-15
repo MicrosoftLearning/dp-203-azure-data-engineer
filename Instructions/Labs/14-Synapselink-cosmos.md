@@ -36,7 +36,7 @@ To explore Azure Synapse Link for Azure Cosmos DB, you'll need an Azure Synapse 
 5. After the repo has been cloned, enter the following commands to change to the folder for this exercise and run the **setup.ps1** script it contains:
 
     ```
-    cd dp-203/Allfiles/Labs/14
+    cd dp-203/Allfiles/labs/14
     ./setup.ps1
     ```
 

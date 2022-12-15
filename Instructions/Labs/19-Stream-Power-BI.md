@@ -44,7 +44,7 @@ You'll use a combination of a PowerShell script and an ARM template to provision
 5. After the repo has been cloned, enter the following commands to change to the folder for this exercise and run the **setup.ps1** script it contains:
 
     ```
-    cd dp-203/Allfiles/Labs/19
+    cd dp-203/Allfiles/labs/19
     ./setup.ps1
     ```
 
@@ -138,7 +138,7 @@ An Azure Stream Analytics job defines a perpetual query that operates on streami
 3. Re-open the cloud shell pane and re-run the following command to submit 100 orders.
 
     ```
-    node ~/dp-203/Allfiles/Labs/19/orderclient
+    node ~/dp-203/Allfiles/labs/19/orderclient
     ```
 
 4. While the order client app is running, switch to the Power BI app browser tab and view your workspace.
@@ -165,7 +165,7 @@ Now that you have a dataset for the streaming order data, you can create a Power
 6. Switch back to the browser tab containing the Azure portal, and if necessary, re-open the cloud shell pane. Then re-run the following command to submit another 100 orders.
 
     ```
-    node ~/dp-203/Allfiles/Labs/19/orderclient
+    node ~/dp-203/Allfiles/labs/19/orderclient
     ```
 
 7. While the order submission script is running, switch back to the browser tab containing the **Order Tracking** Power BI dashboard and observe that the visualization updates to reflect the new order data as it is processed by the Stream Analytics job (which should still be running).

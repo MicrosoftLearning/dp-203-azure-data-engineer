@@ -42,7 +42,7 @@ You'll use a combination of a PowerShell script and an ARM template to provision
 5. After the repo has been cloned, enter the following commands to change to the folder for this exercise and run the **setup.ps1** script it contains:
 
     ```
-    cd dp-203/Allfiles/Labs/18
+    cd dp-203/Allfiles/labs/18
     ./setup.ps1
     ```
 
@@ -67,7 +67,7 @@ Let's start by ingesting a stream of data directly into a table in an Azure Syna
 6. In the cloud shell pane, enter the following command to run a client app that sends 100 simulated orders to Azure Event Hubs:
 
     ```
-    node ~/dp-203/Allfiles/Labs/18/orderclient
+    node ~/dp-203/Allfiles/labs/18/orderclient
     ```
 
 7. Observe the order data as it is sent - each order consists of a product ID and a quantity.
@@ -152,7 +152,7 @@ Let's start by ingesting a stream of data directly into a table in an Azure Syna
 3. Re-open the cloud shell pane and re-run the following command to submit another 100 orders.
 
     ```
-    node ~/dp-203/Allfiles/Labs/18/orderclient
+    node ~/dp-203/Allfiles/labs/18/orderclient
     ```
 
 4. While the order client app is running, switch to the Synapse Studio browser tab and view the query you previously ran to select the TOP 100 rows from the **dbo.FactOrder** table.
@@ -246,7 +246,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
 3. Re-open the cloud shell pane and re-run the following command to submit another 100 orders.
 
     ```
-    node ~/dp-203/Allfiles/Labs/18/orderclient
+    node ~/dp-203/Allfiles/labs/18/orderclient
     ```
 
 4.  When the order app has finished, minimize the cloud shell pane. Then switch to the Synapse Studio browser tab and on the **Data** page, on the **Linked** tab, expand **Azure Data Lake Storage Gen2** > **synapse*xxxxxxx* (primary - datalake*xxxxxxx*)** and select the **files (Primary)** container.

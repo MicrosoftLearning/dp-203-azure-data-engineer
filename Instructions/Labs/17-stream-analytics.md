@@ -38,7 +38,7 @@ You'll use a combination of a PowerShell script and an ARM template to provision
 5. After the repo has been cloned, enter the following commands to change to the folder for this exercise and run the **setup.ps1** script it contains:
 
     ```
-    cd dp-203/Allfiles/Labs/17
+    cd dp-203/Allfiles/labs/17
     ./setup.ps1
     ```
 
@@ -56,7 +56,7 @@ Before creating an Azure Stream Analytics job to process real-time data, let's t
 2. Re-open the cloud shell pane, and enter the following command to run a client app that sends 100 simulated orders to Azure Event Hubs:
 
     ```
-    node ~/dp-203/Allfiles/Labs/17/orderclient
+    node ~/dp-203/Allfiles/labs/17/orderclient
     ```
 
 3. Observe the sales order data as it is sent - each order consists of a product ID and a quantity. The app will end after sending 1000 orders, which takes a minute or so.
@@ -154,7 +154,7 @@ OK, now you're ready to run the job and process some real-time sales order data.
 3. Re-open the cloud shell pane, reconnecting if necessary, and then re-run the following command to submit another 1000 orders.
 
     ```
-    node ~/dp-203/Allfiles/Labs/17/orderclient
+    node ~/dp-203/Allfiles/labs/17/orderclient
     ```
 
 4. While the app is running, in the Azure portal, return to the page for the **dp203-*xxxxxxx*** resource group, and select the **store*xxxxxxxxxxxx*** storage account.

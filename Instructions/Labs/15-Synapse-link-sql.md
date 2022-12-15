@@ -36,7 +36,7 @@ In this exercise, you'll synchronize data from an Azure SQL Database resource to
 5. After the repo has been cloned, enter the following commands to change to the folder for this exercise and run the **setup.ps1** script it contains:
 
     ```
-    cd dp-203/Allfiles/Labs/15
+    cd dp-203/Allfiles/labs/15
     ./setup.ps1
     ```
 

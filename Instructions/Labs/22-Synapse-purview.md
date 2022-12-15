@@ -36,7 +36,7 @@ In this exercise, you'll use Microsoft Purview to track assets and data lineage 
 5. After the repo has been cloned, enter the following commands to change to the folder for this lab and run the **setup.ps1** script it contains:
 
     ```
-    cd dp-203/Allfiles/Labs/22
+    cd dp-203/Allfiles/labs/22
     ./setup.ps1
     ```
 
