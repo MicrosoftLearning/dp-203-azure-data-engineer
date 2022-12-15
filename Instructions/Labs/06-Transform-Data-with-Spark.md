@@ -58,8 +58,8 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 3. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within Synapse Studio that you'll use to manage resources and perform data analytics tasks.
 4. On the **Manage** page, select the **Apache Spark pools** tab and note that a Spark pool with a name similar to **spark*xxxxxxx*** has been provisioned in the workspace.
 5. On the **Data** page, view the **Linked** tab and verify that your workspace includes a link to your Azure Data Lake Storage Gen2 storage account, which should have a name similar to **synapse*xxxxxxx* (Primary - datalake*xxxxxxx*)**.
-6. Expand your storage account and verify that it contains a file system container named **files (primary)**.
-7. Select the **files** container, and note that it contains folders named **data** and synapse. The synapse folder is used by Azure Synapse, and the **data** folder contains the data files you are going to query.
+6. Expand your storage account and verify that it contains a file system container named **files (Primary)**.
+7. Select the **files** container, and note that it contains folders named **data** and **synapse**. The synapse folder is used by Azure Synapse, and the **data** folder contains the data files you are going to query.
 8. Open the **data** folder and observe that it contains .csv files for three years of sales data.
 9. Right-click any of the files and select **Preview** to see the data it contains. Note that the files contain a header row, so you can select the option to display column headers.
 10. Close the preview. Then on **Develop** page, expand **Notebooks** and select the **Spark Transform** notebook that has been provided.
