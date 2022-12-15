@@ -184,7 +184,7 @@ So far, you've created tables and then populated them with data. In some cases, 
 3. Continue to the next page and then create the table with the following options:
     - **File type**: CSV
     - **Field terminator**: Default (comma ,)
-    - **First row**: Leave **infer column names* <u>un</u>selected.
+    - **First row**: Leave *infer column names* <u>un</u>selected.
     - **String delimiter**: Default (Empty string)
     - **Use default type**: Default type (true,false)
     - **Max string length**: 4000
@@ -194,7 +194,7 @@ So far, you've created tables and then populated them with data. In some cases, 
     | Name | Keys | Description | Nullability | Data type | Format / Length |
     | ---- | ---- | ----------- | ----------- | --------- | --------------- |
     | SalesOrderId | PK &#128505; | The unique identifier of an order. | &#128454;  | long | |
-    | OrderDate | PK &#128454; | The date of the order. | &#128454; | timestamp | YYYY-MM-DD HH:MM:SS:ff |
+    | OrderDate | PK &#128454; | The date of the order. | &#128454; | timestamp | YYYY-MM-DD |
     | LineItemId | PK &#128505; | The ID of an individual line item. | &#128454; | long | |
     | CustomerId | PK &#128454; | The customer. | &#128454; | long | |
     | ProductId | PK &#128454; | The product. | &#128454; | long | |
@@ -251,7 +251,7 @@ Now that you have some tables in your database, you can use them to work with th
 
     ```
     %%sql
-    INSERT INTO `RetailDB`.`SalesOrder` VALUES (99999, '2022-01-01', 1, 6, 5, 1)
+    INSERT INTO `RetailDB`.`SalesOrder` VALUES (99999, CAST('2022-01-01' AS TimeStamp), 1, 6, 5, 1)
     ```
 
 4. Use the **&#9655;** button on the left of the cell to run it and wait for it to finish running. Note that it will take some time to start the Spark pool.
