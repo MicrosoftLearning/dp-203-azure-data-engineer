@@ -38,7 +38,7 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 5. After the repo has been cloned, enter the following commands to change to the folder for this exercise and run the **setup.ps1** script it contains:
 
     ```
-    cd dp-203/Allfiles/labs/05
+    cd dp-203/Allfiles/labs/07
     ./setup.ps1
     ```
 
