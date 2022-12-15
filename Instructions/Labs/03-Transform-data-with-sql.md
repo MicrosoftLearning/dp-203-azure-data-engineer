@@ -210,7 +210,7 @@ By defining an external data source in a database, you can use it to reference t
 7. On the **data** page, in the **Workspace** tab, view the contents of the **External tables** folder for the **Sales** SQL database to verify that a new table named **ProductSalesTotals** has been created.
 8. In the **...** menu for the **ProductSalesTotals** table, select **New SQL script** > **Select TOP 100 rows**. Then run the resulting script and verify that it returns the aggregated product sales data.
 9. On the **files** tab containing the file system for your data lake, view the contents of the **sales** folder (refreshing the view if necessary) and verify that a new **productsales** folder has been created.
-10. In the **productsales** folder, observe that a file with a name similar to ABC123DE----.parquet has been created. This file contains the aggregated product sales data. To prove this, you can select the file and use the **New SQL script** > **Select TOP 100 rows** menu to query it directly.
+10. In the **productsales** folder, observe that one or more files with names similar to ABC123DE----.parquet have been created. These files contain the aggregated product sales data. To prove this, you can select one of the files and use the **New SQL script** > **Select TOP 100 rows** menu to query it directly.
 
 ## Encapsulate data transformation in a stored procedure
 
