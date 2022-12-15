@@ -65,7 +65,7 @@ Before you can use Synapse Link for Azure Cosmos DB, you must enable it in your 
 
     ![Cosmos DB Data Explorer with Enable Azure Synapse Link button highlighted](./images/cosmos-enable-synapse-link.png)
 
-4. On the left side of the page, in the **Settings** section, select the **Features** page and verify the status of the **Azure Synapse Link** feature. If it is *Off* or *Pending*, use the **&#8635; Refresh** button at the top of the page to refresh the view until it is *On*.
+4. On the left side of the page, in the **Integrations** section, select the **Azure Synapse Link** page and verify that the status of the account is *Enabled*.
 
 ### Create an analytical store container
 
@@ -145,9 +145,9 @@ Now that you have prepared your Azure Cosmos DB account, you can configure Azure
 2. Open the **synapse*xxxxxxx*** Synapse workspace, and on its **Overview** page, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
 3. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within Synapse Studio.
 4. On the **Data** page, view the **Linked** tab. Your workspace should already include a link to your Azure Data Lake Storage Gen2 storage account, but no link to your Cosmos DB account.
-5. In the **+** menu, select **Connect to external data**, and then select **Azure Cosmos DB (SQL API)**.
+5. In the **+** menu, select **Connect to external data**, and then select **Azure Cosmos DB for NoSQL**.
 
-    ![Adding an Azure Cosmos DB SQl API external data link](./images/add-cosmos-db-link.png)
+    ![Adding an Azure Cosmos DB NoSQl API external data link](./images/add-cosmos-db-link.png)
 
 6. Continue, and create a new Cosmos DB connection with the following settings:
     - **Name**: AdventureWorks
