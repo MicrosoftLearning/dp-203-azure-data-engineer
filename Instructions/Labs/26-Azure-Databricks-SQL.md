@@ -74,7 +74,7 @@ You can use the **default** database for your tables, but when building an analy
 ## Create a table
 
 1. In the sidebar, select **(+) New** and then select **Table**.
-2. In the **Upload file** area, select **browse**. Then in the **Open** dialog box, enter `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/main/Allfiles/labs/26/data/products.csv` and select **Open**.
+2. In the **Upload file** area, select **browse**. Then in the **Open** dialog box, enter `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/26/data/products.csv` and select **Open**.
 
     > **Tip**: If your browser or operating system doesn't support entering a URL in the **File** box, download the CSV file to your computer and then upload it from the local folder where you saved it.
 

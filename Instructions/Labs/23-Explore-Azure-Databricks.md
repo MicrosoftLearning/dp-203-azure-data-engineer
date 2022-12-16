@@ -81,8 +81,8 @@ As in many Spark environments, Databricks supports the use of notebooks to combi
     - **Name**: Explore products
     - **Default language**: Python
     - **Cluster**: *User Name's* cluster
-2. In the **Explore products** notebook, on the **&#128463; File** menu, select **Upload Data**.
-3. In the **Upload Data** dialog box, note the **DBFS Target Directory** to where the file will be uploaded. Then select the **Files** area, and in the **Open** dialog box, in the **File** box, type `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/main/Allfiles/labs/23/adventureworks/products.csv` and select **Open**. Then, when the file has been uploaded, select **Next**.
+2. In the **Explore products** notebook, on the **&#128463; File** menu, select **Upload data to DBFS**.
+3. In the **Upload Data** dialog box, note the **DBFS Target Directory** to where the file will be uploaded. Then select the **Files** area, and in the **Open** dialog box, in the **File** box, type `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/23/adventureworks/products.csv` and select **Open**. Then, when the file has been uploaded, select **Next**.
 
     > **Tip**: If your browser or operating system doesn't support entering a URL in the **File** box, download the CSV file to your computer and then upload it from the local folder where you saved it.
 
