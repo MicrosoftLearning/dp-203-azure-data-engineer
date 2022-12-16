@@ -170,14 +170,6 @@ $id = (Get-AzADServicePrincipal -DisplayName $synapseWorkspace).id
 New-AzRoleAssignment -Objectid $id -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
 New-AzRoleAssignment -SignInName $userName -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
 
-# Create database
-write-host "Creating the $sqlDatabaseName database..."
-sqlcmd -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -I -i setup.sql
-
-# Pause SQL Pool
-write-host "Pausing the $sqlDatabaseName SQL Pool..."
-Suspend-AzSynapseSqlPool -WorkspaceName $synapseWorkspace -Name $sqlDatabaseName -AsJob
-
 # Prepare JavaScript EventHub client app
 write-host "Creating Event Hub client app..."
 npm install @azure/event-hubs | Out-Null
@@ -188,5 +180,14 @@ $javascript = Get-Content -Path "setup.txt" -Raw
 $javascript = $javascript.Replace("EVENTHUBCONNECTIONSTRING", $conString)
 $javascript = $javascript.Replace("EVENTHUBNAME",$eventHubName)
 Set-Content -Path "orderclient.js" -Value $javascript
+
+# Create database
+write-host "Creating the $sqlDatabaseName database..."
+sqlcmd -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -I -i setup.sql
+
+# Pause SQL Pool
+write-host "Pausing the $sqlDatabaseName SQL Pool..."
+Suspend-AzSynapseSqlPool -WorkspaceName $synapseWorkspace -Name $sqlDatabaseName -AsJob
+
 
 write-host "Script completed at $(Get-Date)"
