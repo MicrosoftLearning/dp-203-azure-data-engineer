@@ -135,7 +135,7 @@ Now you're ready to configure Azure Synapse Link for SQL in your Synapse Analyti
 
         *Continue to configure the following settings:*
 
-    > **Note**: Some target tables display an error because the data in the source table is not compatible with the default structure type of *clustered columnstore index*.
+    > **Note**: Some target tables display an error due to the use of custom data types or because data in the source table is not compatible with the default structure type of *clustered columnstore index*.
 
     - **Target pool**: *Select your **sqlxxxxxxx** dedicated SQL pool*
 
@@ -160,7 +160,7 @@ Now you're ready to configure Azure Synapse Link for SQL in your Synapse Analyti
 
 ### View the replicated data
 
-1. After the status of the tables has changed to **Replicating**, select the **Data** page and use the  **&#8635;** icon at the top right to refresh the view.
+1. After the status of the tables has changed to **Running**, select the **Data** page and use the  **&#8635;** icon at the top right to refresh the view.
 2. On the **Workspace** tab, expand **SQL databases**,  your **sql*xxxxxxx*** database, and its **Tables** folder to view the replicated tables.
 3. In the **...** menu for the **sql*xxxxxxx*** database, select **New SQL script** > **Empty script**. Then in the new script page, enter the following SQL code:
 
