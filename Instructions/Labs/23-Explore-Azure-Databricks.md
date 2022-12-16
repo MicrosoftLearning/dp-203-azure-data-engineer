@@ -56,7 +56,7 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
 2. Select the **databricks*xxxxxxx*** Azure Databricks Service resource.
 3. In the **Overview** page for **databricks*xxxxxxx***, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
 4. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform. The sidebar expands to show the names of the task categories.
-5. Select the **(+) Create** task, and then select **Cluster**.
+5. Select the **(+) New** task, and then select **Cluster**.
 
     **Note**: If a tip is displayed, use the **Got it** button to close it. This applies to any future tips that may be displayed as you navigate the workspace interface for the first time.
 

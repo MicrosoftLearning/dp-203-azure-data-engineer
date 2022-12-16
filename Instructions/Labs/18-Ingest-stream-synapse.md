@@ -212,7 +212,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
     - **Path pattern**: `{date}`
     - **Date format**: YYYY/MM/DD
     - **Time format**: *Not applicable*
-    - **Minimum rows**: 2000
+    - **Minimum rows**: 20
     - **Maximum time**: 0 Hours, 1 minutes, 0 seconds
 2. Save the output and wait while it is created. You will see several notifications. Wait for a **Successful connection test** notification.
 
