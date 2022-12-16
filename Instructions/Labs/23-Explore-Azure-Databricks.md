@@ -77,7 +77,7 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
 
 As in many Spark environments, Databricks supports the use of notebooks to combine notes and interactive code cells that you can use to explore data.
 
-1. In the sidebar, use the **(+) Create** task to create a **Notebook** with the following properties:
+1. In the sidebar, use the **(+) New** task to create a **Notebook** with the following properties:
     - **Name**: Explore products
     - **Default language**: Python
     - **Cluster**: *User Name's* cluster

@@ -73,7 +73,7 @@ You can use the **default** database for your tables, but when building an analy
 
 ## Create a table
 
-1. In the sidebar, select **(+) Create** and then select **Table**.
+1. In the sidebar, select **(+) New** and then select **Table**.
 2. In the **Upload file** area, select **browse**. Then in the **Open** dialog box, enter `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/main/Allfiles/labs/26/data/products.csv` and select **Open**.
 
     > **Tip**: If your browser or operating system doesn't support entering a URL in the **File** box, download the CSV file to your computer and then upload it from the local folder where you saved it.
@@ -85,7 +85,7 @@ The ability to create a table by importing data from a file makes it easy to pop
 
 ## Create a query
 
-1. In the sidebar, select **(+) Create** and then select **Query**.
+1. In the sidebar, select **(+) New** and then select **Query**.
 2. In the **Schema browser** pane, ensure the **adventureworks** database is selected and the **products** table is listed.
 3. In the **New query** pane, enter the following SQL code:
 
@@ -102,7 +102,7 @@ Saving a query makes it easy to retrieve the same data again at a later time.
 
 ## Create a dashboard
 
-1. In the sidebar, select **(+) Create** and then select **Dashboard**.
+1. In the sidebar, select **(+) New** and then select **Dashboard**.
 2. In the **New dashboard** dialog box, enter the name **Adventure Works Products** and select **Save**.
 3. In the **Adventure Works Products** dashboard, in the **Add** drop-down list, select **Visualization**.
 4. In the **Add visualization widget** dialog box, select the **Products and Categories** query. Then select **Create new visualization**, set the title to **Products Per Category**. and select **Create visualization**.
