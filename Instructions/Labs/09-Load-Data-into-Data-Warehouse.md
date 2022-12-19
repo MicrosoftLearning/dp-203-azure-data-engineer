@@ -222,53 +222,6 @@ The **DimCustomer** table supports type 1 and type 2 slowly changing dimensions 
 
 2. Run the script and review the output.
 
-### Use a MERGE statement to load a slowly changing dimension table
-
-1. In the script pane, replace the existing SQL code with the following code:
-
-    ```sql
-    TRUNCATE TABLE dbo.StageProduct;
-
-    INSERT INTO dbo.StageProduct
-    VALUES
-    ('CA-6738', 'ML Crankarm', NULL, 'Black', NULL, NULL, 1);
-
-    INSERT INTO dbo.StageProduct
-    VALUES
-    ('HB-6739', 'Handle Bar', NULL, 'Chrome', NULL, NULL, 0);
-    ```
-
-2. Run the script to prepare a new batch of staged product data (which consists of one modification to an existing product, and one new product)
-
-3. In the script pane, replace the existing SQL code with the following MERGE statement
-
-    ```sql
-    MERGE dbo.DimProduct AS dim
-        USING (SELECT ProductID, ProductName, ProductCategory, Color, Size,
-        ListPrice, Discontinued FROM dbo.StageProduct) AS stg
-        ON stg.ProductID = dim.ProductAltKey
-    WHEN MATCHED THEN
-        UPDATE SET
-            dim.ProductName = stg.ProductName,
-            dim.ProductCategory = stg.ProductCategory,
-            dim.Color = stg.Color,
-            dim.Size = stg.Size,
-            dim.ListPrice = stg.ListPrice,
-            dim.Discontinued = stg.Discontinued
-    WHEN NOT MATCHED THEN
-        INSERT VALUES
-            ((SELECT MAX(ProductKey) + 1 FROM dbo.DimProduct),
-            stg.ProductID,
-            stg.ProductName,
-            stg.ProductCategory,
-            stg.Color,
-            stg.Size,
-            stg.ListPrice,
-            stg.Discontinued);
-    ```
-
-4. Run the script to merge the staged data into the **DimProduct** table.
-
 ## Perform post-load optimization
 
 After loading new data into the data warehouse, it's recommended to rebuild the table indexes and update statistics on commonly queried columns.
