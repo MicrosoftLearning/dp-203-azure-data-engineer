@@ -5,7 +5,7 @@ lab:
 
 ## Build a data pipeline in Azure Synapse Analytics
 
-In this exercise, we're going to load data into a dedicated SQL Pool using the built-in Synapse Analytics Pipeline located within Azure Synapse Analytics Explorer. This exercise will consist of a basic copy, transform, and sink action within Azure Synapse Analytics.
+In this exercise, you'll load data into a dedicated SQL Pool using a pipeline in Azure Synapse Analytics Explorer. The pipeline will encapsulate a data flow that loads product data into a table in a data warehouse.
 
 This exercise should take approximately **45** minutes to complete.
 
@@ -49,186 +49,186 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 
 8. Wait for the script to complete - this typically takes around 10 minutes, but in some cases may take longer. While you're waiting, review the [Pipelines and activities in Azure Data Factory and Azure Synapse Analytics](https://learn.microsoft.com/azure/data-factory/concepts-pipelines-activities?context=%2Fazure%2Fsynapse-analytics%2Fcontext%2Fcontext&tabs=synapse-analytics) article in the Azure Synapse Analytics documentation.
 
-## View and Navigate Synapse Workspace
+## View source and destination data stores
 
-1. After the script has completed, in the Azure portal, go to the dp203-xxxxxxx resource group that it created, and select your Synapse workspace.
-2. In the Overview page for your Synapse Workspace, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
+The source data for this exercise is a text file containing product data. The destination is a table in a dedicated SQL pool. Your goal is to create a pipeline that encapsulates a data flow in which the product data in the file is loaded into the table; inserting new products and updating existing ones.
+
+1. After the script has completed, in the Azure portal, go to the **dp203-*xxxxxxx*** resource group that it created, and select your Synapse workspace.
+2. In the **Overview** page for your Synapse Workspace, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
 3. On the left side of Synapse Studio, use the ›› icon to expand the menu - this reveals the different pages within Synapse Studio that you’ll use to manage resources and perform data analytics tasks.
-4. On the **Data** page, view the **Linked** tab and verify that your workspace includes a link to your Azure Data Lake Storage Gen2 storage account, which should have a name similar to **synapsexxxxxxx (Primary - datalakexxxxxxx)**.
-5. Expand your storage account and verify that it contains a file system container named **files (primary)**.
-6. Select the files container, and note that it contains folders named data and synapse. The synapse folder is used by Azure Synapse, and the data folder contains the data files you're going to query.
-Open the sales folder and the orders folder it contains, and observe the files contained within it.
-***Right-click*** any of the files and select Preview to see the data it contains. Note if the files contain a header row, so you can determine whether to select the option to display column headers.
-7. Prior to running the next steps, In Synapse Studio, select the **Data** page and expand the **SQL database**.
-8. Expand the ***sqlxxxxxxx (SQL)***
-9. Expand **Tables** and select **DimCustomer**.
-10. Select the ***ellipse*** located on the right of the table name.
-11. Select **New SQL script**, then select ***Select TOP 100 rows*** which will execute automatically with a TOP 100 query of the table resulting in 0 Rows.
+4. On the **Manage** page, on the **SQL pools** tab, select the row for the **sql*xxxxxxx*** dedicated SQL pool and use its **&#9655;** icon to start it; confirming that you want to resume it when prompted.
 
-### Start the dedicated SQL pool
+     Resuming the pool can take a few minutes. You can use the **&#8635; Refresh** button to check its status periodically. The status will show as **Online** when it's ready. While you're waiting, continue with the steps below to view the source data.
 
-1. Open the **synapse*xxxxxxx*** Synapse workspace, and on its **Overview** page, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
-2. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within Synapse Studio.
-3. On the **Manage** page, on the **SQL pools** tab, select the row for the **sql*xxxxxxx*** dedicated SQL pool and use its **&#9655;** icon to start it; confirming that you want to resume it when prompted.
-4. Wait for the SQL pool to resume. This can take a few minutes. You can use the **&#8635; Refresh** button to check its status periodically. The status will show as **Online** when it's ready.
+5. On the **Data** page, view the **Linked** tab and verify that your workspace includes a link to your Azure Data Lake Storage Gen2 storage account, which should have a name similar to **synapse*xxxxxxx* (Primary - datalake*xxxxxxx*)**.
+6. Expand your storage account and verify that it contains a file system container named **files (primary)**.
+7. Select the files container, and note that it contains a folder named **data**.
+8. Open the **data** folder and observe the **Product.csv** file it contains.
+9. Right-click **Product.csv** and select **Preview** to see the data it contains. Note that it contains a header row and some records of product data.
+10. Return to the **Manage** page and ensure that your dedicated SQL pool is now online.
+11. In the **Data** page, on the **Workspace** tab, expand **SQL database**, your **sql*xxxxxxx* (SQL)** database, and its **Tables**.
+12. Select the **DimProduct** table. Then in its **...** menu, select **New SQL script** > **Select TOP 100 rows**; which will run a query that returns the product data from the table - there should be a single row.
 
-## Build a copy pipeline
+## Implement a pipeline
 
-1. In Synapse Studio, on the **Home** page, select **Ingest** to open the **Copy Data** tool
-2. In the Copy Data tool, on the **Properties** step, ensure that **Built-in copy task** and **Run once now** are selected, and select **Next >**.
-3. On the **Source** step, in the **Dataset** substep, select the following settings:
-    - **Source type**: Azure Data lake Storage Gen2
-    - **Connection**: Select synapsexxxxxxx-WorkspaceDefaultStorage **being sure to replace the 'xxxxxx' with your suffix**.
-    - **Integration Runtime**: AutoResolveIntegrationRuntime ***Autoselected*** 
-    - **File or Folder**: Select **Browse** and then select **files**, then select **data**, and finally select **StageCustomer.csv**. One you've this selected, press the **OK** button at the bottom of the pane. Then ensure the following settings are selected, and then select **Next >**:
-        - **Binary copy**: <u>Un</u>selected
-        - **Recursively**: Selected
-        - **Enable partition discovery**: <u>Un</u>selected
-        - **Max concurrent connections**: *Leave blank*
-        - **Filter by last modified**: *Leave both UTC times blank*
-4. On the **Source** step, in the **Configuration** substep, select **Preview data** to see a preview of the product data your pipeline will ingest, then close the preview.
-5. After previewing the data, on the **File format settings** page, ensure the following settings are selected, and then select **Next >**:
-    - **File format**: DelimitedText
-    - **Column delimiter**: Comma (,)
-    - **Row delimiter**: Line feed (\n)
-    - **First row as header**: Selected
-    - **Compression type**: None
-6. On the **Destination** step, in the **Dataset** substep, select the following settings:
-    - **Destination type**: Azure Synapse dedicated SQL pool
-    - **Connection**: *your sqlxxxxxx instance*
-    - **Source**: StageCustomers
-    - **Target**: *Select Existing Table*
-    - **-Select-**: dbo.StageCustomer
-7. After selecting the Target, on the **Destination/Destination data store** step, select **Next >**:
-8. On the **Column mapping**, ensure the following settings:
-    - **Source**: Checked
-    - **Column Mappings**: Review and look for any warnings, you should see a truncation warning on NameStyle, which can be ignored.
-9. On the **Settings** step, enter the following settings and then select **Next >**:
-    - **Task name**: Copy StageCustomer
-    - **Task description** Copy StageCustomer data from Data Lake
-    - **Fault tolerance**: *Leave blank*
-    - **Enable logging**: <u>Un</u>selected
-    - **Enable staging**: <u>Un</u>selected
-    - **Copy method**: Bulk Insert
-    - **Bulk insert table lock**: No
-10. On the **Review and finish** step, on the **Review** substep, read the summary and then select **Next >**.
-11. On the **Deployment** step, wait for the pipeline to be deployed and then select **Finish**.
-12. In Synapse Studio, select the **Monitor** page, and in the **Pipeline runs** tab, wait for the **Copy DimCustomers** pipeline to complete with a status of **Succeeded** (you can use the **&#8635; Refresh** button on the Pipeline runs page to refresh the status).
-13. View the **Integrate** page, and verify that it now contains a pipeline named **Copy StageCustomer**.
+To load the data in the text file into the database table, you will implement an Azure Synapse Analytics pipeline that contains a dataflow encapsulating the logic to ingest the data from the text file, lookup the surrogate **ProductKey** column for products that already exist in the database, and then insert or update rows in the table accordingly.
 
-### Verify the Data Table Exists
+### Create a pipeline with a data flow activity
 
-1. In Synapse Studio, select the **Data** page and expand the **SQL database**, then expand the ***sqlxxxxxxx (SQL)***
-2. Expand **Tables** and select **DimCustomer**, then select the ellipse, select **New SQL script**, then select ***Select TOP 100 rows***
-3. Press the Run button on the top left of the query pane.
-4. You should see an empty result set as shown below.
+1. In Synapse Studio, select the **Integrate** page. Then in the **+** menu select **Pipeline** to create a new pipeline.
+2. In the **Properties** pane for your new pipeline, change its name from **Pipeline1** to **Load Product Data**. Then use the **Properties** button above the **Properties** pane to hide it.
+3. In the **Activities** pane, expand **Move & transform**; and then drag a **Data flow** to the pipeline design surface as shown here:
 
-    ![Query results from pipeline load](./images/built-in-copy-initial-results.png)
+    ![Screenshot of a pipeline with a data flow activity.](./images/dataflow.png)
 
-## Build a Transformation Pipeline in Azure
+4. Under the pipeline design surface, in the **General** tab, set the **Name** property to **LoadProducts**.
+5. On the **Settings** tab, at the bottom of the list of settings, expand **Staging** and set the following staging settings:
+    - **Staging linked service**: Select the **synapse*xxxxxxx*-WorkspaceDefaultStorage** linked service.
+    - **Staging storage folder**: Set **container** to **files** and **Directory** to **stage_products**..
 
-Unlike Azure Data Factory, which requires a separate service to be installed in order to build Orchestration pipelines, Synapse Analytics has pipeline orchestration built in. Let's build a transformation pipeline using Azure Synapse Analytics Pipeline.
+### Configure the data flow
 
-1. From Synapse studio, on the **Home** page, select the **Integrate** icon to open the **Integrate Pipeline** tool
-2. Select the (+) symbol and select **Pipeline** which loads the familiar Orchestration tool if you've used Azure Data Factory (ADF) before.
-3. Under the **Activities** tab, select the **Move & transform** option and then drag **Data flow** onto the canvas.
-4. On the far right of the **Activities** tab, turn the ***Dataflow debug*** slider to the right.
-5. In the **Turn on data flow debug** tab, select **Ok**.
-6. Under the **Settings** tab of the **Data flow**  select the **+ New** to create a new **Dataflow** as shown below:
+1. At the top of the **Settings** tab for the **LoadProducts** data flow, for the **Data flow** property, select **+ New**.
+2. In the **Properties** pane for the new data flow design surface that opens, set the **Name** to **LoadProductsData** and then hide the **Properties** pane. The data flow designer should look like this:
 
-    ![Build azure data flow pipeline](./images/build-transform-pipeline.png)
+    ![Screenshot of an empty data flow activity.](./images/empty-dataflow.png)
 
-7. In the properties of the ***Dataflow1*** name, it **CustomerTransform**.
-8. select the shaded **Add Source** option on the canvas.
-9. Selecting the **DataFlow** on the canvas, in the **Source settings** tab, name the **Output stream name** to **CustomersDB**.
-10. Further down to the **Dataset**, Select **+ New** to create a new Dataset choosing **Azure Data Lake Storage Gen2** 
-11. select **continue**
+### Add sources
 
-     ![New Dataset Canvas](./images/new-dataset-canvas.png)
+1. In the data flow design surface, in the **Add Source** drop-down list, select **Add Source**. Then configure the source settings as follows:
+    - **Output stream name**: ProductsText
+    - **Description**: Products text data
+    - **Source type**: Integration dataset
+    - **Dataset**: Add a **New** dataset with the following properties:
+        - **Type**: Azure Datalake Storage Gen2
+        - **Format**: Delimited text
+        - **Name**: Products_Csv
+        - **Linked service**: synapse*xxxxxxx*-WorkspaceDefaultStorage
+        - **File path**: files/data/Product.csv
+        - **First row as header**: Selected
+        - **Import schema**: From connection/store
+    - **Allow schema drift**: Selected
+2. On the **Projections** tab for the new **ProductsText** source, set the following data types:
+    - **ProductID**: string
+    - **ProductName**: string
+    - **Color**: string
+    - **Size**: string
+    - **ListPrice**: decimal
+    - **Discontinued**: boolean
+3. Add a second source with the following properties:
+    - **Output stream name**: ProductTable
+    - **Description**: Product table
+    - **Source type**: Integration dataset
+    - **Dataset**: Add a **New** dataset with the following properties:
+        - **Type**: Azure Synapse Analytics
+        - **Name**: DimProduct
+        - **Linked service**: Create a **New** linked service with the following properties:
+            - **Name**: Data_Warehouse
+            - **Description**: Dedicated SQL pool
+            - **Connect via integration runtime**: AutoResolveIntegrationRuntime
+            - **Account selection method** From Azure subscription
+            - **Azure subscription**: Select your Azure subscription
+            - **Server name**: synapse*xxxxxxx* (Synapse workspace)
+            - **Database name**: synapse*xxxxxxx*
+            - **SQL pool**: synapse*xxxxxxx*
+            **Authentication type**: System Assigned Managed Identity
+        - **Table name**: dbo.DimProduct
+        - **Import schema**: From connection/store
+    - **Allow schema drift**: Selected
+4. On the **Projections** tab for the new **ProductTable** source, verify that the following data types are set:
+    - **ProductKey**: integer
+    - **ProductAltKey**: string
+    - **ProductName**: string
+    - **Color**: string
+    - **Size**: string
+    - **ListPrice**: decimal
+    - **Discontinued**: boolean
+5. Verify that your data flow contains two sources, as shown here:
 
-12. Select **DelimitedText**.
+    ![Screenshot of a data flow with two sources.](./images/dataflow_sources.png)
 
-    ![Select Delimited Text](./images/select-format-canvas.png)
+### Add a Lookup
 
-13. Select **Continue**
-14. Name your dataset **CustomersText**. In the **Linked service** drop-down, choose your **Synapsexxxxxx-WorspaceDefaultStorage** instance. 
-15. In the **File Path** browse to ***Files***, ***data***, and select ***dimCustomer.csv***
-16. Ensure the checkbox ***First Row as Header*** is selected.
-17. Select **OK** on the **Set Properties** tab
-18. In the Dataset line named **CustomersText** on the **Source settings** panel, select ***Open***. Your screen should look similar to below:
+1. Select the **+** icon at the bottom right of the **ProductsText** source and select **Lookup**.
+2. Configure the Lookup settings as follows:
+    - **Output stream name**: MatchedProducts
+    - **Description**: Matched product data
+    - **Primary stream**: ProductText
+    - **Lookup stream**: ProductTable
+    - **Match multiple rows**: <u>Un</u>selected
+    - **Match on**: Last row
+    - **Sort conditions**: ProductKey ascending
+    - **Lookup conditions**: ProductID == ProductAltKey
+3. Verify that your data flow looks like this:
 
-    ![Customer Text Congfiguration](./images/custom-text-panel.png)
+    ![Screenshot of a data flow with two sources and a lookup.](./images/dataflow_lookup.png)
 
-19. If not selected above, select **First row as header** and then select **preview data** in the line of the **File path**. your results should look similar to below:
+    The lookup returns a set of columns from *both* sources, essentially forming an outer join that matches the **ProductID** column in the text file to the **ProductAltKey** column in the data warehouse table. Where a product with the alternate key already exists in the table, the dataset will include the values from both sources. Where the product dos not already exist in the data warehouse, the dataset will contain NULL values for the table columns.
 
-    ![Preview data for CustomerText](./images/preview-customer-data.png)
+### Add an Alter Row
 
-20. Close the preview window and return to the **CustomerTransform** tab, if, you didn't do so earlier, move the ***Data flow debug*** switch to on and then select **OK** accepting the default values in the **Turn on data flow debug**.
-21. On the **CustomersDB** select **Projection** and then select the **Import projection** to populate the schema if it's not already populated.
+1. Select the **+** icon at the bottom right of the **MatchedProducts** Lookup and select **Alter Row**.
+2. Configure the alter row settings as follows:
+    - **Output stream name**: SetLoadAction
+    - **Description**: Insert new, upsert existing
+    - **Incoming stream**: MatchedProducts
+    - **Alter row conditions**: Edit the existing condition and use the **+** button to add a second condition as follows (note that the expressions are *case-sensitive*):
+        - InsertIf: `isNull(ProductKey)`
+        - UpsertIf: `not(isNull(ProductKey))`
+3. verify that the data flow looks like this:
 
-    ![Import Schema Projection](./images/import-schema-projection.png)
+    ![Screenshot of a data flow with two sources, a lookup, and an alter row.](./images/dataflow_alterrow.png)
 
-23. Select the **+** on the bottom right-hand side of the ***CustomersDB*** **Data source** and select **Filter**.
+    The alter row step configures the kind of load action to perform for each row. Where there's no existing row in the table (the **ProductKey** is NULL), the row from the text file will be inserted. Where there's already a row for the product, an *upsert* will be performed to update the existing row. This configuration essentially applies a *type 1 slowly changing dimension update*.
 
-    ![Filter selection](.images/../images/select-filter-transform.png)
+### Add a sink
 
-24. In the Filter settings, **select Filter on** and select on the text ***Enter filter...***, select ***Open expression builder***
-25. In the **Output Stream name** enter ***OldestCustomers***, next in the filter on type the following code:
+1. Select the **+** icon at the bottom right of the **SetLoadAction** alter row step and select **Sink**.
+2. Configure the **Sink** properties as follows:
+    - **Output stream name**: DimProductTable
+    - **Description**: Load DimProduct table
+    - **Incoming stream**: SetLoadAction
+    - **Sink type**: Integration dataset
+    - **Dataset**: DimProduct
+    - **Allow schema drift**: Selected
+3. On the **Settings** tab for the new **DimProductTable** sink, specify the following settings:
+    - **Update method**: Select **Allow insert** and **Allow Upsert**.
+    - **Key columns**: Select **List of columns**, and then select the **ProductAltKey** column.
+4. On the **Mappings** tab for the new **DimProductTable** sink, clear the **Auto mapping** checkbox and specify only the following column mappings:
+    - ProductID: ProductAltKey
+    - ProductsText@ProductName: ProductName
+    - ProductsText@Color: Color
+    - ProductsText@Size: Size
+    - ProductsText@ListPrice: ListPrice
+    - ProductsText@Discontinued: Discontinued
+5. Verify that your data flow looks like this:
 
-```powershell
-toInteger(left(DateFirstPurchase, 4)) <= 2011
-```
+    ![Screenshot of a data flow with two sources, a lookup, an alter row, and a sink.](./images/dataflow-sink.png)
 
-20. Select the **+** symbol on the bottom-right of the **OldestCustomers** Filter component and select **Aggregate** option on the canvas.
+## Debug the Data Flow
 
-    ![Select oldest customers to aggregate](./images/aggregate-oldest-customers.png)
+Now that you've built a data flow in a pipeline, you can debug it before publishing.
 
-21. In **Output stream name** type ***AggregateOldestCustomers***
-22. In the **Group by** tab select GeographyKey and then select the **Aggregates** tab
-23. In the **Aggregates tab** under **Column** enter ***TotalCountByRegion*** and in the ***Expression** enter the following expression:
+1. At the top of the data flow designer, enabled **Data flow debug**. Review the default configuration and select **OK**, then wait for the debug cluster to start (which may take a few minutes).
+2. In the data flow designer, select the **DimProductTable** sink and view its **Data preview** tab.
+3. Use the **&#8635; Refresh** button to refresh the preview, which has the effect of running data through the data flow to debug it.
+4. Review the preview data, noting that it indicates one upserted row (for the existing *AR5381* product), indicated by a **<sub>*</sub><sup>+</sup>** icon; and ten inserted rows, indicated by a **+** icon.
 
-    ```powershell
-    count(CustomerKey)
-    ```
+## Publish and run the pipeline
 
-24. Select on the **Data preview** tab and select **Refresh**.
+Now you're ready to publish and run the pipeline.
 
-    ![Preview total count by region](./images/total-count-by-region.png)
+1. Use the **Publish all** button to publish the pipeline (and any other unsaved assets).
+2. When publishing is complete, close the **LoadProductsData** data flow pane and return to the **Load Product Data** pipeline pane.
+3. At the top of the pipeline designer pane, in the **Add trigger** menu, select **Trigger now**. Then select **OK** to confirm you want to run the pipeline.
 
-25.  In the same manner as before, select the **+** symbol at the bottom-right of the **AggregateOldestCustomers** aggregate component and select **Sink** option on the canvas.
+    **Note**: You can also create a trigger to run the pipeline at a scheduled time or in response to a specific event.
 
-     ![Sink customer output](./images/sink-customers-transform.png)
+4. When the pipeline has started running, on the **Monitor** page, view the **Pipeline runs** tab and review the status of the **Load Product Data** pipeline.
 
-26.  Name the **Output stream name** ***OldestCustomersSink*** and then select **+ New** on the **Dataset** line.
-27.  Select **Azure Data Lake Storage Gen2** and then select the **Continue** button.
-28.  Select the **DelimitedText** format and select the **Continue** button.
-29.  On the **Set properties**, replace ***DelimitedText1*** in the **Name** field with ***CustomerAggregates***.
-30.  Select the appropriate **WorkspaceDefaultStorage** created in earlier steps.
-31.  In the **File path** row, select the browse button and navigate to ***Files/Data*** then select **Ok**.
-32.  Leave the final cell **File name** blank as it will automatically populate the results.
-33.  Select the **First row as header** and then press the **OK** button.
+    The pipleine may take some time to complete. You can use the **&#8635; Refresh** button on the toolbar to check its status.
 
- ![Set the sink properties](./images/Set-sink-properties.png)
-
-## Debug and monitor the Data Flow
-
-We can debug the pipeline before we publish it. In this step, you're going to trigger a debug run of the data flow pipeline. While data preview doesn't write data, a debug run will write data to your sink destination. This was made possible by selecting the **Data flow debug** option earlier in the exercise.
-
-1. Select the **Pipeline 1** tab on the canvas. Select **Debug** to start a debug run.
-
- ![Pipeline final structure](./images/debug-synapse-pipeline.png)
-
-2. Select on the **refresh** icon to view the status of the pipeline in debug mode.
-
-   ![Pipeline debug](./images/debug-synapse-pipeline-refresh.png)
-
-3. Once the package has been debugged, it's time to **Publish** using the **Publish all** button above the **Pipeline 1** tab and development canvas
-
-   ![Publish packages](./images/publish-pane.png)
-4. Select the **Data** tab in Synapse Studio and then select the **Linked** tab.
-5. Expand **Integration Datasets** you'll see the two datasets created during this exercise, ***CustomerAggregates*** and ***CustomersText***.
-6. Navigating to the **Develop** tab in Synapse Studio, under the **Data flows** you'll find the ***CustomerTransformation*** data flow package, which we just ran.
-7. Navigating to the **Integrate** tab in Synapse Studio, under **Pipelines** you'll find the ***Pipeline 1*** which is the top level of the pipeline we created.
+5. When the pipeline has completed, on the **Data** page, use the **...** menu for the **dbo.DimProduct** table in your SQL database to run a query that selects the top 100 rows. The table should contain the data loaded by the pipeline.
    
 ## Delete Azure resources
 

@@ -134,7 +134,6 @@ New-AzResourceGroup -Name $resourceGroupName -Location $Region | Out-Null
 $synapseWorkspace = "synapse$suffix"
 $dataLakeAccountName = "datalake$suffix"
 $sqlDatabaseName = "sql$suffix"
-$sparkPool = "spark$suffix"
 
 write-host "Creating $synapseWorkspace Synapse Analytics workspace in $resourceGroupName resource group..."
 write-host "(This may take some time!)"
@@ -162,15 +161,6 @@ New-AzRoleAssignment -SignInName $userName -RoleDefinitionName "Storage Blob Dat
 write-host "Creating the $sqlDatabaseName database..."
 sqlcmd -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -I -i setup.sql
 
-# Load data
-write-host "Loading data..."
-Get-ChildItem "./data/*.txt" -File | Foreach-Object {
-    write-host ""
-    $file = $_.FullName
-    Write-Host "$file"
-    $table = $_.Name.Replace(".txt","")
-    bcp dbo.$table in $file -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -f $file.Replace("txt", "fmt") -q -k -E -b 5000
-}
 # Upload files
 write-host "Uploading files..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeAccountName
@@ -183,25 +173,9 @@ Get-ChildItem "./data/*.csv" -File | Foreach-Object {
     Set-AzStorageBlobContent -File $_.FullName -Container "files" -Blob $blobPath -Context $storageContext
 }
 
-write-host "Uploading files..."
-$storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeAccountName
-$storageContext = $storageAccount.Context
-Get-ChildItem "./data/*.csv" -File | Foreach-Object {
-    write-host ""
-    $file = $_.Name
-    Write-Host $file
-    $blobPath = "data/$file"
-    Set-AzStorageBlobContent -File $_.FullName -Container "files" -Blob $blobPath -Context $storageContext
-}
-#Create output directory with file
-write-host "Uploading files..."
-$storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeAccountName
-$storageContext = $storageAccount.Context
-Get-ChildItem "./customer-output/*.csv" -File | Foreach-Object {
-    write-host ""
-    $file = $_.Name
-    Write-Host $file
-    $blobPath = "customer-output/$file"
-    Set-AzStorageBlobContent -File $_.FullName -Container "files" -Blob $blobPath -Context $storageContext
-}
+# Pause SQL Pool
+write-host "Pausing the $sqlDatabaseName SQL Pool..."
+Suspend-AzSynapseSqlPool -WorkspaceName $synapseWorkspace -Name $sqlDatabaseName -AsJob
+
+
 write-host "Script completed at $(Get-Date)"
