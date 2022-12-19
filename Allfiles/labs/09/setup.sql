@@ -340,24 +340,22 @@ CREATE TABLE [dbo].[DimReseller](
 GO
 
  CREATE TABLE [dbo].[StageProduct](
-    [ProductID] [int] NULL,
-	[ProductAlternateKey] [nvarchar](30) NULL,
+    [ProductID] [nvarchar](30) NULL,
     [ProductName] [nvarchar](50) NULL,
     [ProductCategory] [nvarchar](24) NULL,
     [Color] [nvarchar](30) NULL,
     [Size] [nvarchar](50) NULL,
     [ListPrice] [money] NULL,
-    [Discontinued] [nvarchar](30) NULL)
+    [Discontinued] [bit] NULL)
 WITH
 (
-	DISTRIBUTION = HASH(ProductID),
+	DISTRIBUTION = ROUND_ROBIN,
 	CLUSTERED COLUMNSTORE INDEX
 )
 GO
 
 CREATE TABLE [dbo].[StageCustomer]
 ( 
-	[CustomerKey] [int]  NOT NULL,
 	[GeographyKey] [int]  NULL,
 	[CustomerAlternateKey] [nvarchar](15)  NOT NULL,
 	[Title] [nvarchar](8)  NULL,

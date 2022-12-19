@@ -47,273 +47,247 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 
     > **Note**: Be sure to remember this password!
 
-8. Wait for the script to complete - typically this takes around 10 minutes, but in some cases may take longer. While you're waiting, review the [dedicated SQL pool (formerly SQL DW) in Azure Synapse Analytics](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-overview-what-is) article in the Azure Synapse Analytics documentation.
+8. Wait for the script to complete - typically this takes around 10 minutes, but in some cases may take longer. While you're waiting, review the [Data loading strategies for dedicated SQL pool in Azure Synapse Analytics](https://learn.microsoft.com/azure/synapse-analytics/sql-data-warehouse/design-elt-data-loading) article in the Azure Synapse Analytics documentation.
 
-## View and Navigate Synapse Workspace
+## Prepare to load data
 
-1. After the script has completed, in the Azure portal, go to the dp203-xxxxxxx resource group that it created, and select your Synapse workspace.
+1. After the script has completed, in the Azure portal, go to the **dp203-*xxxxxxx*** resource group that it created, and select your Synapse workspace.
 2. In the **Overview page** for your Synapse Workspace, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
 3. On the left side of Synapse Studio, use the ›› icon to expand the menu - revealing the different pages within Synapse Studio that you’ll use to manage resources and perform data analytics tasks.
-4. On the **Data** page, view the **Linked** tab and verify that your workspace includes a link to your Azure Data Lake Storage Gen2 storage account, which should have a name similar to **synapsexxxxxxx (Primary - datalakexxxxxxx)**.
-5. Expand your storage account and verify that it contains a file system container named **files (primary)**.
-6. Select the files container, and note that it contains folders named data and synapse. The synapse folder is used by Azure Synapse, and the data folder contains the data files you're going to query.
-Open the sales folder and the orders folder it contains, and observe that the orders folder contains .csv files for dimCustomer, dimDate, dimProduct, and FactInternetSales data.
-***Right-click*** any of the files and select Preview to see the data it contains. Note the files contain a header row, so you can select the option to display column headers.
+4. On the **Manage** page, on the **SQL pools** tab, select the row for the **sql*xxxxxxx*** dedicated SQL pool, which hosts the data warehouse for this exercise, and use its **&#9655;** icon to start it; confirming that you want to resume it when prompted.
 
-### Start the dedicated SQL pool
+    Resuming the pool can take a few minutes. You can use the **&#8635; Refresh** button to check its status periodically. The status will show as **Online** when it's ready. While you're waiting, proceed with the steps below to view the data files you will load.
 
-1. Open the **synapse*xxxxxxx*** Synapse workspace, and on its **Overview** page, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
-2. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - revealing the different pages within Synapse Studio.
-3. On the **Manage** page, on the **SQL pools** tab, select the row for the **sql*xxxxxxx*** dedicated SQL pool and use it's **&#9655;** icon to start it; confirming that you want to resume it when prompted.
-4. Wait for the SQL pool to resume. This can take a few minutes. You can use the **&#8635; Refresh** button to check its status periodically. The status will show as **Online** when it's ready.
+5. On the **Data** page, view the **Linked** tab and verify that your workspace includes a link to your Azure Data Lake Storage Gen2 storage account, which should have a name similar to **synapsexxxxxxx (Primary - datalakexxxxxxx)**.
+6. Expand your storage account and verify that it contains a file system container named **files (primary)**.
+7. Select the files container, and note that it contains a folder named **data**. This folder contains the data files you're going to load into the data warehouse.
+8. Open the **data** folder and observe that it contains .csv files of customer and product data.
+9. Right-click any of the files and select **Preview** to see the data it contains. Note the files contain a header row, so you can select the option to display column headers.
+10. Return to the **Manage** page and verify that your dedicated SQL pool is online.
 
 ## Load data warehouse tables
 
 Let's look at some SQL Based approaches to loading data into the Data Warehouse.
 
-1. Select the  **Data** panel.
-2. Within this panel, select the **workspace** tab.
-3. Expand the ***SQL Database***
-4. On the database created with your **sqlxxxxxxx** suffix mouse-over the right-hand side of the panel until the ellipses appears, then left-click.
-5. Select ***New SQL Script***.
-6. Select ***Empty Script***.
+1. On the  **Data** page, select the **workspace** tab.
+2. Expand **SQL Database** and select your **sql*xxxxxxx*** database. Then in its **...** menu, select **New SQL Script** > 
+**Empty Script**.
 
-    ![Select empty sql script](./images/select-empty-sql-script.png)
+You now have a blank SQL page, which is connected to the instance for the following exercises. You will use this script to explore several SQL techniques that you can use to load data.
 
-You now have a blank SQL page, which is connected to the instance for the following exercises.
-## Loading data into staging tables
+### Load data from a data lake by using the COPY statement
 
-If you use external tables for staging, there's no need to load the data into them because they already reference the data files in the data lake. However, if you use "regular" relational tables, you can use the COPY statement to load data from the data lake, as shown in the following example:
+1. In your SQL script, enter the following code into the window.
 
->**NOTE**: Change the ***datalakexxxxxx*** with the name of your datalake name created during the beginning of the exercise
+    ```sql
+    SELECT COUNT(1) 
+    FROM dbo.StageProduct
+    ```
 
-1. In the previously opened ***SQL Script*** type or, copy the following code into the window.
-2. Press the **Run** button at the top of the ***SQL Script*** pane.
+2. On the toolbar, use the **&#9655; Run** button to run the SQL code and confirm that there are **0** rows currently in the **StageProduct** table.
+3. Replace the code with the following COPY statement (changing **datalake*xxxxxx*** to the name of your data lake):
 
-```sql
-SELECT COUNT(1) 
-FROM dbo.StageProduct
-
-```
-
-3. Be sure to replace the name, "datalakexxxxxxx." with the name of your datalake and prefix created during the beginning of the lab.
-4. Copy/paste or type the following code into ***SQL Script*** window.
-
-```sql
-COPY INTO dbo.StageProduct
-    (ProductID, ProductAlternateKey, ProductName, ProductCategory, Color, Size, ListPrice, Discontinued)
-FROM 'https://datalakexxxxxx.blob.core.windows.net/files/data/StageProduct.csv'
-WITH
-(
-    FILE_TYPE = 'CSV',
-    MAXERRORS = 0,
-    IDENTITY_INSERT = 'OFF',
-    FIRSTROW = 2 --Defines where the first data row starts
-);
+    ```sql
+    COPY INTO dbo.StageProduct
+        (ProductID, ProductName, ProductCategory, Color, Size, ListPrice, Discontinued)
+    FROM 'https://datalakexxxxxx.blob.core.windows.net/files/data/Product.csv'
+    WITH
+    (
+        FILE_TYPE = 'CSV',
+        MAXERRORS = 0,
+        IDENTITY_INSERT = 'OFF',
+        FIRSTROW = 2 --Skip header row
+    );
 
 
-SELECT COUNT(1) 
-FROM dbo.StageProduct
+    SELECT COUNT(1) 
+    FROM dbo.StageProduct
+    ```
 
-```
+4. Run the script and review the results. 11 rows should have been loaded into the **StageProduct** table.
 
-5. Run the script by pressing the ctrl + e key combination or pressing the **Run** button at the top of the panel.
-6. The use of "staging" tables allows us to review and change anything before moving or using it to append to or upsert into any existing dimension tables. The structure of this table will vary slightly as your read during the module depending upon the type of slowly changing dimensions (SCD) used.
+    Now let's use the same technique to load another table, this time logging any errors that might occur.
 
-Let's also bring in another table, which will be used for later using the same method.
+5. Replace the SQL code in the script pane with the following code, changing **datalake*xxxxxx*** to the name of your data lake in both the ```FROM``` and the ```ERRORFILE``` clauses:
 
-1. In the previously opened ***SQL Script*** type or, copy the following code into the window.
+    ```sql
+    COPY INTO dbo.StageCustomer
+    (GeographyKey, CustomerAlternateKey, Title, FirstName, MiddleName, LastName, NameStyle, BirthDate, 
+    MaritalStatus, Suffix, Gender, EmailAddress, YearlyIncome, TotalChildren, NumberChildrenAtHome, EnglishEducation, 
+    SpanishEducation, FrenchEducation, EnglishOccupation, SpanishOccupation, FrenchOccupation, HouseOwnerFlag, 
+    NumberCarsOwned, AddressLine1, AddressLine2, Phone, DateFirstPurchase, CommuteDistance)
+    FROM 'https://datalakexxxxxx.dfs.core.windows.net/files/data/Customer.csv'
+    WITH
+    (
+    FILE_TYPE = 'CSV'
+    ,MAXERRORS = 5
+    ,FIRSTROW = 2 -- skip header row
+    ,ERRORFILE = 'https://datalakexxxxxx.dfs.core.windows.net/files/'
+    );
+    ```
 
->**NOTE**: Don't forget to change the ***datalakexxxxxx*** with the name of your datalake name in both the ```FROM``` and the ```ERRORFILE``` elements below.
+6. Run the script and review the resulting message. The source file contains a row with invalid data, so one row is rejected. The code above specifies a maximum of **5** errors, so a single error should not have prevented the valid rows from being loaded. You can view the rows that *have* been loaded by running the following query.
 
-1. Run the script by pressing the ctrl + e key combination or pressing the **Run** button at the top of the panel.
+    ```sql
+    SELECT *
+    FROM dbo.StageCustomer
+    ```
 
-```sql
-COPY INTO dbo.StageCustomer
-(CustomerKey, GeographyKey, CustomerAlternateKey, Title, FirstName, MiddleName, LastName, NameStyle, BirthDate, 
-MaritalStatus, Suffix, Gender, EmailAddress, YearlyIncome, TotalChildren, NumberChildrenAtHome, EnglishEducation, 
-SpanishEducation, FrenchEducation, EnglishOccupation, SpanishOccupation, FrenchOccupation, HouseOwnerFlag, 
-NumberCarsOwned, AddressLine1, AddressLine2, Phone, DateFirstPurchase, CommuteDistance)
-FROM 'https://datalakexxxxxx.dfs.core.windows.net/files/data/StageCustomer.csv'
-WITH
-(
- FILE_TYPE = 'CSV'
- ,MAXERRORS = 0
- ,FIRSTROW = 2 --Defines where the first data row starts
- ,ERRORFILE = 'https://datalakexxxxxx.dfs.core.windows.net/files/'
-)
---END
-GO
-```
-4. Check your results by typing the following query to verify the data was loaded properly.
+7. On the **files** tab, view the root folder of your data lake and verify that a new folder named **_rejectedrows** has been created (if you don't see this folder, in the **More** menu, select **Refresh** to refresh the view).
+8. Open the **_rejectedrows** folder and the date and time specific subfolder it contains, and note that files with names similar to ***QID123_1_2*.Error.Txt** and ***QID123_1_2*.Row.Txt** have been created. You can right-click each of these files and select **Preview** to see details of the error and the row that was rejected.
 
-```sql
-SELECT Top 100 *
-FROM StageCustomer
-```
+    The use of staging tables enables you to validate or transform data before moving or using it to append to or upsert into any existing dimension tables. The COPY statement provides a simple but high-performance technique that you can use to easily load data from files in a data lake into staging tables, and as you've seen, identify and redirect invalid rows.
 
-## Loading staged data into dimension tables
+### Use a CREATE TABLE AS (CTAS) statement
 
-Once you've staged and verified the data you can use it to look for changes between the existing and new data (Deltas), perform lookups to detect changes in dimensions, or load it into the dimension tables using SQL.
+1. Return to the script pane, and replace the code it contains with the following code:
 
-## Using a CREATE TABLE AS (CTAS) statement
+    ```sql
+    CREATE TABLE dbo.DimProduct
+    WITH
+    (
+        DISTRIBUTION = HASH(ProductAltKey),
+        CLUSTERED COLUMNSTORE INDEX
+    )
+    AS
+    SELECT ROW_NUMBER() OVER(ORDER BY ProductID) AS ProductKey,
+        ProductID AS ProductAltKey,
+        ProductName,
+        ProductCategory,
+        Color,
+        Size,
+        ListPrice,
+        Discontinued
+    FROM dbo.StageProduct;
+    ```
 
-> ***NOTE*** For more Information, see [CREATE TABLE AS SELECT (CTAS)](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-develop-ctas) in the Azure Synapse Analytics documentation.
+2. Run the script, which creates a new table named **DimProduct**  from the staged product data that uses **ProductAltKey** as its hash distribution key and has a clustered columnstore index.
+4. Use the following query to view the contents of the new **DimProduct** table:
 
-The CREATE TABLE AS SELECT (CTAS) expression has various uses, which include:
+    ```sql
+    SELECT ProductKey,
+        ProductAltKey,
+        ProductName,
+        ProductCategory,
+        Color,
+        Size,
+        ListPrice,
+        Discontinued
+    FROM dbo.DimProduct;
+    ```
 
-1. redistributing the hash key of a table to align with other tables for better query performance.
-2. assigning a surrogate key to a staging table based upon existing values after performing a delta analysis.
-3. creating aggregate tables quickly for report purposes.
+    The CREATE TABLE AS SELECT (CTAS) expression has various uses, which include:
 
-The statement allows for creating a new table with the results of a SELECT statement.
+    - Redistributing the hash key of a table to align with other tables for better query performance.
+    - Assigning a surrogate key to a staging table based upon existing values after performing a delta analysis.
+    - Creating aggregate tables quickly for report purposes.
 
-1. Create a new Query window or use the existing one making sure to highlight all existing content and delete it first. 
-2. Type or paste the following code into the Query window
+### Combine INSERT and UPDATE statements to load a slowly changing dimension table
 
-```sql
-CREATE TABLE dbo.DimProduct
-WITH
-(
-    DISTRIBUTION = HASH(ProductAltKey),
-    CLUSTERED COLUMNSTORE INDEX
-)
-AS
-SELECT ROW_NUMBER() OVER(ORDER BY ProductID) AS ProductKey,
-       ProductID AS ProductAltKey,
-       ProductName,
-       ProductCategory,
-       Color,
-       Size,
-       ListPrice,
-       Discontinued
-FROM dbo.StageProduct
-WHERE Color != 'NA' -- Pull Everything except undefined colors
-```
+The **DimCustomer** table supports type 1 and type 2 slowly changing dimensions (SCDs), where type 1 changes result in an in-place update to an existing row, and type 2 changes result in a new row to indicate the latest version of a particular dimension entity instance. Loading this table requires a combination of INSERT statements (to load new customers) and UPDATE statements (to apply type 1 or type 2 changes).
 
-3. As you can read from the query, we're using the StageProduct table with a filter on the color column and creating a new table named DimProduct. This table DimProduct is a distributed table using ProductAltKey as its hash distribution key and also has a Clustered Columnstore Index (CCI). 
-4. You can view the results of this table by typing or copying/pasting the following code into the window below the CTAS.
+1. In the query pane, replace the existing SQL code with the following code:
 
-```sql
-SELECT ProductKey,
-    ProductAltKey,
-    ProductName,
-    ProductCategory,
-    Color,
-    Size,
-    ListPrice,
-    Discontinued
-FROM dbo.DimProduct
-```
+    ```sql
+    INSERT INTO dbo.DimCustomer ([GeographyKey],[CustomerAlternateKey],[Title],[FirstName],[MiddleName],[LastName],[NameStyle],[BirthDate],[MaritalStatus],
+    [Suffix],[Gender],[EmailAddress],[YearlyIncome],[TotalChildren],[NumberChildrenAtHome],[EnglishEducation],[SpanishEducation],[FrenchEducation],
+    [EnglishOccupation],[SpanishOccupation],[FrenchOccupation],[HouseOwnerFlag],[NumberCarsOwned],[AddressLine1],[AddressLine2],[Phone],
+    [DateFirstPurchase],[CommuteDistance])
+    SELECT *
+    FROM dbo.StageCustomer AS stg
+    WHERE NOT EXISTS
+        (SELECT * FROM dbo.DimCustomer AS dim
+        WHERE dim.CustomerAlternateKey = stg.CustomerAlternateKey);
 
-## Updating Dimension tables
+    -- Type 1 updates (change name, email, or phone in place)
+    UPDATE dbo.DimCustomer
+    SET LastName = stg.LastName,
+        EmailAddress = stg.EmailAddress,
+        Phone = stg.Phone
+    FROM DimCustomer dim inner join StageCustomer stg
+    ON dim.CustomerAlternateKey = stg.CustomerAlternateKey
+    WHERE dim.LastName <> stg.LastName OR dim.EmailAddress <> stg.EmailAddress OR dim.Phone <> stg.Phone
 
-As discussed in the module, there are several types of slowly changing dimensions (SCDs) and techniques to update them. let's look at a few.
+    -- Type 2 updates (address changes triggers new entry)
+    INSERT INTO dbo.DimCustomer
+    SELECT stg.GeographyKey,stg.CustomerAlternateKey,stg.Title,stg.FirstName,stg.MiddleName,stg.LastName,stg.NameStyle,stg.BirthDate,stg.MaritalStatus,
+    stg.Suffix,stg.Gender,stg.EmailAddress,stg.YearlyIncome,stg.TotalChildren,stg.NumberChildrenAtHome,stg.EnglishEducation,stg.SpanishEducation,stg.FrenchEducation,
+    stg.EnglishOccupation,stg.SpanishOccupation,stg.FrenchOccupation,stg.HouseOwnerFlag,stg.NumberCarsOwned,stg.AddressLine1,stg.AddressLine2,stg.Phone,
+    stg.DateFirstPurchase,stg.CommuteDistance
+    FROM dbo.StageCustomer AS stg
+    JOIN dbo.DimCustomer AS dim
+    ON stg.CustomerAlternateKey = dim.CustomerAlternateKey
+    AND stg.AddressLine1 <> dim.AddressLine1;
+    ```
 
-1. type or copy/paste the following query into a new query window.
-2. It's best to run each of the SCDs individually and then run a query before and after to see the actual impact on the table/row but in this run, we're going to perform several different types of SCDs.
+2. Run the script and review the output.
 
-```sql
--- Insert new customers noting the schemas of the tables are identical
-SET IDENTITY_INSERT dbo.DimCustomer ON
+### Use a MERGE statement to load a slowly changing dimension table
 
-INSERT INTO dbo.DimCustomer ([CustomerKey],[GeographyKey],[CustomerAlternateKey],[Title],[FirstName],[MiddleName],[LastName],[NameStyle],[BirthDate],[MaritalStatus],
-[Suffix],[Gender],[EmailAddress],[YearlyIncome],[TotalChildren],[NumberChildrenAtHome],[EnglishEducation],[SpanishEducation],[FrenchEducation],
-[EnglishOccupation],[SpanishOccupation],[FrenchOccupation],[HouseOwnerFlag],[NumberCarsOwned],[AddressLine1],[AddressLine2],[Phone],
-[DateFirstPurchase],[CommuteDistance])
-SELECT *
-FROM dbo.StageCustomer AS stg
-WHERE NOT EXISTS
-    (SELECT * FROM dbo.DimCustomer AS dim
-     WHERE dim.CustomerKey = stg.CustomerKey);
+1. In the script pane, replace the existing SQL code with the following code:
 
-SET IDENTITY_INSERT dbo.DimCustomer OFF
+    ```sql
+    TRUNCATE TABLE dbo.StageProduct;
 
---Look for type 1 updates in our staging file
-SELECT dim.LastName, stg.LastName, dim.EmailAddress, stg.EmailAddress, dim.Phone, stg.Phone
-FROM DimCustomer dim inner join StageCustomer stg
-ON dim.CustomerKey = stg.CustomerKey
-WHERE dim.LastName <> stg.LastName OR dim.EmailAddress <> stg.EmailAddress OR dim.Phone <> stg.Phone
+    INSERT INTO dbo.StageProduct
+    VALUES
+    ('CA-6738', 'ML Crankarm', NULL, 'Black', NULL, NULL, 1);
 
--- Type 1 updates (name, email, phone)
-UPDATE dbo.DimCustomer
-SET LastName = stg.LastName,
-    EmailAddress = stg.EmailAddress,
-    Phone = stg.Phone
-FROM DimCustomer dim inner join StageCustomer stg
-ON dim.CustomerKey = stg.CustomerKey
-WHERE dim.LastName <> stg.LastName OR dim.EmailAddress <> stg.EmailAddress OR dim.Phone <> stg.Phone
+    INSERT INTO dbo.StageProduct
+    VALUES
+    ('HB-6739', 'Handle Bar', NULL, 'Chrome', NULL, NULL, 0);
+    ```
 
--- Type 2 updates (geographic address changes triggers new entry)
-INSERT INTO dbo.DimCustomer
-SELECT stg.GeographyKey,stg.CustomerAlternateKey,stg.Title,stg.FirstName,stg.MiddleName,stg.LastName,stg.NameStyle,stg.BirthDate,stg.MaritalStatus,
-stg.Suffix,stg.Gender,stg.EmailAddress,stg.YearlyIncome,stg.TotalChildren,stg.NumberChildrenAtHome,stg.EnglishEducation,stg.SpanishEducation,stg.FrenchEducation,
-stg.EnglishOccupation,stg.SpanishOccupation,stg.FrenchOccupation,stg.HouseOwnerFlag,stg.NumberCarsOwned,stg.AddressLine1,stg.AddressLine2,stg.Phone,
-stg.DateFirstPurchase,stg.CommuteDistance
-FROM dbo.StageCustomer AS stg
-JOIN dbo.DimCustomer AS dim
-ON stg.CustomerKey = dim.CustomerKey
-WHERE stg.AddressLine1 <> dim.AddressLine1 OR stg.AddressLine2 <> dim.AddressLine2;
-```
+2. Run the script to prepare a new batch of staged product data (which consists of one modification to an existing product, and one new product)
 
-3. Press the **Run** button or ctrl + e to execute the code.
+3. In the script pane, replace the existing SQL code with the following MERGE statement
 
-As an alternative to using multiple ```INSERT``` and ```UPDATE``` statement, you can use a single ```MERGE``` statement to perform an ```UPSERT``` operation to insert new records and update existing ones, as shown in the following example, which loads new product records and applies type 1 updates to existing products:
+    ```sql
+    MERGE dbo.DimProduct AS dim
+        USING (SELECT ProductID, ProductName, ProductCategory, Color, Size,
+        ListPrice, Discontinued FROM dbo.StageProduct) AS stg
+        ON stg.ProductID = dim.ProductAltKey
+    WHEN MATCHED THEN
+        UPDATE SET
+            dim.ProductName = stg.ProductName,
+            dim.ProductCategory = stg.ProductCategory,
+            dim.Color = stg.Color,
+            dim.Size = stg.Size,
+            dim.ListPrice = stg.ListPrice,
+            dim.Discontinued = stg.Discontinued
+    WHEN NOT MATCHED THEN
+        INSERT VALUES
+            ((SELECT MAX(ProductKey) + 1 FROM dbo.DimProduct),
+            stg.ProductID,
+            stg.ProductName,
+            stg.ProductCategory,
+            stg.Color,
+            stg.Size,
+            stg.ListPrice,
+            stg.Discontinued);
+    ```
 
-1. type or copy/paste the following query into a ***new query window***.
-2. Press the **Run** button to execute the code.
+4. Run the script to merge the staged data into the **DimProduct** table.
 
-```sql
-MERGE dbo.DimProduct AS tgt
-    USING (SELECT ProductID, ProductAlternateKey, ProductName, ProductCategory, Color, Size,
-    ListPrice, Discontinued FROM dbo.StageProduct) AS src
-    ON src.ProductID = tgt.ProductAltKey
-WHEN MATCHED THEN
-    UPDATE SET
-        tgt.ProductKey = src.ProductID,
-        tgt.ProductAltKey = src.ProductID,
-        tgt.ProductName = src.ProductName,
-        tgt.ProductCategory = src.ProductCategory,
-        tgt.Color = src.Color,
-        tgt.Size = src.Size,
-        tgt.ListPrice = src.ListPrice,
-        tgt.Discontinued = src.Discontinued
-WHEN NOT MATCHED THEN
-    INSERT VALUES
-        (src.ProductID,
-         src.ProductID,
-         src.ProductName,
-         src.ProductCategory,
-         src.Color,
-         src.Size,
-         src.ListPrice,
-         src.Discontinued);
-```
+## Perform post-load optimization
 
-## Optimize Load Performance
+After loading new data into the data warehouse, it's recommended to rebuild the table indexes and update statistics on commonly queried columns.
 
-After loading new data into the data warehouse, it's a recommended [best practice](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-statistics) to rebuild the table columnstore indexes and update statistics on commonly queried columns.
+1. Replace the code in the script pane with the following code:
 
-The following example rebuilds all indexes on the DimProduct table.
+    ```sql
+    ALTER INDEX ALL ON dbo.DimProduct REBUILD;
+    ```
 
-1. type or copy/paste the following query into a ***new or existing query window***.
-2. Press the **Run** button to execute the code.
+2. Run the script to rebuild the indexes on the **DimProduct** table.
+3. Replace the code in the script pane with the following code:
 
-```sql
-ALTER INDEX ALL ON dbo.DimProduct REBUILD
-```
+    ```sql
+    CREATE STATISTICS customergeo_stats
+    ON dbo.DimCustomer (GeographyKey);
+    ```
 
-The following example creates statistics on the ProductCategory column of the DimProduct table:
-
-1. type or copy/paste the following query into a ***new or existing query window***.
-2. Press the **Run** button to execute the code.
-
-```sql
-CREATE STATISTICS productcategory_stats
-ON dbo.DimProduct (ProductCategory);
-```
-
->**NOTE** For more information, see the [Indexes on dedicated SQL pool tables in Azure Synapse Analytics](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-index) and [Table statistics for dedicated SQL pool in Azure Synapse Analytics articles](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-statistics) in the Azure Synapse Analytics documentation.
+4. Run the script to create or update statistics on the **GeographyKey** column of the **DimCustomer** table.
 
 ## Delete Azure resources
 
