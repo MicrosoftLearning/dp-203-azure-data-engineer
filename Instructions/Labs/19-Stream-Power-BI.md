@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Create a realtime report with Azure Stream Analytics and Microsoft Power BI'
+    ilt-use: 'Suggested demo'
 ---
 
 # Create a realtime report with Azure Stream Analytics and Microsoft Power BI

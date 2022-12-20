@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Use a SQL Warehouse in Azure Databricks'
+    ilt-use: 'Optional demo'
 ---
 
 # Use a SQL Warehouse in Azure Databricks

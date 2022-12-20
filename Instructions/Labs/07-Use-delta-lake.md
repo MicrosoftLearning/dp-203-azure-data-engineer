@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Use Delta Lake in Azure Synapse Analytics'
+    ilt-use: 'Lab'
 ---
 
 # Use Delta Lake with Spark in Azure Synapse Analytics

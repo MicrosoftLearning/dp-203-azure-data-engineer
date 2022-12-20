@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Transform data using Spark in Synapse Analytics'
+    ilt-use: 'Lab'
 ---
 
 # Transform data using Spark in Synapse Analytics

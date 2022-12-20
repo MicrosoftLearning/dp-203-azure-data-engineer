@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Explore Azure Synapse Analytics'
+    ilt-use: 'Lab'
 ---
 
 # Explore Azure Synapse Analytics

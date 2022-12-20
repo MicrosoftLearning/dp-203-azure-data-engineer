@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Use Delta Lake in Azure Databricks'
+    ilt-use: 'Optional demo'
 ---
 
 # Use Delta Lake in Azure Databricks

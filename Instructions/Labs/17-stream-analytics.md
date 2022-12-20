@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Get started with Azure Stream Analytics'
+    ilt-use: 'Suggested demo'
 ---
 
 # Get started with Azure Stream Analytics

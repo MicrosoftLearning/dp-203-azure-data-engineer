@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Explore Azure Databricks'
+    ilt-use: 'Suggested demo'
 ---
 
 # Explore Azure Databricks

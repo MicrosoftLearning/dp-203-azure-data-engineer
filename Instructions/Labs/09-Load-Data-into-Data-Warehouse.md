@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Load Data into a Relational Data Warehouse'
+    ilt-use: 'Lab'
 ---
 
 # Load Data into a Relational Data Warehouse

@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Use Azure Synapse Link for SQL'
+    ilt-use: 'Suggested demo'
 ---
 
 # Use Azure Synapse Link for SQL

@@ -1,6 +1,7 @@
 ---
 lab:
-    title: 'Use spark notebooks in Synapse Pipeline'
+    title: 'Use an Apache Spark notebook in a pipeline'
+    ilt-use: 'Lab'
 ---
 
 # Use spark notebooks in Synapse Pipeline

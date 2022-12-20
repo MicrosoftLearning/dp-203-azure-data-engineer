@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Use Microsoft Purview with Azure Synapse Analytics'
+    ilt-use: 'Lab'
 ---
 
 # Use Microsoft Purview with Azure Synapse Analytics

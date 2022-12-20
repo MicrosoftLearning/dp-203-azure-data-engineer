@@ -1,6 +1,7 @@
 ---
 lab:
     title: 'Ingest realtime data with Azure Stream Analytics and Azure Synapse Analytics'
+    ilt-use: 'Lab'
 ---
 
 # Ingest realtime data with Azure Stream Analytics and Azure Synapse Analytics
