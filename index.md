@@ -4,7 +4,7 @@ permalink: index.html
 layout: home
 ---
 
-# Data Engineering Exercises
+# Azure Data Engineering Exercises
 
 The following exercises support the training modules on Microsoft Learn that support the [Microsoft Certified: Azure Data Engineer Associate](https://learn.microsoft.com/certifications/azure-data-engineer/) certification.
 
