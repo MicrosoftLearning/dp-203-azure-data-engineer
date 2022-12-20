@@ -15,7 +15,7 @@ You'll need an [Azure subscription](https://azure.microsoft.com/free) in which y
 
 ## Provision an Azure Synapse Analytics workspace
 
-You'll need an Azure Synapse Analytics workspace with access to data lake storage. You can use the built-in serverless SQL pool to query files in the data lake.
+You'll need an Azure Synapse Analytics workspace with access to data lake storage and a dedicated SQL pool hosting a data warehouse.
 
 In this exercise, you'll use a combination of a PowerShell script and an ARM template to provision an Azure Synapse Analytics workspace.
 

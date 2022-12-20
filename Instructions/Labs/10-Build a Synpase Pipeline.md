@@ -3,7 +3,7 @@ lab:
     title: 'Build a data pipeline in Azure Synapse Analytics'
 ---
 
-## Build a data pipeline in Azure Synapse Analytics
+# Build a data pipeline in Azure Synapse Analytics
 
 In this exercise, you'll load data into a dedicated SQL Pool using a pipeline in Azure Synapse Analytics Explorer. The pipeline will encapsulate a data flow that loads product data into a table in a data warehouse.
 
@@ -15,7 +15,7 @@ You'll need an [Azure subscription](https://azure.microsoft.com/free) in which y
 
 ## Provision an Azure Synapse Analytics workspace
 
-You'll need an Azure Synapse Analytics workspace with access to data lake storage. You can use the built-in serverless SQL pool to query files in the data lake.
+You'll need an Azure Synapse Analytics workspace with access to data lake storage and a dedicated SQL pool hosting a relational data warehouse.
 
 In this exercise, you'll use a combination of a PowerShell script and an ARM template to provision an Azure Synapse Analytics workspace.
 
@@ -47,7 +47,7 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 
     > **Note**: Be sure to remember this password!
 
-8. Wait for the script to complete - this typically takes around 10 minutes, but in some cases may take longer. While you're waiting, review the [Pipelines and activities in Azure Data Factory and Azure Synapse Analytics](https://learn.microsoft.com/azure/data-factory/concepts-pipelines-activities?context=%2Fazure%2Fsynapse-analytics%2Fcontext%2Fcontext&tabs=synapse-analytics) article in the Azure Synapse Analytics documentation.
+8. Wait for the script to complete - this typically takes around 10 minutes, but in some cases may take longer. While you're waiting, review the [Data flows in Azure Synapse Analytics](https://learn.microsoft.com/azure/synapse-analytics/concepts-data-flow-overview) article in the Azure Synapse Analytics documentation.
 
 ## View source and destination data stores
 
@@ -65,9 +65,9 @@ The source data for this exercise is a text file containing product data. The de
 7. Select the files container, and note that it contains a folder named **data**.
 8. Open the **data** folder and observe the **Product.csv** file it contains.
 9. Right-click **Product.csv** and select **Preview** to see the data it contains. Note that it contains a header row and some records of product data.
-10. Return to the **Manage** page and ensure that your dedicated SQL pool is now online.
+10. Return to the **Manage** page and ensure that your dedicated SQL pool is now online. If not, wait for it.
 11. In the **Data** page, on the **Workspace** tab, expand **SQL database**, your **sql*xxxxxxx* (SQL)** database, and its **Tables**.
-12. Select the **DimProduct** table. Then in its **...** menu, select **New SQL script** > **Select TOP 100 rows**; which will run a query that returns the product data from the table - there should be a single row.
+12. Select the **dbo.DimProduct** table. Then in its **...** menu, select **New SQL script** > **Select TOP 100 rows**; which will run a query that returns the product data from the table - there should be a single row.
 
 ## Implement a pipeline
 
@@ -84,7 +84,7 @@ To load the data in the text file into the database table, you will implement an
 4. Under the pipeline design surface, in the **General** tab, set the **Name** property to **LoadProducts**.
 5. On the **Settings** tab, at the bottom of the list of settings, expand **Staging** and set the following staging settings:
     - **Staging linked service**: Select the **synapse*xxxxxxx*-WorkspaceDefaultStorage** linked service.
-    - **Staging storage folder**: Set **container** to **files** and **Directory** to **stage_products**..
+    - **Staging storage folder**: Set **container** to **files** and **Directory** to **stage_products**.
 
 ### Configure the data flow
 
@@ -108,7 +108,7 @@ To load the data in the text file into the database table, you will implement an
         - **First row as header**: Selected
         - **Import schema**: From connection/store
     - **Allow schema drift**: Selected
-2. On the **Projections** tab for the new **ProductsText** source, set the following data types:
+2. On the **Projection** tab for the new **ProductsText** source, set the following data types:
     - **ProductID**: string
     - **ProductName**: string
     - **Color**: string
@@ -135,7 +135,7 @@ To load the data in the text file into the database table, you will implement an
         - **Table name**: dbo.DimProduct
         - **Import schema**: From connection/store
     - **Allow schema drift**: Selected
-4. On the **Projections** tab for the new **ProductTable** source, verify that the following data types are set:
+4. On the **Projection** tab for the new **ProductTable** source, verify that the following data types are set:
     - **ProductKey**: integer
     - **ProductAltKey**: string
     - **ProductName**: string
@@ -163,7 +163,7 @@ To load the data in the text file into the database table, you will implement an
 
     ![Screenshot of a data flow with two sources and a lookup.](./images/dataflow_lookup.png)
 
-    The lookup returns a set of columns from *both* sources, essentially forming an outer join that matches the **ProductID** column in the text file to the **ProductAltKey** column in the data warehouse table. Where a product with the alternate key already exists in the table, the dataset will include the values from both sources. Where the product dos not already exist in the data warehouse, the dataset will contain NULL values for the table columns.
+    The lookup returns a set of columns from *both* sources, essentially forming an outer join that matches the **ProductID** column in the text file to the **ProductAltKey** column in the data warehouse table. When a product with the alternate key already exists in the table, the dataset will include the values from both sources. When the product dos not already exist in the data warehouse, the dataset will contain NULL values for the table columns.
 
 ### Add an Alter Row
 
@@ -194,7 +194,7 @@ To load the data in the text file into the database table, you will implement an
 3. On the **Settings** tab for the new **DimProductTable** sink, specify the following settings:
     - **Update method**: Select **Allow insert** and **Allow Upsert**.
     - **Key columns**: Select **List of columns**, and then select the **ProductAltKey** column.
-4. On the **Mappings** tab for the new **DimProductTable** sink, clear the **Auto mapping** checkbox and specify only the following column mappings:
+4. On the **Mappings** tab for the new **DimProductTable** sink, clear the **Auto mapping** checkbox and specify <u>only</u> the following column mappings:
     - ProductID: ProductAltKey
     - ProductsText@ProductName: ProductName
     - ProductsText@Color: Color
@@ -226,9 +226,9 @@ Now you're ready to publish and run the pipeline.
 
 4. When the pipeline has started running, on the **Monitor** page, view the **Pipeline runs** tab and review the status of the **Load Product Data** pipeline.
 
-    The pipleine may take some time to complete. You can use the **&#8635; Refresh** button on the toolbar to check its status.
+    The pipeline may take five minutes or longer to complete. You can use the **&#8635; Refresh** button on the toolbar to check its status.
 
-5. When the pipeline has completed, on the **Data** page, use the **...** menu for the **dbo.DimProduct** table in your SQL database to run a query that selects the top 100 rows. The table should contain the data loaded by the pipeline.
+5. When the pipeline run has succeeded, on the **Data** page, use the **...** menu for the **dbo.DimProduct** table in your SQL database to run a query that selects the top 100 rows. The table should contain the data loaded by the pipeline.
    
 ## Delete Azure resources
 
@@ -236,7 +236,7 @@ If you've finished exploring Azure Synapse Analytics, you should delete the reso
 
 1. Close the Synapse Studio browser tab and return to the Azure portal.
 2. On the Azure portal, on the **Home** page, select **Resource groups**.
-3. Select the **dp203-*xxxxxxx*** resource group for your Synapse Analytics workspace (not the managed resource group), and verify that it contains the Synapse workspace, storage account, and Spark pool for your workspace.
+3. Select the **dp203-*xxxxxxx*** resource group for your Synapse Analytics workspace (not the managed resource group), and verify that it contains the Synapse workspace, storage account, and dedicated SQL pool for your workspace.
 4. At the top of the **Overview** page for your resource group, select **Delete resource group**.
 5. Enter the **dp203-*xxxxxxx*** resource group name to confirm you want to delete it, and select **Delete**.
 

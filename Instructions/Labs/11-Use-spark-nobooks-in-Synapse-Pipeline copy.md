@@ -2,9 +2,8 @@
 lab:
     title: 'Use spark notebooks in Synapse Pipeline'
 ---
-## Use spark notebooks in Synapse Pipeline
 
-## Introduction
+# Use spark notebooks in Synapse Pipeline
 
 In this exercise, we're going to create a parquet file using the Azure Synapse Pipeline and a Azure Synapse Notebook which we created earlier to create a parquet file passing the runId of the pipeline as the name of the folder in which the contents are stored.
 
