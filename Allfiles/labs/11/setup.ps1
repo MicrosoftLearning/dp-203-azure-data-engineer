@@ -133,19 +133,19 @@ New-AzResourceGroup -Name $resourceGroupName -Location $Region | Out-Null
 # Create Synapse workspace
 $synapseWorkspace = "synapse$suffix"
 $dataLakeAccountName = "datalake$suffix"
-$sqlDatabaseName = "sql$suffix"
+$sparkPool = "spark$suffix"
 
 write-host "Creating $synapseWorkspace Synapse Analytics workspace in $resourceGroupName resource group..."
 write-host "(This may take some time!)"
 New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
   -TemplateFile "setup.json" `
   -Mode Complete `
-  -uniqueSuffix $suffix `
   -workspaceName $synapseWorkspace `
   -dataLakeAccountName $dataLakeAccountName `
-  -sqlDatabaseName $sqlDatabaseName `
+  -sparkPoolName $sparkPool `
   -sqlUser $sqlUser `
   -sqlPassword $sqlPassword `
+  -uniqueSuffix $suffix `
   -Force
 
 # Make the current user and the Synapse service principal owners of the data lake blob store
@@ -157,19 +157,6 @@ $id = (Get-AzADServicePrincipal -DisplayName $synapseWorkspace).id
 New-AzRoleAssignment -Objectid $id -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
 New-AzRoleAssignment -SignInName $userName -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
 
-# Create database
-write-host "Creating the $sqlDatabaseName database..."
-sqlcmd -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -I -i setup.sql
-
-# Load data
-write-host "Loading data..."
-Get-ChildItem "./data/*.txt" -File | Foreach-Object {
-    write-host ""
-    $file = $_.FullName
-    Write-Host "$file"
-    $table = $_.Name.Replace(".txt","")
-    bcp dbo.$table in $file -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -f $file.Replace("txt", "fmt") -q -k -E -b 5000
-}
 # Upload files
 write-host "Uploading files..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeAccountName
@@ -182,25 +169,15 @@ Get-ChildItem "./data/*.csv" -File | Foreach-Object {
     Set-AzStorageBlobContent -File $_.FullName -Container "files" -Blob $blobPath -Context $storageContext
 }
 
-write-host "Uploading files..."
-$storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeAccountName
-$storageContext = $storageAccount.Context
-Get-ChildItem "./data/*.csv" -File | Foreach-Object {
+
+# Import notebooks
+write-host "Importing notebooks..."
+Get-ChildItem "./notebooks/*.ipynb" -File | Foreach-Object {
     write-host ""
-    $file = $_.Name
-    Write-Host $file
-    $blobPath = "data/$file"
-    Set-AzStorageBlobContent -File $_.FullName -Container "files" -Blob $blobPath -Context $storageContext
+    $file = $_.FullName
+    $name = $_.Name
+    Write-Host "Importing $name ..."
+    az synapse notebook import --workspace-name $synapseWorkspace --name $name.Replace(".ipynb", "") --file "@$file" --only-show-errors >/dev/null
 }
-#Create output directory with file
-write-host "Uploading files..."
-$storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeAccountName
-$storageContext = $storageAccount.Context
-Get-ChildItem "./customer-output/*.csv" -File | Foreach-Object {
-    write-host ""
-    $file = $_.Name
-    Write-Host $file
-    $blobPath = "customer-output/$file"
-    Set-AzStorageBlobContent -File $_.FullName -Container "files" -Blob $blobPath -Context $storageContext
-}
+
 write-host "Script completed at $(Get-Date)"
