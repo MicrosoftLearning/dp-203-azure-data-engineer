@@ -5,7 +5,7 @@ lab:
 
 # Use spark notebooks in Synapse Pipeline
 
-In this exercise, we're going to create a parquet file using the Azure Synapse Pipeline and a Azure Synapse Notebook which we created earlier to create a parquet file passing the runId of the pipeline as the name of the folder in which the contents are stored.
+In this exercise, we're going to create an Azure Synapse Analytics pipeline that includes an activity to run an Apache Spark notebook..
 
 This exercise should take approximately **45** minutes to complete.
 
