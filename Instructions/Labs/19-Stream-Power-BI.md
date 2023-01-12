@@ -62,6 +62,8 @@ In the Power BI service, you organize datasets, reports, and other resources in 
 
     ![A screenshot of the Create workspace tab in Power BI.](./images/powerbi-create-workspace.png)
 
+    > **Note**: If you are using a trial account, you may need to enable additional trial features. 
+
 3. Create a new workspace with a meaningful name (for example, *mslearn-streaming*).
 
 4. When viewing your workspace, note its globally unique identifier (GUID) in the page URL (which should be similar to `https://app.powerbi.com/groups/<GUID>/list`). You will need this GUID later.
