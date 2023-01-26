@@ -74,12 +74,12 @@ You can use the **default** database for your tables, but when building an analy
 
 ## Create a table
 
-1. In the sidebar, select **(+) New** and then select **Table**.
-2. In the **Upload file** area, select **browse**. Then in the **Open** dialog box, enter `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/26/data/products.csv` and select **Open**.
+1. In the sidebar, select **(+) New** and then select **File upload**.
+2. In the **Upload data** area, select **browse**. Then in the **Open** dialog box, enter `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/26/data/products.csv` and select **Open**.
 
     > **Tip**: If your browser or operating system doesn't support entering a URL in the **File** box, download the CSV file to your computer and then upload it from the local folder where you saved it.
 
-3. In the **Create table in Databricks SQL** page, select the **adventureworks** database and set the table name to **products**. Then select **Create**.
+3. In the **Upload data** page, select the **adventureworks** database and set the table name to **products**. Then select **Create table**.
 4. When the table has been created, review its details.
 
 The ability to create a table by importing data from a file makes it easy to populate a database. You can also use Spark SQL to create tables using code. The tables themselves are metadata definitions in the hive metastore, and the data they contain is stored in Delta format in Databricks File System (DBFS) storage.
