@@ -72,14 +72,14 @@ To use Azure Databricks from an Azure Data Factory pipeline, you need to create 
 
 ### Generate an access token
 
-1. In the Azure Databricks portal, at the bottom of the sidebar, select **Settings** and then select **User Settings**.
+1. In the Azure Databricks portal, at on the top left menu bar, select the username and then select **User Settings** from the drop-down.
 2. In the **User Settings** page, on the **Access tokens** tab, select **Generate new token** and generate a new token with the comment *Data Factory* and a blank lifetime (so the token doesn't expire). Be careful to *copy the token when it is displayed <u>before</u> selecting **Done***.
 3. Paste the copied token to a text file so you have it handy for later in this exercise.
 
 ### Create a linked service in Azure Data Factory
 
 1. Return to the Azure portal, and in the **dp203-*xxxxxxx*** resource group, select the **adf*xxxxxxx*** Azure Data Factory resource.
-2. On the **Overview** page, select the link to **Open Azure Data Factory Studio**. Sign in if prompted.
+2. On the **Overview** page, select the **Launch studio** to open the Azure Data Factory Studio. Sign in if prompted.
 3. In Azure Data Factory Studio, use the **>>** icon to expand the navigation pane on the left. Then select the **Manage** page.
 4. On the **Manage** page, in the **Linked services** tab, select **+ New** to add a new linked service.
 5. In the **New linked service** pane, select the **Compute** tab at the top. Then select **Azure Databricks**.
