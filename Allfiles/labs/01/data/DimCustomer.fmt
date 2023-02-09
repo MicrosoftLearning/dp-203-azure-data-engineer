@@ -1,0 +1,31 @@
+14.0
+29
+1       SQLNCHAR            0       24      "\t\0"       1     CustomerKey                                  ""
+2       SQLNCHAR            0       24      "\t\0"       2     GeographyKey                                 ""
+3       SQLNCHAR            0       30      "\t\0"       3     CustomerAlternateKey                         SQL_Latin1_General_CP1_CI_AS
+4       SQLNCHAR            0       16      "\t\0"       4     Title                                        SQL_Latin1_General_CP1_CI_AS
+5       SQLNCHAR            0       100     "\t\0"       5     FirstName                                    SQL_Latin1_General_CP1_CI_AS
+6       SQLNCHAR            0       100     "\t\0"       6     MiddleName                                   SQL_Latin1_General_CP1_CI_AS
+7       SQLNCHAR            0       100     "\t\0"       7     LastName                                     SQL_Latin1_General_CP1_CI_AS
+8       SQLNCHAR            0       2       "\t\0"       8     NameStyle                                    ""
+9       SQLNCHAR            0       22      "\t\0"       9     BirthDate                                    ""
+10      SQLNCHAR            0       2       "\t\0"       10    MaritalStatus                                SQL_Latin1_General_CP1_CI_AS
+11      SQLNCHAR            0       20      "\t\0"       11    Suffix                                       SQL_Latin1_General_CP1_CI_AS
+12      SQLNCHAR            0       2       "\t\0"       12    Gender                                       SQL_Latin1_General_CP1_CI_AS
+13      SQLNCHAR            0       100     "\t\0"       13    EmailAddress                                 SQL_Latin1_General_CP1_CI_AS
+14      SQLNCHAR            0       60      "\t\0"       14    YearlyIncome                                 ""
+15      SQLNCHAR            0       10      "\t\0"       15    TotalChildren                                ""
+16      SQLNCHAR            0       10      "\t\0"       16    NumberChildrenAtHome                         ""
+17      SQLNCHAR            0       80      "\t\0"       17    EnglishEducation                             SQL_Latin1_General_CP1_CI_AS
+18      SQLNCHAR            0       80      "\t\0"       18    SpanishEducation                             SQL_Latin1_General_CP1_CI_AS
+19      SQLNCHAR            0       80      "\t\0"       19    FrenchEducation                              SQL_Latin1_General_CP1_CI_AS
+20      SQLNCHAR            0       200     "\t\0"       20    EnglishOccupation                            SQL_Latin1_General_CP1_CI_AS
+21      SQLNCHAR            0       200     "\t\0"       21    SpanishOccupation                            SQL_Latin1_General_CP1_CI_AS
+22      SQLNCHAR            0       200     "\t\0"       22    FrenchOccupation                             SQL_Latin1_General_CP1_CI_AS
+23      SQLNCHAR            0       2       "\t\0"       23    HouseOwnerFlag                               SQL_Latin1_General_CP1_CI_AS
+24      SQLNCHAR            0       10      "\t\0"       24    NumberCarsOwned                              ""
+25      SQLNCHAR            0       240     "\t\0"       25    AddressLine1                                 SQL_Latin1_General_CP1_CI_AS
+26      SQLNCHAR            0       240     "\t\0"       26    AddressLine2                                 SQL_Latin1_General_CP1_CI_AS
+27      SQLNCHAR            0       40      "\t\0"       27    Phone                                        SQL_Latin1_General_CP1_CI_AS
+28      SQLNCHAR            0       22      "\t\0"       28    DateFirstPurchase                            ""
+29      SQLNCHAR            0       30      "\r\0\n\0"   29    CommuteDistance                              SQL_Latin1_General_CP1_CI_AS
