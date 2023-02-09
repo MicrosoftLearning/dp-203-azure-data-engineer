@@ -1,7 +1,5 @@
 # DP-203: Azure Data Engineer
 
-# PRE-RELEASE
-
 This repository contains instructions and assets for hands-on exercises in the Microsoft Official Courseware to support the [Microsoft Certified: Azure Data Engineer Associate](https://learn.microsoft.com/certifications/azure-data-engineer/) certification. The exercises are designed to complement the associated training modules on [Microsoft Learn](https://learn.microsoft.com/training), and a <u>subset</u> of these exercises comprises the hands-on labs in the official [DP-203T00: Data Engineering on Microsoft Azure](https://learn.microsoft.com/training/courses/dp-203t00) instructor-led training course.
 
 ## Exercise design principles
