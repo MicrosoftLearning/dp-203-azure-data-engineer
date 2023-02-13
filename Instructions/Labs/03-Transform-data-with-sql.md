@@ -220,19 +220,19 @@ If you will need to transform data frequently, you can use a stored procedure to
 1. In Synapse Studio, on the **Develop** page, in the **+** menu, select **SQL script**.
 2. In the new script pane, add the following code to create a stored procedure in the **Sales** database that aggregates sales by year and saves the results in an external table:
 
-```sql
+    ```sql
     USE Sales;
     GO;
-
     CREATE PROCEDURE sp_GetYearlySales
     AS
     BEGIN
+        -- drop existing table
         IF EXISTS (
                 SELECT * FROM sys.external_tables
                 WHERE name = 'YearlySalesTotals'
             )
             DROP EXTERNAL TABLE YearlySalesTotals
-        
+        -- create external table
         CREATE EXTERNAL TABLE YearlySalesTotals
         WITH (
                 LOCATION = 'sales/yearlysales/',
@@ -253,7 +253,7 @@ If you will need to transform data frequently, you can use a stored procedure to
             ) AS orders
         GROUP BY YEAR(OrderDate)
     END
-```
+    ```
 
 3. Run the script to create the stored procedure.
 4. Under the code you just ran, add the following code to call the stored procedure:
