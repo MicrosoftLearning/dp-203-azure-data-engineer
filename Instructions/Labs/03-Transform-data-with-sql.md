@@ -221,38 +221,38 @@ If you will need to transform data frequently, you can use a stored procedure to
 2. In the new script pane, add the following code to create a stored procedure in the **Sales** database that aggregates sales by year and saves the results in an external table:
 
 ```sql
-    USE Sales;
-    GO;
+USE Sales;
+GO;
+
+CREATE PROCEDURE sp_GetYearlySales
+AS
+BEGIN
+    IF EXISTS (
+            SELECT * FROM sys.external_tables
+            WHERE name = 'YearlySalesTotals'
+        )
+        DROP EXTERNAL TABLE YearlySalesTotals
     
-    CREATE PROCEDURE sp_GetYearlySales
+    CREATE EXTERNAL TABLE YearlySalesTotals
+    WITH (
+            LOCATION = 'sales/yearlysales/',
+            DATA_SOURCE = sales_data,
+            FILE_FORMAT = ParquetFormat
+        )
     AS
-    BEGIN
-        IF EXISTS (
-                SELECT * FROM sys.external_tables
-                WHERE name = 'YearlySalesTotals'
-            )
-            DROP EXTERNAL TABLE YearlySalesTotals
-        
-        CREATE EXTERNAL TABLE YearlySalesTotals
-        WITH (
-                LOCATION = 'sales/yearlysales/',
-                DATA_SOURCE = sales_data,
-                FILE_FORMAT = ParquetFormat
-            )
-        AS
-        SELECT YEAR(OrderDate) AS CalendarYear,
-               SUM(Quantity) AS ItemsSold,
-               ROUND(SUM(UnitPrice) - SUM(TaxAmount), 2) AS NetRevenue
-        FROM
-            OPENROWSET(
-                BULK 'sales/csv/*.csv',
-                DATA_SOURCE = 'sales_data',
-                FORMAT = 'CSV',
-                PARSER_VERSION = '2.0',
-                HEADER_ROW = TRUE
-            ) AS orders
-        GROUP BY YEAR(OrderDate)
-    END
+    SELECT YEAR(OrderDate) AS CalendarYear,
+            SUM(Quantity) AS ItemsSold,
+            ROUND(SUM(UnitPrice) - SUM(TaxAmount), 2) AS NetRevenue
+    FROM
+        OPENROWSET(
+            BULK 'sales/csv/*.csv',
+            DATA_SOURCE = 'sales_data',
+            FORMAT = 'CSV',
+            PARSER_VERSION = '2.0',
+            HEADER_ROW = TRUE
+        ) AS orders
+    GROUP BY YEAR(OrderDate)
+END
 ```
 
 3. Run the script to create the stored procedure.
