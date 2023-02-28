@@ -195,7 +195,7 @@ So far, you've created tables and then populated them with data. In some cases, 
     | Name | Keys | Description | Nullability | Data type | Format / Length |
     | ---- | ---- | ----------- | ----------- | --------- | --------------- |
     | SalesOrderId | PK &#128505; | The unique identifier of an order. | &#128454;  | long | |
-    | OrderDate | PK &#128454; | The date of the order. | &#128454; | timestamp | YYYY-MM-DD |
+    | OrderDate | PK &#128454; | The date of the order. | &#128454; | timestamp | yyyy-MM-dd |
     | LineItemId | PK &#128505; | The ID of an individual line item. | &#128454; | long | |
     | CustomerId | PK &#128454; | The customer. | &#128454; | long | |
     | ProductId | PK &#128454; | The product. | &#128454; | long | |
@@ -203,17 +203,17 @@ So far, you've created tables and then populated them with data. In some cases, 
 
     > **Note**: The table contains a record for each individual item ordered, and includes a composite primary key comprised of **SalesOrderId** and **LineItemId**.
 
-5. On the **Relationships** tab for the **SalesOrder** table, in the **+ Relationship** list, select **From table**, and then define the following relationship:
+5. On the **Relationships** tab for the **SalesOrder** table, in the **+ Relationship** list, select **To table**, and then define the following relationship:
 
     | From table | From column | To table | To column |
     | ---- | ---- | ----------- | ----------- |
-    | SalesOrder | CustomerId | Customer | CustomerId |
+    | Customer | CustomerId | SalesOrder | CustomerId |
 
-6. Add a second *From table* relationship with the following settings:
+6. Add a second *To table* relationship with the following settings:
 
     | From table | From column | To table | To column |
     | ---- | ---- | ----------- | ----------- |
-    | SalesOrder | ProductId | Product | ProductId |
+    | Product | ProductId | SalesOrder | ProductId |
 
     The ability to define relationships between tables helps enforce referential integrity between related data entities. This is a common feature of relational databases that would otherwise be difficult to apply to files in a data lake.
 
