@@ -219,7 +219,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
     - **Maximum time**: 0 Hours, 1 minutes, 0 seconds
 2. Save the output and wait while it is created. You will see several notifications. Wait for a **Successful connection test** notification.
 
-    >**Note**: If you created the Stream Analytics job in a region other than where the storage for your Azure Synapse Analytics data lake is provisioned, you will not be able to use system managed identity authentication or persist the results in Parquet format. In scenarios where you need to use different regions, you can use use a connection string to authenticate and persist the results in CSV format.
+    >**Note**: If you created the Stream Analytics job in a region other than where the storage for your Azure Synapse Analytics data lake is provisioned, you will not be able to use system managed identity authentication or persist the results in Parquet format. In scenarios where you need to use different regions, you can manually assign access for the job's managed identity to the storage account (or use use a connection string to authenticate) and you can persist the results in CSV format.
 
 ### Create a query to aggregate the event data
 
