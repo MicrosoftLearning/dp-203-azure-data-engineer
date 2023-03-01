@@ -78,13 +78,13 @@ Let's start by ingesting a stream of data directly into a table in an Azure Syna
 
 ### Create an Azure Stream Analytics job to ingest order data
 
-1. Switch back to the browser tab containing the Azure portal, and note the regions where your **db000-*xxxxxxx*** resource group was provisioned.
+1. Switch back to the browser tab containing the Azure portal, and note the region where your **db000-*xxxxxxx*** resource group was provisioned - you will create your Stream Analytics job in the <u>same region</u>.
 2. On the **Home** page select **+ Create a resource** and search for `Stream Analytics job`. Then create a **Stream Analytics job** with the following properties:
     - **Basics**:
         - **Subscription**: Your Azure subscription
         - **Resource group**: Select the existing **dp203-*xxxxxxx*** resouce group.
         - **Name**: `ingest-orders`
-        - **Region**: Select the region where your Synapse Analytics workspace is provisioned.
+        - **Region**: Select the <u>same region</u> where your Synapse Analytics workspace is provisioned.
         - **Hosting environment**: Cloud
         - **Streaming units**: 1
     - **Storage**:
@@ -172,7 +172,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
         - **Subscription**: Your Azure subscription
         - **Resource group**: Select the existing **dp203-*xxxxxxx*** resouce group.
         - **Name**: `aggregate-orders`
-        - **Region**: Select the region where your Synapse Analytics workspace is provisioned.
+        - **Region**: Select the <u>same region</u> where your Synapse Analytics workspace is provisioned.
         - **Hosting environment**: Cloud
         - **Streaming units**: 1
     - **Storage**:
@@ -183,6 +183,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
         - **Authentication mode**: Connection string
     - **Tags**:
         - *None*
+
 2. Wait for deployment to complete and then go to the deployed Stream Analytics job resource.
 
 ### Create an input for the raw order data
@@ -210,12 +211,15 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
     - **Container**: Select the existing **files** container
     - **Authentication mode**: Managed Identity: System assigned
     - **Event serialization format**: Parquet
+    - **Write mode**: Append as results arrive
     - **Path pattern**: `{date}`
     - **Date format**: YYYY/MM/DD
     - **Time format**: *Not applicable*
     - **Minimum rows**: 20
     - **Maximum time**: 0 Hours, 1 minutes, 0 seconds
 2. Save the output and wait while it is created. You will see several notifications. Wait for a **Successful connection test** notification.
+
+    >**Note**: If you created the Stream Analytics job in a region other than where the storage for your Azure Synapse Analytics data lake is provisioned, you will not be able to use system managed identity authentication or persist the results in Parquet format. In scenarios where you need to use different regions, you can use use a connection string to authenticate and persist the results in CSV format.
 
 ### Create a query to aggregate the event data
 
