@@ -163,7 +163,7 @@ Let's start by ingesting a stream of data directly into a table in an Azure Syna
 
 ## Summarize streaming data in a data lake
 
-So far, you've seen how to use a Stream Analytics job to ingest messages from a streaming source into a SQL table. Now let's explore how to use Azure Stream Analytics to aggregate data over temporal windows - in this case, to calculate the total quantity of each product sold every 5 seconds. We'll also explore how to use a different kind of output for the job by writing the results in Parquet format in a data lake blob store.
+So far, you've seen how to use a Stream Analytics job to ingest messages from a streaming source into a SQL table. Now let's explore how to use Azure Stream Analytics to aggregate data over temporal windows - in this case, to calculate the total quantity of each product sold every 5 seconds. We'll also explore how to use a different kind of output for the job by writing the results in CSV format in a data lake blob store.
 
 ### Create an Azure Stream Analytics job to aggregate order data
 
