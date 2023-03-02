@@ -209,17 +209,15 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
     - **Subscription**: Your Azure subscription
     - **Storage account**: Select the **datalake*xxxxxxx*** storage account
     - **Container**: Select the existing **files** container
-    - **Authentication mode**: Managed Identity: System assigned
-    - **Event serialization format**: Parquet
-    - **Write mode**: Append as results arrive
+    - **Authentication mode**: Connection string
+    - **Event serialization format**: CSV - Comma (,)
+    - **Encoding**: UTF-8
     - **Path pattern**: `{date}`
     - **Date format**: YYYY/MM/DD
     - **Time format**: *Not applicable*
     - **Minimum rows**: 20
     - **Maximum time**: 0 Hours, 1 minutes, 0 seconds
 2. Save the output and wait while it is created. You will see several notifications. Wait for a **Successful connection test** notification.
-
-    >**Note**: If you created the Stream Analytics job in a region other than where the storage for your Azure Synapse Analytics data lake is provisioned, you will not be able to use system managed identity authentication or persist the results in Parquet format. In scenarios where you need to use different regions, you can manually assign access for the job's managed identity to the storage account (or use a connection string to authenticate) and you can persist the results in CSV format.
 
 ### Create a query to aggregate the event data
 
@@ -248,7 +246,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
 
 1. View the **Overview** page for the **aggregate-orders** Stream Analytics job, and on the **Properties** tab review the **Inputs**, **Query**, **Outputs**, and **Functions** for the job. If the number of **Inputs** and **Outputs** is 0, use the **&#8635; Refresh** button on the **Overview** page to display the **orders** input and **datalake** output.
 2. Select the **&#9655; Start** button, and start the streaming job now. Wait until you are notified that the streaming job started successfully.
-3. Re-open the cloud shell pane and re-run the following command to submit another 100 orders.
+3. Re-open the cloud shell pane and re-run the following command to submit another 100 orders:
 
     ```
     node ~/dp-203/Allfiles/labs/18/orderclient
@@ -256,8 +254,22 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
 
 4.  When the order app has finished, minimize the cloud shell pane. Then switch to the Synapse Studio browser tab and on the **Data** page, on the **Linked** tab, expand **Azure Data Lake Storage Gen2** > **synapse*xxxxxxx* (primary - datalake*xxxxxxx*)** and select the **files (Primary)** container.
 5. If the **files** container is empty, wait a minute or so and then use the **&#8635; Refresh** to refresh the view. Eventually, a folder named for the current year should be displayed. This in turn contains folders for the month and day.
-6. Select the folder for the year and on the **New SQL script** menu, select **Select TOP 100 rows**. Then set the **File type** to **Parquet format** and apply the settings.
-7. In the query pane that opens, use the **&#9655; Run** button to run the SQL query that reads the data files in the data lake store and view the results, which show the quantity of each product ordered in five-second periods.
+6. Select the folder for the year and on the **New SQL script** menu, select **Select TOP 100 rows**. Then set the **File type** to **Text format** and apply the settings.
+7. In the query pane that opens, modify the query to add a `HEADER_ROW = TRUE` parameter as shown here:
+
+    ```sql
+    SELECT
+        TOP 100 *
+    FROM
+        OPENROWSET(
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/2023/**',
+            FORMAT = 'CSV',
+            PARSER_VERSION = '2.0',
+            HEADER_ROW = TRUE
+        ) AS [result]
+    ```
+
+8. Use the **&#9655; Run** button to run the SQL query and view the results, which show the quantity of each product ordered in five-second periods.
 8. Return to the browser tab containing the Azure Portal and use the **&#128454; Stop** button to stop the Stream Analytics job and wait for the notification that the Stream Analytics job has stopped successfully.
 
 ## Delete Azure resources
