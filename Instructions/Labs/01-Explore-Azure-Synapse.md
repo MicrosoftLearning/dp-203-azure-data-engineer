@@ -372,7 +372,7 @@ Azure Synapse Data Explorer provides a runtime that you can use to store and que
 9. After the code has run successfully, replace it with the following code, which loads data into the table:
 
     ```kusto
-    .ingest into table sales 'https://raw.githubusercontent.com/microsoftlearning/dp-203-azure-data-engineer/master/allfiles/labs/01/files/sales.csv' 
+    .ingest into table sales 'https://raw.githubusercontent.com/microsoftlearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/files/sales.csv' 
     with (ignoreFirstRecord = true)
     ```
 
