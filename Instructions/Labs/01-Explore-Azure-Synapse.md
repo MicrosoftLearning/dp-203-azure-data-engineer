@@ -376,6 +376,8 @@ Azure Synapse Data Explorer provides a runtime that you can use to store and que
     with (ignoreFirstRecord = true)
     ```
 
+10. Run the new code to ingest the data.
+
 > **Note**: In this example, you imported a very small amount of batch data from a file, which is fine for the purposes of this exercise. In reality, you can use Data Explorer to analyze much larger volumes of data; including realtime data from a streaming source such as Azure Event Hubs.
 
 ### Use Kusto query language to query the table
