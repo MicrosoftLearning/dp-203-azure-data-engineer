@@ -64,8 +64,8 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
     - A **Workspace** tab containing databases defined in the workspace (including dedicated SQL databases and Data Explorer databases)
     - A **Linked** tab containing data sources that are linked to the workspace, including Azure Data Lake storage.
 
-5. View the **Develop** page, which is currently empty. This is where you can define scripts and other assets used to develop data processing solutions.
-6. View the **Integrate** page, which is also empty. You use this page to manage data ingestion and integration assets; such as pipelines to transfer and transform data between data sources.
+5. View the **Develop** page. This is where you can define scripts and other assets used to develop data processing solutions. The `setup.ps` script has already created an `ingest-data` KQL script. We will be adding more scripts later in the lab.
+6. View the **Integrate** page, which is empty. You use this page to manage data ingestion and integration assets; such as pipelines to transfer and transform data between data sources.
 7. View the **Monitor** page. This is where you can observe data processing jobs as they run and view their history.
 8. View the **Manage** page. This is where you manage the pools, runtimes, and other assets used in your Azure Synapse workspace. View each of the tabs in the **Analytics pools** section and note that your workspace includes the following pools:
     - **SQL pools**:
