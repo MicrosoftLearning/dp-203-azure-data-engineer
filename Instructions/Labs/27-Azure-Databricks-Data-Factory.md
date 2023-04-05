@@ -72,7 +72,7 @@ To use Azure Databricks from an Azure Data Factory pipeline, you need to create 
 
 ### Generate an access token
 
-1. In the Azure Databricks portal, at on the top left menu bar, select the username and then select **User Settings** from the drop-down.
+1. In the Azure Databricks portal, at on the top right menu bar, select the username and then select **User Settings** from the drop-down.
 2. In the **User Settings** page, on the **Access tokens** tab, select **Generate new token** and generate a new token with the comment *Data Factory* and a blank lifetime (so the token doesn't expire). Be careful to *copy the token when it is displayed <u>before</u> selecting **Done***.
 3. Paste the copied token to a text file so you have it handy for later in this exercise.
 
