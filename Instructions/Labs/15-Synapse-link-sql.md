@@ -56,7 +56,7 @@ Before you can set up Azure Synapse Link for your Azure SQL Database, you must e
 
     > **Note**: be careful not to mix up the Azure SQL server resource **sqldb*xxxxxxxx***) and the Azure Synapse Analytics dedicated SQL pool (**sql*xxxxxxxx***).
 
-2. In the page for your Azure SQL Database resource, in the pane on the left, in the **Security** section (near the bottom), select **Identity**. Then under **System assigned managed identity**, set the **Status** option to **On**. Then use the **&#128427; Save** icon to save your configuration change.
+2. In the page for your Azure SQL Server resource, in the pane on the left, in the **Security** section (near the bottom), select **Identity**. Then under **System assigned managed identity**, set the **Status** option to **On**. Then use the **&#128427; Save** icon to save your configuration change.
 
     ![Screenshot of the Azure SQL server Identity page in the Azure portal.](./images/sqldb-identity.png)
 
