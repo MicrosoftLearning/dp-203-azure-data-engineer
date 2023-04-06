@@ -130,8 +130,8 @@ To load the data in the text file into the database table, you will implement an
             - **Account selection method** From Azure subscription
             - **Azure subscription**: Select your Azure subscription
             - **Server name**: synapse*xxxxxxx* (Synapse workspace)
-            - **Database name**: synapse*xxxxxxx*
-            - **SQL pool**: synapse*xxxxxxx*
+            - **Database name**: sql*xxxxxxx*
+            - **SQL pool**: sql*xxxxxxx*
             **Authentication type**: System Assigned Managed Identity
         - **Table name**: dbo.DimProduct
         - **Import schema**: From connection/store
