@@ -73,8 +73,8 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
         - **sql*xxxxxxx***: A *dedicated* SQL pool that hosts a relational data warehouse database.
     - **Apache Spark pools**:
         - **spark*xxxxxxx***: that you can use on-demand to explore or process data in a data lake by using programming languages like Scala or Python.
-    - **Data Explorer pools**:
-        - **adx*xxxxxxx***: A Data Explorer pool that you can use to analyze data by using Kusto Query Language (KQL).
+<!---    - **Data Explorer pools**:
+        - **adx*xxxxxxx***: A Data Explorer pool that you can use to analyze data by using Kusto Query Language (KQL). --->
 
 ## Ingest data with a pipeline
 
@@ -341,7 +341,7 @@ So far you've seen some techniques for exploring and processing file-based data 
 
 10. On the **Manage** page, select the **sql*xxxxxxx*** dedicated SQL pool row and use its &#10074;&#10074; icon to pause it.
 
-## Explore data with a Data Explorer pool
+<!--- ## Explore data with a Data Explorer pool
 
 Azure Synapse Data Explorer provides a runtime that you can use to store and query data by using Kusto Query Language (KQL). Kusto is optimized for data that includes a time series component, such as realtime data from log files or IoT devices.
 
@@ -427,7 +427,7 @@ Azure Synapse Data Explorer provides a runtime that you can use to store and que
 
 11. Close the query pane, and then view the **Develop** page to verify that the KQL script has been saved.
 
-12. On the **Manage** page, select the **adx*xxxxxxx*** Data Explorer pool row and use its &#10074;&#10074; icon to pause it.
+12. On the **Manage** page, select the **adx*xxxxxxx*** Data Explorer pool row and use its &#10074;&#10074; icon to pause it. --->
 
 ## Delete Azure resources
 
