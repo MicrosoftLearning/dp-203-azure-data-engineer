@@ -134,7 +134,7 @@ $synapseWorkspace = "synapse$suffix"
 $dataLakeAccountName = "datalake$suffix"
 $sparkPool = "spark$suffix"
 $sqlDatabaseName = "sql$suffix"
-$adxpool = "adx$suffix"
+# $adxpool = "adx$suffix"
 
 write-host "Creating $synapseWorkspace Synapse Analytics workspace in $resourceGroupName resource group..."
 write-host "(This may take some time!)"
@@ -147,13 +147,13 @@ New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
   -sqlDatabaseName $sqlDatabaseName `
   -sqlUser $sqlUser `
   -sqlPassword $sqlPassword `
-  -adxPoolName $adxpool `
+  # -adxPoolName $adxpool `
   -uniqueSuffix $suffix `
   -Force
 
 # Pause Data Explorer pool
-write-host "Pausing the $adxpool Data Explorer Pool..."
-Stop-AzSynapseKustoPool -Name $adxpool -ResourceGroupName $resourceGroupName -WorkspaceName $synapseWorkspace -NoWait
+#write-host "Pausing the $adxpool Data Explorer Pool..."
+#Stop-AzSynapseKustoPool -Name $adxpool -ResourceGroupName $resourceGroupName -WorkspaceName $synapseWorkspace -NoWait
 
 # Make the current user and the Synapse service principal owners of the data lake blob store
 write-host "Granting permissions on the $dataLakeAccountName storage account..."
