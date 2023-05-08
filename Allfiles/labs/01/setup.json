@@ -38,12 +38,6 @@
           "description": "Password for SQL User"
         }
       },
-        "adxPoolName": {
-          "type": "String",
-          "metadata": {
-            "description": "Name for Data Explorer pool"
-          }
-      },
       "uniqueSuffix": {
         "type": "String",
         "metadata": {
@@ -250,34 +244,7 @@
           },
           "sparkVersion": "[variables('sparkVersion')]"
         }
-      },
-      {
-        "type": "Microsoft.Synapse/workspaces/kustoPools",
-        "apiVersion": "2021-06-01-preview",
-        "name": "[concat(parameters('workspaceName'), '/', parameters('adxPoolName'))]",
-        "location": "[variables('location')]",
-        "dependsOn": [
-          "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaceName'))]"
-        ],
-        "sku": {
-          "capacity": 2,
-          "name": "Storage optimized",
-          "size": "Medium"
-        },
-        "properties": {
-          "enablePurge": false,
-          "enableStreamingIngest": false,
-          "enableDoubleEncryption": false,
-          "trustedExternalTenants": [],
-          "workspaceUid": "[reference(resourceId('Microsoft.Synapse/workspaces', parameters('workspaceName'))).workspaceUID]"
-        }
       }
-    ],
-    "outputs": {
-      "workspaceid": {
-      "type": "string",
-      "value":"[reference(resourceId('Microsoft.Synapse/workspaces', parameters('workspaceName'))).workspaceUID]"
-      }
-    }
-  }
+    ] 
+}
   
