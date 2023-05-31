@@ -67,9 +67,13 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 
     > **Note**: It's best to copy this text using the ***ctrl+a*** then ***ctrl+c*** and pasting into a tool using ***ctrl+v***, such as, notepad and then using file, save as **Spark Transform.ipynb** with a filetype of ***all files***.
 
-11. Then on **Develop** page, expand **Notebooks** and select **Upload**. Select the file you just downloaded and saved as **Spark Transfrom.ipynb**.
-12. Attach the notebook to your **spark*xxxxxxx*** Spark pool.
-13. Review the notes in the notebook and run the code cells.
+11. Then on **Develop** page, expand **Notebooks** click on the + Import options
+
+    ![Spark Notebook import](./image/../images/spark-notebook-import.png)
+        
+12. Select the file you just downloaded and saved as **Spark Transfrom.ipynb**.
+13. Attach the notebook to your **spark*xxxxxxx*** Spark pool.
+14. Review the notes in the notebook and run the code cells.
 
     > **Note**: The first code cell will take a few minutes to run because the Spark pool must be started. Subsequent cells will run more quickly.
 
