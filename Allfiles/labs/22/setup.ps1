@@ -180,6 +180,12 @@ Set-Content -Path "serverless$suffix.sql" -Value $serverlessSQL
 sqlcmd -S "$synapseWorkspace-ondemand.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d master -I -i serverless$suffix.sql
 sqlcmd -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -I -i dedicated.sql
 
+# Wait for databases to complete
+write-host "Waiting for databases to complete..."
+Invoke-Sqlcmd -Query "WAITFOR DELAY '00:00:45'" `
+    -ServerInstance "$synapseWorkspace-ondemand.sql.azuresynapse.net" `
+    -Username $sqlUser `
+    -Password $sqlPassword
 
 # Pause SQL Pool
 write-host "Pausing the $sqlDatabaseName SQL Pool..."
