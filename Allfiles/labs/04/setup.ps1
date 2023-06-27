@@ -149,16 +149,6 @@ New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
   -uniqueSuffix $suffix `
   -Force
 
-  # Create Lake database
-  New-AzSynapseDatabaseFromTemplate `
-  -WorkspaceName $synapseWorkspace `
-  -DatabaseName "RetailDB" `
-  -Template "Retail" `
-  -StorageAccountName $dataLakeAccountName `
-  -StorageContainerName $storageContainerName `
-  -StorageAccountKey $storageAccountKey `
-  -Entity "Customer"
-
 # Make the current user and the Synapse service principal owners of the data lake blob store
 write-host "Granting permissions on the $dataLakeAccountName storage account..."
 write-host "(you can ignore any warnings!)"
