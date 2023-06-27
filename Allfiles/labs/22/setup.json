@@ -14,7 +14,7 @@
           "description": "Azure storage account name for data lake."
         }
       },
-      "sparkPoolName": {
+        "sparkPoolName": {
         "type": "String",
         "metadata": {
           "description": "Name for Spark pool."
@@ -44,7 +44,7 @@
       "defaultDataLakeStorageFilesystemName": "files",
       "computeSubnetId": "",
       "storageBlobDataOwnerRoleID": "b7e6dc6d-f1e8-4753-8033-0f276bb0955b",
-      "defaultDataLakeStorageAccountUrl": "[concat('https://', parameters('dataLakeAccountName'), '.dfs.core.windows.net')]",
+      "defaultDataLakeStorageAccountUrl": "[concat('https://', parameters('dataLakeAccountName'), '.dfs.core.windows.net')]"
       "sparkAutoScaleEnabled": "true",
       "sparkMinNodeCount": "3",
       "sparkMaxNodeCount": "4",
@@ -54,6 +54,7 @@
       "sparkAutoPauseEnabled": "true",
       "sparkAutoPauseDelayInMinutes": "15",
       "sparkVersion": "3.1"
+    },
     },
     "resources": [
       {
@@ -198,7 +199,7 @@
           "principalType": "ServicePrincipal"
         }
       },
-      {
+          {
         "type": "Microsoft.Synapse/workspaces/bigDataPools",
         "apiVersion": "2019-06-01-preview",
         "name": "[concat(parameters('workspaceName'), '/', parameters('sparkPoolName'))]",
