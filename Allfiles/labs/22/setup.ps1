@@ -69,7 +69,7 @@ while ($complexPassword -ne 1)
 
 # Register resource providers
 Write-Host "Registering resource providers...";
-$provider_list = "Microsoft.Synapse", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.Compute"
+$provider_list = "Microsoft.Synapse", "Microsoft.Purview", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.Compute"
 foreach ($provider in $provider_list){
     $result = Register-AzResourceProvider -ProviderNamespace $provider
     $status = $result.RegistrationState
@@ -88,6 +88,7 @@ Start-Sleep -Seconds $delay # random delay to stagger requests from multi-studen
 $preferred_list = "australiaeast","centralus","southcentralus","eastus2","northeurope","southeastasia","uksouth","westeurope","westus","westus2"
 $locations = Get-AzLocation | Where-Object {
     $_.Providers -contains "Microsoft.Synapse" -and
+    $_.Providers -contains "Microsoft.Purview" -and
     $_.Providers -contains "Microsoft.Sql" -and
     $_.Providers -contains "Microsoft.Storage" -and
     $_.Providers -contains "Microsoft.Compute" -and
@@ -134,6 +135,7 @@ New-AzResourceGroup -Name $resourceGroupName -Location $Region | Out-Null
 $synapseWorkspace = "synapse$suffix"
 $dataLakeAccountName = "datalake$suffix"
 $sqlDatabaseName = "sql$suffix"
+#$purviewAccountName = "purview$suffix"
 
 write-host "Creating $synapseWorkspace Synapse Analytics workspace in $resourceGroupName resource group..."
 write-host "(This may take some time!)"
