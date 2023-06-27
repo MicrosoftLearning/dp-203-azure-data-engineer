@@ -14,6 +14,12 @@
           "description": "Azure storage account name for data lake."
         }
       },
+        "sparkPoolName": {
+        "type": "String",
+        "metadata": {
+          "description": "Name for Spark pool."
+        }
+      },
       "sqlUser": {
         "type": "String",
         "metadata": {
@@ -39,6 +45,16 @@
       "computeSubnetId": "",
       "storageBlobDataOwnerRoleID": "b7e6dc6d-f1e8-4753-8033-0f276bb0955b",
       "defaultDataLakeStorageAccountUrl": "[concat('https://', parameters('dataLakeAccountName'), '.dfs.core.windows.net')]"
+      "sparkAutoScaleEnabled": "true",
+      "sparkMinNodeCount": "3",
+      "sparkMaxNodeCount": "4",
+      "sparkNodeCount": "0",
+      "sparkNodeSizeFamily": "MemoryOptimized",
+      "sparkNodeSize": "Small",
+      "sparkAutoPauseEnabled": "true",
+      "sparkAutoPauseDelayInMinutes": "15",
+      "sparkVersion": "3.1"
+    },
     },
     "resources": [
       {
@@ -181,6 +197,30 @@
           "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataOwnerRoleID'))]",
           "principalId": "[reference(concat('Microsoft.Synapse/workspaces/', parameters('workspaceName')), '2019-06-01-preview', 'Full').identity.principalId]",
           "principalType": "ServicePrincipal"
+        }
+      },
+          {
+        "type": "Microsoft.Synapse/workspaces/bigDataPools",
+        "apiVersion": "2019-06-01-preview",
+        "name": "[concat(parameters('workspaceName'), '/', parameters('sparkPoolName'))]",
+        "location": "[variables('location')]",
+        "dependsOn": [
+          "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+        ],
+        "properties": {
+          "nodeCount": "[variables('sparkNodeCount')]",
+          "nodeSizeFamily": "[variables('sparkNodeSizeFamily')]",
+          "nodeSize": "[variables('sparkNodeSize')]",
+          "autoScale": {
+            "enabled": "[variables('sparkAutoScaleEnabled')]",
+            "minNodeCount": "[variables('sparkMinNodeCount')]",
+            "maxNodeCount": "[variables('sparkMaxNodeCount')]"
+          },
+          "autoPause": {
+            "enabled": "[variables('sparkAutoPauseEnabled')]",
+            "delayInMinutes": "[variables('sparkAutoPauseDelayInMinutes')]"
+          },
+          "sparkVersion": "[variables('sparkVersion')]"
         }
       }
     ],
