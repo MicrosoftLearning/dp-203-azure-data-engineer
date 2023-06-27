@@ -142,6 +142,7 @@ New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
   -Mode Complete `
   -workspaceName $synapseWorkspace `
   -dataLakeAccountName $dataLakeAccountName `
+  -sqlDatabaseName $sqlDatabaseName `
   -sqlUser $sqlUser `
   -sqlPassword $sqlPassword `
   -uniqueSuffix $suffix `
