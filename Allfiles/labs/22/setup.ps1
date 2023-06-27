@@ -7,36 +7,36 @@ Install-Module -Name Az.Synapse -Force
 # Handle cases where the user has multiple subscriptions
 $subs = Get-AzSubscription | Select-Object
 if($subs.GetType().IsArray -and $subs.length -gt 1){
-    Write-Host "You have multiple Azure subscriptions - please select the one you want to use:"
-    for($i = 0; $i -lt $subs.length; $i++)
-    {
-            Write-Host "[$($i)]: $($subs[$i].Name) (ID = $($subs[$i].Id))"
-    }
-    $selectedIndex = -1
-    $selectedValidIndex = 0
-    while ($selectedValidIndex -ne 1)
-    {
-            $enteredValue = Read-Host("Enter 0 to $($subs.Length - 1)")
-            if (-not ([string]::IsNullOrEmpty($enteredValue)))
-            {
-                if ([int]$enteredValue -in (0..$($subs.Length - 1)))
+        Write-Host "You have multiple Azure subscriptions - please select the one you want to use:"
+        for($i = 0; $i -lt $subs.length; $i++)
+        {
+                Write-Host "[$($i)]: $($subs[$i].Name) (ID = $($subs[$i].Id))"
+        }
+        $selectedIndex = -1
+        $selectedValidIndex = 0
+        while ($selectedValidIndex -ne 1)
+        {
+                $enteredValue = Read-Host("Enter 0 to $($subs.Length - 1)")
+                if (-not ([string]::IsNullOrEmpty($enteredValue)))
                 {
-                    $selectedIndex = [int]$enteredValue
-                    $selectedValidIndex = 1
+                    if ([int]$enteredValue -in (0..$($subs.Length - 1)))
+                    {
+                        $selectedIndex = [int]$enteredValue
+                        $selectedValidIndex = 1
+                    }
+                    else
+                    {
+                        Write-Output "Please enter a valid subscription number."
+                    }
                 }
                 else
                 {
                     Write-Output "Please enter a valid subscription number."
                 }
-            }
-            else
-            {
-                Write-Output "Please enter a valid subscription number."
-            }
-    }
-    $selectedSub = $subs[$selectedIndex].Id
-    Select-AzSubscription -SubscriptionId $selectedSub
-    az account set --subscription $selectedSub
+        }
+        $selectedSub = $subs[$selectedIndex].Id
+        Select-AzSubscription -SubscriptionId $selectedSub
+        az account set --subscription $selectedSub
 }
 
 # Prompt user for a password for the SQL Database
@@ -69,7 +69,7 @@ while ($complexPassword -ne 1)
 
 # Register resource providers
 Write-Host "Registering resource providers...";
-$provider_list = "Microsoft.Synapse", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.Compute"
+$provider_list = "Microsoft.Synapse", "Microsoft.Purview", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.Compute"
 foreach ($provider in $provider_list){
     $result = Register-AzResourceProvider -ProviderNamespace $provider
     $status = $result.RegistrationState
@@ -91,6 +91,7 @@ $locations = Get-AzLocation | Where-Object {
     $_.Providers -contains "Microsoft.Sql" -and
     $_.Providers -contains "Microsoft.Storage" -and
     $_.Providers -contains "Microsoft.Compute" -and
+    $_.Providers -contains "Microsoft.Purview" -and
     $_.Location -in $preferred_list
 }
 $max_index = $locations.Count - 1
@@ -134,18 +135,20 @@ New-AzResourceGroup -Name $resourceGroupName -Location $Region | Out-Null
 $synapseWorkspace = "synapse$suffix"
 $dataLakeAccountName = "datalake$suffix"
 $sqlDatabaseName = "sql$suffix"
+$purviewAccountName = "purview$suffix"
 
-write-host "Creating $synapseWorkspace Synapse Analytics workspace in $resourceGroupName resource group..."
+write-host "Creating Azure resources in $resourceGroupName resource group..."
 write-host "(This may take some time!)"
 New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
   -TemplateFile "setup.json" `
   -Mode Complete `
   -workspaceName $synapseWorkspace `
   -dataLakeAccountName $dataLakeAccountName `
+  -uniqueSuffix $suffix `
   -sqlDatabaseName $sqlDatabaseName `
   -sqlUser $sqlUser `
   -sqlPassword $sqlPassword `
-  -uniqueSuffix $suffix `
+  -purviewAccountName $purviewAccountName `
   -Force
 
 # Make the current user and the Synapse service principal owners of the data lake blob store
@@ -158,14 +161,14 @@ New-AzRoleAssignment -Objectid $id -RoleDefinitionName "Storage Blob Data Owner"
 New-AzRoleAssignment -SignInName $userName -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
 
 # Upload files
-write-host "Loading data..."
+write-host "Loading data to data lake..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeAccountName
 $storageContext = $storageAccount.Context
 Get-ChildItem "./data/*.csv" -File | Foreach-Object {
     write-host ""
     $file = $_.Name
     Write-Host $file
-    $blobPath = "sales/csv/$file"
+    $blobPath = "products/$file"
     Set-AzStorageBlobContent -File $_.FullName -Container "files" -Blob $blobPath -Context $storageContext
 }
 
@@ -176,6 +179,7 @@ $serverlessSQL = $serverlessSQL.Replace("datalakexxxxxxx", $dataLakeAccountName)
 Set-Content -Path "serverless$suffix.sql" -Value $serverlessSQL
 sqlcmd -S "$synapseWorkspace-ondemand.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d master -I -i serverless$suffix.sql
 sqlcmd -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -I -i dedicated.sql
+
 
 # Pause SQL Pool
 write-host "Pausing the $sqlDatabaseName SQL Pool..."
