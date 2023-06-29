@@ -76,12 +76,13 @@ Lake databases are accessible in Synapse SQL serverless SQL pool and Apache Spar
    1. Under ***Linked service***, select the default option.
    1. Within the ***Input file or folder*** click on the file folder on the far right and browse to **root > files > data >** and select the ***products.csv*** and click **OK**, then click **Continue**.
 
-![setting external source](./images/lakedb-external-source.png)
-
 6. On the **New external table** pane, select the First Row option to ***infer column names*** then click **create**.
-7. Press the **Publish all** up top, then confirm with the next **Publish** button on the bottom right pane.
 
 ![setting external source](./images/lakedb-external-table-source.png)
+
+1. Press the **Publish** up top, then confirm with the next **Publish** button on the bottom right pane.
+
+![derived table structure from external source](./images/lakedb-external-table-definition.png)
 
 > **Note**: You will likely have to click on the lakedb ellipses as you mouse over it on the right-hand side and click refresh before browsing down to the ***products*** and then right-clicking on the table and selecting the ***Top 100 rows***. If you exit and come back into the Synapse Analytics Explorer you will be able to select the lakedb as well.
 
