@@ -80,15 +80,16 @@ Lake databases are accessible in Synapse SQL serverless SQL pool and Apache Spar
 
 ![setting external source](./images/lakedb-external-table-source.png)
 
-1. Press the **Publish** up top, then confirm with the next **Publish** button on the bottom right pane.
+7. Press the **Publish** on the top portion of the query design window.
+8. Under **Data** make sure you're in the **Workspace** area on the left hand side and expand the **Lake database** section, the expand **lakedb**, then ***mouse-over*** the right side of the **Products** table and choose the ***Top 100 rows***.
 
 ![derived table structure from external source](./images/lakedb-external-table-definition.png)
 
-> **Note**: You will likely have to click on the lakedb ellipses as you mouse over it on the right-hand side and click refresh before browsing down to the ***products*** and then right-clicking on the table and selecting the ***Top 100 rows***. If you exit and come back into the Synapse Analytics Explorer you will be able to select the lakedb as well.
+> **Note**: You want to make sure that the **Connect to** is listed as **Built-in** and you can leave the **master** database selected or click the refresh button to the right and select **lakedb** database. As it uses a 3 part naming convention [database].[schema].[table] both will work.
 
 ![first external query in lake database](./images/lakedb-first-external-query.png)
 
-8. On the database query window, select **master** from the **Use database** and then press the **Run** button to view the data within the lake database table. 
+9. Press the **Run** button to view the data within the lake database table.
 
 ## Add Microsoft Purview Service to Account
 
