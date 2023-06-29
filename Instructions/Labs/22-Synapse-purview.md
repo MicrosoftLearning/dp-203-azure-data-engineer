@@ -67,25 +67,25 @@ Lake databases are accessible in Synapse SQL serverless SQL pool and Apache Spar
 
 5. You'll note on the far right-hand side that there is a Properties window.
    1. Type **lakedb** in the name field.
-   2. under **Input folder** select the folder and browse to root/files/data, then press **OK**.
+   1. under **Input folder** select the folder and browse to root/files/data, then press **OK**.
 
 >**Note**: You will likely see an error when opening the **Input folder**, just double-click on the root folder and work your way down to data before clicking **OK** if that's the case.
 
-   4. To the left of this screen you'll see a pillar with the name of your **lakedb** with a +Table below it, click on this, and select ***From data lake***
-   5. Under the ***External table name*** type: **Products**.
-   6. Under ***Linked service***, select the default option.
-   7. Within the ***Input file or folder*** click on the file folder on the far right and brows to **root > files > data >** and select the ***products.csv*** and click **OK**, then click **Continue**.
+   1. To the left of this screen you'll see a pillar with the name of your **lakedb** with a **+Table** below it, click on this, and select ***From data lake***
+   1. Under the ***External table name*** type: **Products**.
+   1. Under ***Linked service***, select the default option.
+   1. Within the ***Input file or folder*** click on the file folder on the far right and browse to **root > files > data >** and select the ***products.csv*** and click **OK**, then click **Continue**.
 
-    ![setting external source](./images/lakedb-external-source.png)
+![setting external source](./images/lakedb-external-source.png)
 
 6. On the **New external table** pane, select the First Row option to ***infer column names*** then click **create**.
 7. Press the **Publish all** up top, then confirm with the next **Publish** button on the bottom right pane.
-   
-   ![setting external source](./images/lakedb-external-table-source.png)
+
+![setting external source](./images/lakedb-external-table-source.png)
 
 > **Note**: You will likely have to click on the lakedb ellipses as you mouse over it on the right-hand side and click refresh before browsing down to the ***products*** and then right-clicking on the table and selecting the ***Top 100 rows***. If you exit and come back into the Synapse Analytics Explorer you will be able to select the lakedb as well.
 
-   ![first external query in lake database](./images/lakedb-first-external-query.png)
+![first external query in lake database](./images/lakedb-first-external-query.png)
 
 8. On the database query window, select **master** from the **Use database** and then press the **Run** button to view the data within the lake database table. 
 
