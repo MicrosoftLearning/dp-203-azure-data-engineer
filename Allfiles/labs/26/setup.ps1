@@ -99,7 +99,7 @@ while ($stop -ne 1){
             write-host "$cores of $maxcores cores in use."
             $available_quota = $quota.limit - $quota.currentvalue
         }
-    if (($available_quota -lt 8) -or ($skuOK -eq 0))
+    if (($available_quota -lt 4) -or ($skuOK -eq 0))
     {
         Write-Host "$Region has insufficient capacity."
         $tried_regions.Add($Region)
