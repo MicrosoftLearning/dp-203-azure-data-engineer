@@ -2,7 +2,7 @@
 GO
 SET QUOTED_IDENTIFIER ON
 GO
- CREATE TABLE [dbo].[DimProduct](
+ CREATE TABLE [dbo].[Product](
     [ProductKey] [int] NOT NULL,
     [ProductName] [nvarchar](50) NULL,
     [Category][nvarchar](50) NULL,
