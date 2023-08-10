@@ -49,44 +49,43 @@ In this exercise, you'll need a premium-tier Azure Databricks workspace.
 
 1. When the Azure Databricks workspace resource has been deployed, go to it in the Azure portal.
 2. In the **Overview** page for your Azure Databricks workspace, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
-3. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform. The sidebar expands to show the names of the task categories.
-4. In the sidebar, expand **[D] Data Science & Engineering** and select **[S] SQL**. to change the portal interface to reflect the SQL persona (this persona is only available in *premium-tier* workspaces).
-5. In the **Get Started** pane, select **Review SQL Warehouses** (or alternatively, in the sidebar, select **SQL Warehouses**).
-6. Observe that the workspace already includes a SQL Warehouse named **Starter Warehouse**.
-7. In the **Actions** (**&#8285;**) menu for the SQL Warehouse, select **Edit**. Then set the **Cluster size** property to **2X-Small** and save your changes.
-8. Use the **Start** button to start the SQL Warehouse (which may take a minute or two).
+3. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains the names of the task categories.
+4. In the sidebar, under **SQL**, select **SQL Warehouses**.
+5. Observe that the workspace already includes a SQL Warehouse named **Starter Warehouse**.
+6. In the **Actions** (**&#8285;**) menu for the SQL Warehouse, select **Edit**. Then set the **Cluster size** property to **2X-Small** and save your changes.
+7. Use the **Start** button to start the SQL Warehouse (which may take a minute or two).
 
 > **Note**: If your SQL Warehouse fails to start, your subscription may have insufficient quota in the region where your Azure Databricks workspace is provisioned. See [Required Azure vCPU quota](https://docs.microsoft.com/azure/databricks/sql/admin/sql-endpoints#required-azure-vcpu-quota) for details. If this happens, you can try requesting for a quota increase as detailed in the error message when the warehouse fails to start. Alternatively, you can try deleting your workspace and creating a new one in a different region. You can specify a region as a parameter for the setup script like this: `./setup.ps1 eastus`
 
 ## Create a database
 
-1. When your SQL Warehouse is *running*, close the **Review SQL warehouses** pane on the left. Then in the sidebar, select **SQL Editor**.
-2. In the **Schema browser** pane, observe that the hive metastore contains a database named **default**.
+1. When your SQL Warehouse is *running*, select **SQL Editor** from the sidebar.
+2. In the **Schema browser** pane, observe that the *hive_metastore* catalogue contains a database named **default**.
 3. In the **New query** pane, enter the following SQL code:
 
     ```sql
     CREATE SCHEMA adventureworks;
     ```
-4. Use the **Run All** button to run the SQL code.
-5. When the code has been successfully executed, in the **Schema browser** pane, use the **&#8635;** button to refresh the list. Then select the **default** database to reveal the list of databases and select **adventureworks**. The database has been created, but contains no tables.
+4. Use the **&#9658;Run (1000)** button to run the SQL code.
+5. When the code has been successfully executed, in the **Schema browser** pane, use the **&#8635;** button to refresh the list. Then select **adventureworks** and observe that the database has been created, but contains no tables.
 
 You can use the **default** database for your tables, but when building an analytical data store its best to create custom databases for specific data.
 
 ## Create a table
 
-1. In the sidebar, select **(+) New** and then select **Table**.
-2. In the **Upload file** area, select **browse**. Then in the **Open** dialog box, enter `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/26/data/products.csv` and select **Open**.
+1. In the sidebar, select **(+) New** and then select **File Upload** under **Data**.
+2. In the **Upload file** area, select **browse**. Then in the **Open** dialog box, enter `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/26/data/products.csv` for the file name and select **Open**.
 
     > **Tip**: If your browser or operating system doesn't support entering a URL in the **File** box, download the CSV file to your computer and then upload it from the local folder where you saved it.
 
-3. In the **Create table in Databricks SQL** page, select the **adventureworks** database and set the table name to **products**. Then select **Create**.
+3. In the **Upload data** page, select the **adventureworks** database and set the table name to **products**. Then select **Create table** on the bottom right corner of the screen.
 4. When the table has been created, review its details.
 
 The ability to create a table by importing data from a file makes it easy to populate a database. You can also use Spark SQL to create tables using code. The tables themselves are metadata definitions in the hive metastore, and the data they contain is stored in Delta format in Databricks File System (DBFS) storage.
 
 ## Create a query
 
-1. In the sidebar, select **(+) New** and then select **Query**.
+1. In the sidebar, select **(+) New** and then select **Query** under **SQL**.
 2. In the **Schema browser** pane, ensure the **adventureworks** database is selected and the **products** table is listed.
 3. In the **New query** pane, enter the following SQL code:
 
@@ -95,7 +94,7 @@ The ability to create a table by importing data from a file makes it easy to pop
     FROM adventureworks.products; 
     ```
 
-4. Use the **Run All** button to run the SQL code.
+4. Use the **&#9658;Run (1000)** button to run the SQL code.
 5. When the query has completed, review the table of results.
 6. Use the **Save** button at the top right of the query editor to save the query as **Products and Categories**.
 
@@ -103,7 +102,7 @@ Saving a query makes it easy to retrieve the same data again at a later time.
 
 ## Create a dashboard
 
-1. In the sidebar, select **(+) New** and then select **Dashboard**.
+1. In the sidebar, select **(+) New** and then select **Dashboard** under **SQL**.
 2. In the **New dashboard** dialog box, enter the name **Adventure Works Products** and select **Save**.
 3. In the **Adventure Works Products** dashboard, in the **Add** drop-down list, select **Visualization**.
 4. In the **Add visualization widget** dialog box, select the **Products and Categories** query. Then select **Create new visualization**, set the title to **Products Per Category**. and select **Create visualization**.
@@ -117,6 +116,7 @@ Saving a query makes it easy to retrieve the same data again at a later time.
     - **Legend items order**: Normal
     - **Stacking**: Stack
     - **Normalize values to percentage**: <u>Un</u>selected
+    - **Missing and NULL values**: Do not display in chart
 
 6. Save the visualization and view it in the dashboard.
 7. Select **Done editing** to view the dashboard as users will see it.
