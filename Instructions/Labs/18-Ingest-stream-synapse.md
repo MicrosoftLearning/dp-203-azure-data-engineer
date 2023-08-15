@@ -78,11 +78,11 @@ Let's start by ingesting a stream of data directly into a table in an Azure Syna
 
 ### Create an Azure Stream Analytics job to ingest order data
 
-1. Switch back to the browser tab containing the Azure portal, and note the region where your **db000-*xxxxxxx*** resource group was provisioned - you will create your Stream Analytics job in the <u>same region</u>.
+1. Switch back to the browser tab containing the Azure portal, and note the region where your **dp203-*xxxxxxx*** resource group was provisioned - you will create your Stream Analytics job in the <u>same region</u>.
 2. On the **Home** page select **+ Create a resource** and search for `Stream Analytics job`. Then create a **Stream Analytics job** with the following properties:
     - **Basics**:
         - **Subscription**: Your Azure subscription
-        - **Resource group**: Select the existing **dp203-*xxxxxxx*** resouce group.
+        - **Resource group**: Select the existing **dp203-*xxxxxxx*** resource group.
         - **Name**: `ingest-orders`
         - **Region**: Select the <u>same region</u> where your Synapse Analytics workspace is provisioned.
         - **Hosting environment**: Cloud
@@ -170,7 +170,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
 1. In the Azure portal, on the **Home** page select **+ Create a resource** and search for `Stream Analytics job`. Then create a **Stream Analytics job** with the following properties:
     - **Basics**:
         - **Subscription**: Your Azure subscription
-        - **Resource group**: Select the existing **dp203-*xxxxxxx*** resouce group.
+        - **Resource group**: Select the existing **dp203-*xxxxxxx*** resource group.
         - **Name**: `aggregate-orders`
         - **Region**: Select the <u>same region</u> where your Synapse Analytics workspace is provisioned.
         - **Hosting environment**: Cloud
