@@ -56,12 +56,13 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
 1. In the Azure portal, browse to the **dp203-*xxxxxxx*** resource group that was created by the script you ran.
 2. Select the **databricks*xxxxxxx*** Azure Databricks Service resource.
 3. In the **Overview** page for **databricks*xxxxxxx***, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
-4. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform. The sidebar expands to show the names of the task categories.
-5. Select the **(+) New** task, and then select **Cluster**.
+4. You may have to revert to the old user interface before proceeding. You can accomplish this by selecting the button Revert to old UI as shown in: ![Revert to old UI](./images/revert-to-old-ui.png)
+5. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform. The sidebar expands to show the names of the task categories.
+6. Select the **(+) New** task, and then select **Cluster**.
 
     **Note**: If a tip is displayed, use the **Got it** button to close it. This applies to any future tips that may be displayed as you navigate the workspace interface for the first time.
 
-6. In the **New Cluster** page, create a new cluster with the following settings:
+7. In the **New Cluster** page, create a new cluster with the following settings:
     - **Cluster name**: *User Name's* cluster (the default cluster name)
     - **Cluster mode**: Single Node
     - **Access mode** (*if prompted*): Single user
@@ -70,7 +71,7 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
     - **Node type**: Standard_DS3_v2
     - **Terminate after** *30* **minutes of inactivity**
 
-7. Wait for the cluster to be created. It may take a minute or two.
+8. Wait for the cluster to be created. It may take a minute or two.
 
 > **Note**: If your cluster fails to start, your subscription may have insufficient quota in the region where your Azure Databricks workspace is provisioned. See [CPU core limit prevents cluster creation](https://docs.microsoft.com/azure/databricks/kb/clusters/azure-core-limit) for details. If this happens, you can try deleting your workspace and creating a new one in a different region. You can specify a region as a parameter for the setup script like this: `./setup.ps1 eastus`
 
