@@ -9,5 +9,5 @@
     UnitPrice: real,
     TaxAmount: real)
 
-.ingest into table sales 'https://raw.githubusercontent.com/MicrosoftLearning/mslearn-synapse/master/Allfiles/Labs/01/files/sales.csv' 
+.ingest into table sales 'https://raw.githubusercontent.com/microsoftlearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/files/sales.csv' 
 with (ignoreFirstRecord = true)

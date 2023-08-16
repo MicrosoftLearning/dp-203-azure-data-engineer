@@ -50,20 +50,33 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 
 8. Wait for the script to complete - this typically takes around 10 minutes, but in some cases may take longer. While you are waiting, review the [Lake database](https://docs.microsoft.com/azure/synapse-analytics/database-designer/concepts-lake-database) and [Lake database templates](https://docs.microsoft.com/azure/synapse-analytics/database-designer/concepts-database-templates) articles in the Azure Synapse Analytics documentation.
 
+## Modify container permissions
+
+1. After the deployment script has completed, in the Azure portal, go to the **dp203-*xxxxxxx*** resource group that it created, and notice that this resource group contains your Synapse workspace, a Storage account for your data lake, and an Apache Spark pool.
+1. Select the **Storage account** for you data lake named **datalakexxxxxxx** 
+
+     ![Data lake navigation to container](./images/datalakexxxxxx-storage.png)
+
+1. Within the **datalakexxxxxx** container, select the **files folder**
+
+    ![Select the files folder within the data lake container](./images/dp203-Container.png)
+
+1. Within the **files folder** you'll note the **Authentication method:** is listed as ***Access key (Switch to Azure AD User Account)*** click on this to change to Azure AD User Account.
+
+    ![Change to Azure AD user account](./images/dp203-switch-to-aad-user.png)
 ## Create a lake database
 
 A lake database is a type of database that you can define in your workspace, and work with using the built-in serverless SQL pool.
 
-1. After the deployment script has completed, in the Azure portal, go to the **dp203-*xxxxxxx*** resource group that it created, and notice that this resource group contains your Synapse workspace, a Storage account for your data lake, and an Apache Spark pool.
-2. Select your Synapse workspace, and in its **Overview** page, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
-3. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within Synapse Studio that you'll use to manage resources and perform data analytics tasks.
-4. On the **Data** page, view the **Linked** tab and verify that your workspace includes a link to your Azure Data Lake Storage Gen2 storage account.
-5. On the **Data** page, switch back to the **Workspace** tab and note that there are no databases in your workspace.
-6. In the **+** menu, select **Lake database** to open a new tab in which you can design your database schema (accepting the database templates terms of use if prompted).
-7. In the **Properties** pane for the new database, change the **Name** to **RetailDB** and verify that the **Input folder** property is automatically updated to **files/RetailDB**. Leave the **Data format** as **Delimited Text** (you could also use *Parquet* format, and you can override the file format for individual tables - we'll use comma-delimited data in this exercise.)
-8. At the top of the **RetailDB** pane, select **Publish** to save the database so far.
-9. In the **Data** pane on the left, view the **Linked** tab. Then expand **Azure Data Lake Storage Gen2** and the primary **datalake*xxxxxxx*** store for your **synapse*xxxxxxx*** workspace, and select the **files** file system; which currently contains a folder named **synapse**.
-10. In the **files** tab that has opened, use the **+ New folder** button to create a new folder named **RetailDB** - this will be the input folder for the data files used by tables in your database.
+1. Select your Synapse workspace, and in its **Overview** page, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
+2. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within Synapse Studio that you'll use to manage resources and perform data analytics tasks.
+3. On the **Data** page, view the **Linked** tab and verify that your workspace includes a link to your Azure Data Lake Storage Gen2 storage account.
+4. On the **Data** page, switch back to the **Workspace** tab and note that there are no databases in your workspace.
+5. In the **+** menu, select **Lake database** to open a new tab in which you can design your database schema (accepting the database templates terms of use if prompted).
+6. In the **Properties** pane for the new database, change the **Name** to **RetailDB** and verify that the **Input folder** property is automatically updated to **files/RetailDB**. Leave the **Data format** as **Delimited Text** (you could also use *Parquet* format, and you can override the file format for individual tables - we'll use comma-delimited data in this exercise.)
+7. At the top of the **RetailDB** pane, select **Publish** to save the database so far.
+8. In the **Data** pane on the left, view the **Linked** tab. Then expand **Azure Data Lake Storage Gen2** and the primary **datalake*xxxxxxx*** store for your **synapse*xxxxxxx*** workspace, and select the **files** file system; which currently contains a folder named **synapse**.
+9.  In the **files** tab that has opened, use the **+ New folder** button to create a new folder named **RetailDB** - this will be the input folder for the data files used by tables in your database.
 
 ## Create a table
 
@@ -195,7 +208,7 @@ So far, you've created tables and then populated them with data. In some cases, 
     | Name | Keys | Description | Nullability | Data type | Format / Length |
     | ---- | ---- | ----------- | ----------- | --------- | --------------- |
     | SalesOrderId | PK &#128505; | The unique identifier of an order. | &#128454;  | long | |
-    | OrderDate | PK &#128454; | The date of the order. | &#128454; | timestamp | YYYY-MM-DD |
+    | OrderDate | PK &#128454; | The date of the order. | &#128454; | timestamp | yyyy-MM-dd |
     | LineItemId | PK &#128505; | The ID of an individual line item. | &#128454; | long | |
     | CustomerId | PK &#128454; | The customer. | &#128454; | long | |
     | ProductId | PK &#128454; | The product. | &#128454; | long | |
@@ -203,17 +216,17 @@ So far, you've created tables and then populated them with data. In some cases, 
 
     > **Note**: The table contains a record for each individual item ordered, and includes a composite primary key comprised of **SalesOrderId** and **LineItemId**.
 
-5. On the **Relationships** tab for the **SalesOrder** table, in the **+ Relationship** list, select **From table**, and then define the following relationship:
+5. On the **Relationships** tab for the **SalesOrder** table, in the **+ Relationship** list, select **To table**, and then define the following relationship:
 
     | From table | From column | To table | To column |
     | ---- | ---- | ----------- | ----------- |
-    | SalesOrder | CustomerId | Customer | CustomerId |
+    | Customer | CustomerId | SalesOrder | CustomerId |
 
-6. Add a second *From table* relationship with the following settings:
+6. Add a second *To table* relationship with the following settings:
 
     | From table | From column | To table | To column |
     | ---- | ---- | ----------- | ----------- |
-    | SalesOrder | ProductId | Product | ProductId |
+    | Product | ProductId | SalesOrder | ProductId |
 
     The ability to define relationships between tables helps enforce referential integrity between related data entities. This is a common feature of relational databases that would otherwise be difficult to apply to files in a data lake.
 

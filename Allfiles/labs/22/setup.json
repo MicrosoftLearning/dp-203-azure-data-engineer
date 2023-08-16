@@ -37,12 +37,6 @@
         "metadata": {
           "description": "Password for SQL User"
         }
-      },
-      "purviewAccountName": {
-        "type": "String",
-        "metadata": {
-          "description": "Purview account name"
-        }
       }
     },
     "variables": {
@@ -210,23 +204,6 @@
         "properties": {
           "createMode": "Default",
           "collation": "SQL_Latin1_General_CP1_CI_AS"
-        }
-      },
-      {
-        "type": "Microsoft.Purview/accounts",
-        "apiVersion": "2021-12-01",
-        "name": "[parameters('purviewAccountName')]",
-        "location": "[variables('location')]",
-        "sku": {
-            "name": "Standard",
-            "capacity": 1
-        },
-        "identity": {
-            "type": "SystemAssigned"
-        },
-        "properties": {
-            "cloudConnectors": {},
-            "publicNetworkAccess": "Enabled"
         }
       }
     ],

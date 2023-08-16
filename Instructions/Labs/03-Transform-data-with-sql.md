@@ -81,7 +81,7 @@ The script provisions an Azure Synapse Analytics workspace and an Azure Storage 
         TOP 100 *
     FROM
         OPENROWSET(
-            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/csv**',
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/csv/**',
             FORMAT = 'CSV',
             PARSER_VERSION='2.0'
         ) AS [result]
@@ -96,7 +96,7 @@ The script provisions an Azure Synapse Analytics workspace and an Azure Storage 
         TOP 100 *
     FROM
         OPENROWSET(
-            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/csv**',
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/csv/**',
             FORMAT = 'CSV',
             PARSER_VERSION='2.0',
             HEADER_ROW = TRUE
@@ -223,16 +223,16 @@ If you will need to transform data frequently, you can use a stored procedure to
     ```sql
     USE Sales;
     GO;
-    
     CREATE PROCEDURE sp_GetYearlySales
     AS
     BEGIN
+        -- drop existing table
         IF EXISTS (
                 SELECT * FROM sys.external_tables
                 WHERE name = 'YearlySalesTotals'
             )
             DROP EXTERNAL TABLE YearlySalesTotals
-        
+        -- create external table
         CREATE EXTERNAL TABLE YearlySalesTotals
         WITH (
                 LOCATION = 'sales/yearlysales/',
@@ -241,8 +241,8 @@ If you will need to transform data frequently, you can use a stored procedure to
             )
         AS
         SELECT YEAR(OrderDate) AS CalendarYear,
-               SUM(Quantity) AS ItemsSold,
-               ROUND(SUM(UnitPrice) - SUM(TaxAmount), 2) AS NetRevenue
+                SUM(Quantity) AS ItemsSold,
+                ROUND(SUM(UnitPrice) - SUM(TaxAmount), 2) AS NetRevenue
         FROM
             OPENROWSET(
                 BULK 'sales/csv/*.csv',

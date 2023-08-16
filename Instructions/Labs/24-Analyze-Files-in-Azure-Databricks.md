@@ -77,8 +77,8 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
 As in many Spark environments, Databricks supports the use of notebooks to combine notes and interactive code cells that you can use to explore data.
 
 1. Expand the sidebar on the left and select the **Workspace** tab. Then select the **Users** folder and in the **&#9662;** menu for the **&#8962; *your_user_name*** folder, select **Import**.
-2. In the **Import Notebooks** dialog box, select **URL** and import the notebook from `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/24/Databricks-Spark.dbc`.
-3. Select **&#8962; Home** and then open the **Analyze file-based data using Spark** notebook you just imported.
+2. In the **Import Notebooks** dialog box, select **URL** and import the notebook from `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/24/Databricks-Spark.ipynb`.
+3. Select **&#8962; Home** and then open the **Databricks-Spark** notebook you just imported.
 4. Ensure that the notebook is attached to ***User Name's* cluster**, and follow the instructions it contains; running the cells it contains to explore data in files.
 
 ## Delete Azure Databricks resources

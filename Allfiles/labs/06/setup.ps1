@@ -56,7 +56,7 @@ while ($complexPassword -ne 1)
     ` - At least one special character (!,@,#,%,^,&,$)
     ` "
 
-    if(($SqlPassword -cmatch '[a-z]') -and ($SqlPassword -cmatch '[A-Z]') -and ($SqlPassword -match '\d') -and ($SqlPassword.length -ge 8) -and ($SqlPassword -match '!|@|#|%|^|&|$'))
+    if(($SqlPassword -cmatch '[a-z]') -and ($SqlPassword -cmatch '[A-Z]') -and ($SqlPassword -match '\d') -and ($SqlPassword.length -ge 8) -and ($SqlPassword -match '!|@|#|%|\^|&|\$'))
     {
         $complexPassword = 1
 	    Write-Output "Password $SqlPassword accepted. Make sure you remember this!"
@@ -167,17 +167,6 @@ Get-ChildItem "./data/*.csv" -File | Foreach-Object {
     Write-Host $file
     $blobPath = "data/$file"
     Set-AzStorageBlobContent -File $_.FullName -Container "files" -Blob $blobPath -Context $storageContext
-}
-
-
-# Import notebooks
-write-host "Importing notebooks..."
-Get-ChildItem "./notebooks/*.ipynb" -File | Foreach-Object {
-    write-host ""
-    $file = $_.FullName
-    $name = $_.Name
-    Write-Host "Importing $name ..."
-    az synapse notebook import --workspace-name $synapseWorkspace --name $name.Replace(".ipynb", "") --file "@$file" --only-show-errors >/dev/null
 }
 
 write-host "Script completed at $(Get-Date)"

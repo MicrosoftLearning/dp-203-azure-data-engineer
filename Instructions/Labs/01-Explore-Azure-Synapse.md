@@ -73,8 +73,8 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
         - **sql*xxxxxxx***: A *dedicated* SQL pool that hosts a relational data warehouse database.
     - **Apache Spark pools**:
         - **spark*xxxxxxx***: that you can use on-demand to explore or process data in a data lake by using programming languages like Scala or Python.
-    - **Data Explorer pools**:
-        - **adx*xxxxxxx***: A Data Explorer pool that you can use to analyze data by using Kusto Query Language (KQL).
+<!---    - **Data Explorer pools**:
+        - **adx*xxxxxxx***: A Data Explorer pool that you can use to analyze data by using Kusto Query Language (KQL). --->
 
 ## Ingest data with a pipeline
 
@@ -86,7 +86,7 @@ One of the key tasks you can perform with Azure Synapse Analytics is to define *
 2. In the Copy Data tool, on the **Properties** step, ensure that **Built-in copy task** and **Run once now** are selected, and click **Next >**.
 3. On the **Source** step, in the **Dataset** substep, select the following settings:
     - **Source type**: All
-    - **Connection**: *Create a new connection, and in the **Linked service** pane that appears, on the **File** tab, select **HTTP**. Then continue and create a connection to a data file using the following settings:*
+    - **Connection**: *Create a new connection, and in the **Linked service** pane that appears, on the **Generic protocol** tab, select **HTTP**. Then continue and create a connection to a data file using the following settings:*
         - **Name**: Products
         - **Description**: Product list via HTTP
         - **Connect via integration runtime**: AutoResolveIntegrationRuntime
@@ -137,7 +137,7 @@ One of the key tasks you can perform with Azure Synapse Analytics is to define *
 
 ### View the ingested data
 
-1. On the **Data** page, select the **Linked** tab and expand the **Product Files** hierarchy until you see the **files** file storage for your Synapse workspace. Then select the file storage to verify that a folder named **product_data** containing a file named **products.csv** has been copied to this location, as shown here:
+1. On the **Data** page, select the **Linked** tab and expand the **synapse*xxxxxxx* (Primary) datalake** container hierarchy until you see the **files** file storage for your Synapse workspace. Then select the file storage to verify that a folder named **product_data** containing a file named **products.csv** has been copied to this location, as shown here:
 
     ![Image showing Synapse Studio expanded Azure Data Lake Storage hierarchy with the file storage for your Synapse workspace](./images/product_files.png)
 
@@ -341,7 +341,7 @@ So far you've seen some techniques for exploring and processing file-based data 
 
 10. On the **Manage** page, select the **sql*xxxxxxx*** dedicated SQL pool row and use its &#10074;&#10074; icon to pause it.
 
-## Explore data with a Data Explorer pool
+<!--- ## Explore data with a Data Explorer pool
 
 Azure Synapse Data Explorer provides a runtime that you can use to store and query data by using Kusto Query Language (KQL). Kusto is optimized for data that includes a time series component, such as realtime data from log files or IoT devices.
 
@@ -352,12 +352,31 @@ Azure Synapse Data Explorer provides a runtime that you can use to store and que
 3. When the Data Explorer pool has started, view the **Data** page; and on the **Workspace** tab, expand **Data Explorer Databases** and verify that **adx*xxxxxxx*** is listed (use **&#8635;** icon at the top-left of the page to refresh the view if necessary)
 4. In the **Data** pane, use the **&#65291;** icon to create a new **Data Explorer database** in the **adx*xxxxxxx*** pool with the name **sales-data**.
 5. In Synapse Studio, wait for the database to be created (a notification will be displayed).
-6. Switch to the **Develop** page, and in the **KQL scripts** list, select **ingest-data**. When the script opens, note that it contains two statements:
-    - A `.create table` statement to create a table named **sales**.
-    - An `.ingest into table` statement to load data into the table from an HTTP source.
-7. In the **ingest-data** pane, in the **Connect to** list, select your **adx*xxxxxxx*** pool, and in the **Database** list, select **sales-data**.
-8. In the script, highlight the `.create table` statement, and then on the toolbar, use the **&#9655; Run** button to run the selected code, which creates a table named **sales**.
-9. After the table has been created, highlight the `.ingest into table` statement and use the **&#9655; Run** button to run it and ingest data into the table.
+6. Switch to the **Develop** page, and in the **+** menu, add a KQL script. Then, when the script pane opens, in the **Connect to** list, select your **adx*xxxxxxx*** pool, and in the **Database** list, select **sales-data**.
+7. In the new script, add the following code:
+
+    ```kusto
+    .create table sales (
+        SalesOrderNumber: string,
+        SalesOrderLineItem: int,
+        OrderDate: datetime,
+        CustomerName: string,
+        EmailAddress: string,
+        Item: string,
+        Quantity: int,
+        UnitPrice: real,
+        TaxAmount: real)
+    ```
+
+8. On the toolbar, use the **&#9655; Run** button to run the selected code, which creates a table named **sales** in the **sales-data** database you created previously.
+9. After the code has run successfully, replace it with the following code, which loads data into the table:
+
+    ```kusto
+    .ingest into table sales 'https://raw.githubusercontent.com/microsoftlearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/files/sales.csv' 
+    with (ignoreFirstRecord = true)
+    ```
+
+10. Run the new code to ingest the data.
 
 > **Note**: In this example, you imported a very small amount of batch data from a file, which is fine for the purposes of this exercise. In reality, you can use Data Explorer to analyze much larger volumes of data; including realtime data from a streaming source such as Azure Event Hubs.
 
@@ -408,7 +427,7 @@ Azure Synapse Data Explorer provides a runtime that you can use to store and que
 
 11. Close the query pane, and then view the **Develop** page to verify that the KQL script has been saved.
 
-12. On the **Manage** page, select the **adx*xxxxxxx*** Data Explorer pool row and use its &#10074;&#10074; icon to pause it.
+12. On the **Manage** page, select the **adx*xxxxxxx*** Data Explorer pool row and use its &#10074;&#10074; icon to pause it. --->
 
 ## Delete Azure resources
 
