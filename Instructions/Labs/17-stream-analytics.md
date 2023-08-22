@@ -75,7 +75,7 @@ Now you're ready to create an Azure Stream Analytics job to process the sales tr
         - **Hosting environment**: Cloud
         - **Streaming units**: 1
     - **Storage**:
-        - **Secure private data in storage account**: Unselected
+        - **Add storage account**: Unselected
     - **Tags**:
         - *None*
 2. Wait for deployment to complete and then go to the deployed Stream Analytics job resource.
