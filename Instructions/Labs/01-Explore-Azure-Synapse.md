@@ -6,7 +6,7 @@ lab:
 
 # Explore Azure Synapse Analytics
 
-Azure Synapse Analytics provides a single, consolidated data analytics platform for end-to end data analytics. In this exercise, you'll explore various ways to ingest and explore data. This exercise is designed as a high-level overview of the various core capabilities of Azure Synapse Analytics Other exercises are available to explore specific capabilities in more detail.
+Azure Synapse Analytics provides a single, consolidated data analytics platform for end-to end data analytics. In this exercise, you'll explore various ways to ingest and explore data. This exercise is designed as a high-level overview of the various core capabilities of Azure Synapse Analytics. Other exercises are available to explore specific capabilities in more detail.
 
 This exercise should take approximately **60** minutes to complete.
 
