@@ -88,24 +88,24 @@ Let's start by ingesting a stream of data directly into a table in an Azure Syna
         - **Hosting environment**: Cloud
         - **Streaming units**: 1
     - **Storage**:
-        - **Secure private data in storage account**: Selected
+        - **Add storage account**: Selected
         - **Subscription**: Your Azure subscription
-        - **Storage account type**: Storage account
-        - **Storage**: Select the **datalake*xxxxxxx*** storage account.
+        - **Storage accounts**: Select the **datalake*xxxxxxx*** storage account
         - **Authentication mode**: Connection string
+        - **Secure private data in storage account**: Selected
     - **Tags**:
         - *None*
 3. Wait for deployment to complete and then go to the deployed Stream Analytics job resource.
 
 ### Create an input for the event data stream
 
-1. On the **ingest-orders** overview page, select **Add input**. Then  on the **Inputs** page, use the **Add stream input** menu to add an **Event Hub** input with the following properties:
+1. On the **ingest-orders** overview page, select the **Inputs** page. Use the **Add input** menu to add an **Event Hub** input with the following properties:
     - **Input alias**: `orders`
     - **Select Event Hub from your subscriptions**: Selected
     - **Subscription**: Your Azure subscription
     - **Event Hub namespace**: Select the **events*xxxxxxx*** Event Hubs namespace
     - **Event Hub name**: Select the existing **eventhub*xxxxxxx*** event hub.
-    - **Event Hub consumer group**: Select the existing **$Default** consumer group
+    - **Event Hub consumer group**: Select the **Use existing** then select the **$Default** consumer group
     - **Authentication mode**: Create system assigned managed identity
     - **Partition key**: *Leave blank*
     - **Event serialization format**: JSON
@@ -114,7 +114,7 @@ Let's start by ingesting a stream of data directly into a table in an Azure Syna
 
 ### Create an output for the SQL table
 
-1. View the **Outputs** page for the **ingest-orders** Stream Analytics job. Then use the **Add** menu to add an **Azure Synapse Analytics** output with the following properties:
+1. View the **Outputs** page for the **ingest-orders** Stream Analytics job. Then use the **Add output** menu to add an **Azure Synapse Analytics** output with the following properties:
     - **Output alias**: `FactOrder`
     - **Select Azure Synapse Analytics from your subscriptions**: Selected
     - **Subscription**: Your Azure subscription
@@ -176,11 +176,11 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
         - **Hosting environment**: Cloud
         - **Streaming units**: 1
     - **Storage**:
-        - **Secure private data in storage account**: Selected
+        - **Add storage account**: Selected
         - **Subscription**: Your Azure subscription
-        - **Storage account type**: Storage account
-        - **Storage**: Select the **datalake*xxxxxxx*** storage account.
+        - **Storage accounts**: Select the **datalake*xxxxxxx*** storage account
         - **Authentication mode**: Connection string
+        - **Secure private data in storage account**: Selected
     - **Tags**:
         - *None*
 
@@ -188,7 +188,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
 
 ### Create an input for the raw order data
 
-1. On the **aggregate-orders** overview page, select **Add input**. Then  on the **Inputs** page, use the **Add stream input** menu to add an **Event Hub** input with the following properties:
+1. On the **aggregate-orders** overview page, select the **Inputs** page. Use the **Add input** menu to add an **Event Hub** input with the following properties:
     - **Input alias**: `orders`
     - **Select Event Hub from your subscriptions**: Selected
     - **Subscription**: Your Azure subscription
@@ -203,15 +203,16 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
 
 ### Create an output for the data lake store
 
-1. View the **Outputs** page for the **aggregate-orders** Stream Analytics job. Then use the **Add** menu to add a **Blob storage/ADLS Gen2** output with the following properties:
+1. View the **Outputs** page for the **aggregate-orders** Stream Analytics job. Then use the **Add output** menu to add a **Blob storage/ADLS Gen2** output with the following properties:
     - **Output alias**: `datalake`
     - **Select Select Blob storage/ADLS Gen2 from your subscriptions from your subscriptions**: Selected
     - **Subscription**: Your Azure subscription
     - **Storage account**: Select the **datalake*xxxxxxx*** storage account
-    - **Container**: Select the existing **files** container
+    - **Container**: Select **Use existing**, and from the list select the **files** container
     - **Authentication mode**: Connection string
     - **Event serialization format**: CSV - Comma (,)
     - **Encoding**: UTF-8
+    - **Write mode**: Append,as results arrive
     - **Path pattern**: `{date}`
     - **Date format**: YYYY/MM/DD
     - **Time format**: *Not applicable*
@@ -252,7 +253,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
     node ~/dp-203/Allfiles/labs/18/orderclient
     ```
 
-4.  When the order app has finished, minimize the cloud shell pane. Then switch to the Synapse Studio browser tab and on the **Data** page, on the **Linked** tab, expand **Azure Data Lake Storage Gen2** > **synapse*xxxxxxx* (primary - datalake*xxxxxxx*)** and select the **files (Primary)** container.
+4. When the order app has finished, minimize the cloud shell pane. Then switch to the Synapse Studio browser tab and on the **Data** page, on the **Linked** tab, expand **Azure Data Lake Storage Gen2** > **synapse*xxxxxxx* (primary - datalake*xxxxxxx*)** and select the **files (Primary)** container.
 5. If the **files** container is empty, wait a minute or so and then use the **&#8635; Refresh** to refresh the view. Eventually, a folder named for the current year should be displayed. This in turn contains folders for the month and day.
 6. Select the folder for the year and on the **New SQL script** menu, select **Select TOP 100 rows**. Then set the **File type** to **Text format** and apply the settings.
 7. In the query pane that opens, modify the query to add a `HEADER_ROW = TRUE` parameter as shown here:
@@ -264,13 +265,13 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
         OPENROWSET(
             BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/2023/**',
             FORMAT = 'CSV',
-            PARSER_VERSION = '2.0',
+            PARSER_VERSION = '2.0',
             HEADER_ROW = TRUE
         ) AS [result]
     ```
 
 8. Use the **&#9655; Run** button to run the SQL query and view the results, which show the quantity of each product ordered in five-second periods.
-8. Return to the browser tab containing the Azure Portal and use the **&#128454; Stop** button to stop the Stream Analytics job and wait for the notification that the Stream Analytics job has stopped successfully.
+9. Return to the browser tab containing the Azure Portal and use the **&#128454; Stop** button to stop the Stream Analytics job and wait for the notification that the Stream Analytics job has stopped successfully.
 
 ## Delete Azure resources
 
