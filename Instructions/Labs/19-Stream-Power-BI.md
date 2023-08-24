@@ -58,13 +58,10 @@ You'll use a combination of a PowerShell script and an ARM template to provision
 In the Power BI service, you organize datasets, reports, and other resources in *workspaces*. Every Power BI user has a default workspace named **My Workspace**, which you can use in this exercise; but it's generally good practice to create a workspace for each discrete reporting solution you want to manage.
 
 1. Sign into the Power BI service at [https://app.powerbi.com/](https://app.powerbi.com/) using your Power BI service credentials.
-2. On the **Workspaces** page, select **Create a workspace**:
+2. In the menu bar on the left, select **Workspaces** (the icon looks similar to &#128455;).
+3. Create a new workspace with a meaningful name (for example, *mslearn-streaming*), selecting the **Pro** licensing mode.
 
-    ![A screenshot of the Create workspace tab in Power BI.](./images/powerbi-create-workspace.png)
-
-    > **Note**: If you are using a trial account, you may need to enable additional trial features. 
-
-3. Create a new workspace with a meaningful name (for example, *mslearn-streaming*).
+    > **Note**: If you are using a trial account, you may need to enable additional trial features.
 
 4. When viewing your workspace, note its globally unique identifier (GUID) in the page URL (which should be similar to `https://app.powerbi.com/groups/<GUID>/list`). You will need this GUID later.
 
@@ -86,7 +83,7 @@ An Azure Stream Analytics job defines a perpetual query that operates on streami
 
 ### Create an input for the event data stream
 
-1. On the **stream-orders** overview page, select **Add input**. Then  on the **Inputs** page, use the **Add stream input** menu to add an **Event Hub** input with the following properties:
+1. On the **stream-orders** overview page, select the **Inputs** page, and use the **Add input** menu to add an **Event Hub** input with the following properties:
     - **Input alias**: `orders`
     - **Select Event Hub from your subscriptions**: Selected
     - **Subscription**: Your Azure subscription
@@ -101,7 +98,7 @@ An Azure Stream Analytics job defines a perpetual query that operates on streami
 
 ### Create an output for the Power BI workspace
 
-1. View the **Outputs** page for the **stream-orders** Stream Analytics job. Then use the **Add** menu to add an **Power BI** output with the following properties:
+1. View the **Outputs** page for the **stream-orders** Stream Analytics job. Then use the **Add output** menu to add an **Power BI** output with the following properties:
     - **Output alias**: `powerbi-dataset`
     - **Select Power BI settings manually**: Selected
     - **Group workspace**: *The GUID for your workspace*
@@ -151,27 +148,28 @@ An Azure Stream Analytics job defines a perpetual query that operates on streami
 
 Now that you have a dataset for the streaming order data, you can create a Power BI dashboard that represents it visually.
 
-1. In the **+ New** drop-down menu for your workspace, select **Dashboard**, and create a new dashboard named **Order Tracking**.
-2. In the **&#9999;&#65039; Edit** menu for the **Order Tracking** dashboard, select **Add a tile**. Then in the **Add a tile** pane, select **Custom Streaming Data** and click **Next**:
+1. Return to your PowerBI browser tab.
 
-    ![A screenshot of the Add a tile pane in Power BI.](./images/powerbi-stream-tile.png)
+2. In the **+ New** drop-down menu for your workspace, select **Dashboard**, and create a new dashboard named **Order Tracking**.
 
-3. In the **Add a custom streaming data tile** pane, under **Your datasets**, select the **realtime-data** dataset, and click **Next**.
+3. On the **Order Tracking** dashboard, select the **&#9999;&#65039; Edit** menu, then select **+ Add a tile**. Then in the **Add a tile** pane, select **Custom Streaming Data** and select **Next**:
 
-4. Change the default visualization type to **Line chart**. Then set the following properties and click **Next**:
+4. In the **Add a custom streaming data tile** pane, under **Your datasets**, select the **realtime-data** dataset, and select **Next**.
+
+5. Change the default visualization type to **Line chart**. Then set the following properties and select **Next**:
     - **Axis**: EndTime
     - **Value**: Orders
     - **Time window to display**: 1 Minute
 
-5. On the **Tile details** pane, set the **Title** to **Real-time Order Count** and click **Apply**.
+6. On the **Tile details** pane, set the **Title** to **Real-time Order Count** and select **Apply**.
 
-6. Switch back to the browser tab containing the Azure portal, and if necessary, re-open the cloud shell pane. Then re-run the following command to submit another 100 orders.
+7. Switch back to the browser tab containing the Azure portal, and if necessary, re-open the cloud shell pane. Then re-run the following command to submit another 100 orders.
 
     ```
     node ~/dp-203/Allfiles/labs/19/orderclient
     ```
 
-7. While the order submission script is running, switch back to the browser tab containing the **Order Tracking** Power BI dashboard and observe that the visualization updates to reflect the new order data as it is processed by the Stream Analytics job (which should still be running).
+8. While the order submission script is running, switch back to the browser tab containing the **Order Tracking** Power BI dashboard and observe that the visualization updates to reflect the new order data as it is processed by the Stream Analytics job (which should still be running).
 
     ![A screenshot of a Power BI report showing a realtime stream of order data.](./images/powerbi-line-chart.png)
 
