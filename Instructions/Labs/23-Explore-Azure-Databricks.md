@@ -45,7 +45,7 @@ In this exercise, you'll use a script to provision a new Azure Databricks worksp
 
 6. If prompted, choose which subscription you want to use (this will only happen if you have access to multiple Azure subscriptions).
 
-7. Wait for the script to complete - this typically takes around 5 minutes, but in some cases may take longer. While you are waiting, review the [What is Azure Databricks?](https://docs.microsoft.com/azure/databricks/scenarios/what-is-azure-databricks) article in the Azure Databricks documentation.
+7. Wait for the script to complete - this typically takes around 5 minutes, but in some cases may take longer. While you are waiting, review the [What is Azure Databricks?](https://learn.microsoft.com/azure/databricks/introduction/) article in the Azure Databricks documentation.
 
 ## Create a cluster
 
@@ -56,22 +56,21 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
 1. In the Azure portal, browse to the **dp203-*xxxxxxx*** resource group that was created by the script you ran.
 2. Select the **databricks*xxxxxxx*** Azure Databricks Service resource.
 3. In the **Overview** page for **databricks*xxxxxxx***, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
-4. You may have to revert to the old user interface before proceeding. You can accomplish this by selecting the button Revert to old UI as shown in: ![Revert to old UI](./images/revert-to-old-ui.png)
-5. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform. The sidebar expands to show the names of the task categories.
-6. Select the **(+) New** task, and then select **Cluster**.
+4. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform.
 
-    **Note**: If a tip is displayed, use the **Got it** button to close it. This applies to any future tips that may be displayed as you navigate the workspace interface for the first time.
+    >**Tip**: As you use the Databricks Workspace portal, various tips and notifications may be displayed. Dismiss these and follow the instructions provided to complete the tasks in this exercise.
 
-7. In the **New Cluster** page, create a new cluster with the following settings:
+1. Select the **(+) New** task, and then select **Cluster**.
+1. In the **New Cluster** page, create a new cluster with the following settings:
     - **Cluster name**: *User Name's* cluster (the default cluster name)
     - **Cluster mode**: Single Node
-    - **Access mode** (*if prompted*): Single user
-    - **Databricks runtime version**: 10.4 LTS (Scala 2.12, Spark 3.2.1)
-    - **Use Photon Acceleration**: Unselected
+    - **Access mode**: Single user (*with your user account selected*)
+    - **Databricks runtime version**: 12.2 LTS (Scala 2.12, Spark 3.2.2)
+    - **Use Photon Acceleration**: Selected
     - **Node type**: Standard_DS3_v2
     - **Terminate after** *30* **minutes of inactivity**
 
-8. Wait for the cluster to be created. It may take a minute or two.
+7. Wait for the cluster to be created. It may take a minute or two.
 
 > **Note**: If your cluster fails to start, your subscription may have insufficient quota in the region where your Azure Databricks workspace is provisioned. See [CPU core limit prevents cluster creation](https://docs.microsoft.com/azure/databricks/kb/clusters/azure-core-limit) for details. If this happens, you can try deleting your workspace and creating a new one in a different region. You can specify a region as a parameter for the setup script like this: `./setup.ps1 eastus`
 
@@ -79,31 +78,26 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
 
 As in many Spark environments, Databricks supports the use of notebooks to combine notes and interactive code cells that you can use to explore data.
 
-1. In the sidebar, use the **(+) New** task to create a **Notebook** with the following properties:
-    - **Name**: Explore products
-    - **Default language**: Python
-    - **Cluster**: *User Name's* cluster
-2. In the **Explore products** notebook, on the **&#128463; File** menu, select **Upload data to DBFS**.
-3. In the **Upload Data** dialog box, note the **DBFS Target Directory** to where the file will be uploaded. Then select the **Files** area, and in the **Open** dialog box, in the **File** box, type `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/23/adventureworks/products.csv` and select **Open**. Then, when the file has been uploaded, select **Next**.
-
-    > **Tip**: If your browser or operating system doesn't support entering a URL in the **File** box, download the CSV file to your computer and then upload it from the local folder where you saved it.
-
-4. In the **Access files from notebooks** pane, select the sample PySpark code and copy it to the clipboard. You will use it to load the data from the file into a DataFrame. Then select **Done**.
-5. In the **Explore products** notebook, in the empty code cell, paste the code you copied; which should look similar to this:
+1. In the sidebar, use the **(+) New** task to create a **Notebook**.
+1. Change the default notebook name (**Untitled Notebook *[date]***) to **Explore products** and in the **Connect** drop-down list, select your cluster (which may take a minute or so to start).
+1. Download the [**products.csv**](https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/23/adventureworks/products.csv) file to your local computer, saving it as **products.csv**. Then, in the **Explore products** notebook, on the **File** menu, select **Upload data to DBFS**.
+1. In the **Upload Data** dialog box, note the **DBFS Target Directory** to where the file will be uploaded. Then select the **Files** area, and upload the **products.csv** file you downloaded to your computer. When the file has been uploaded, select **Next**
+1. In the **Access files from notebooks** pane, select the sample PySpark code and copy it to the clipboard. You will use it to load the data from the file into a DataFrame. Then select **Done**.
+1. In the **Explore products** notebook, in the empty code cell, paste the code you copied; which should look similar to this:
 
     ```python
-    df1 = spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/shared_uploads/user@outlook.com/products_1_.csv")
+    df1 = spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/shared_uploads/user@outlook.com/products.csv")
     ```
 
-6. Use the **&#9656; Run Cell** menu option at the top-right of the cell to run it, starting and attaching the cluster if prompted.
-7. Wait for the Spark job run by the code to complete. The code has created a *dataframe* object named **df1** from the data in the file you uploaded.
-8. Under the existing code cell, use the **+** icon to add a new code cell. Then in the new cell, enter the following code:
+1. Use the **&#9656; Run Cell** menu option at the top-right of the cell to run it, starting and attaching the cluster if prompted.
+1. Wait for the Spark job run by the code to complete. The code has created a *dataframe* object named **df1** from the data in the file you uploaded.
+1. Under the existing code cell, use the **+** icon to add a new code cell. Then in the new cell, enter the following code:
 
     ```python
     display(df1)
     ```
 
-9. Use the **&#9656; Run Cell** menu option at the top-right of the new cell to run it. This code displays the contents of the dataframe, which should look similar to this:
+1. Use the **&#9656; Run Cell** menu option at the top-right of the new cell to run it. This code displays the contents of the dataframe, which should look similar to this:
 
     | ProductID | ProductName | Category | ListPrice |
     | -- | -- | -- | -- |
@@ -111,7 +105,7 @@ As in many Spark environments, Databricks supports the use of notebooks to combi
     | 772 | Mountain-100 Silver, 42 | Mountain Bikes | 3399.9900 |
     | ... | ... | ... | ... |
 
-10. Above the table of results, select **+** and then select **Visualization** to view the visualization editor, and then apply the following options:
+1. Above the table of results, select **+** and then select **Visualization** to view the visualization editor, and then apply the following options:
     - **Visualization type**: Bar
     - **X Column**: Category
     - **Y Column**: *Add a new column and select* **ProductID**. *Apply the* **Count** *aggregation*.
@@ -120,7 +114,7 @@ As in many Spark environments, Databricks supports the use of notebooks to combi
 
     ![A bar chart showing product counts by category](./images/databricks-chart.png)
 
-## Create and query a database table
+## Create and query a table
 
 While many data analysis are comfortable using languages like Python or Scala to work with data in files, a lot of data analytics solutions are built on relational databases; in which data is stored in tables and manipulated using SQL.
 

@@ -50,16 +50,16 @@ In this exercise, you'll use a script to provision a new Azure Databricks worksp
 
 You can create notebooks in your Azure Databricks workspace to run code written in a range of programming languages. In this exercise, you'll import an existing notebook that contains some Python code.
 
-1. In the Azure portal, in the **dp203-*xxxxxxx*** resource group, select the **databricks*xxxxxxx*** Azure Databricks Service resource.
-2. In the **Overview** page for **databricks*xxxxxxx***, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
-3. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform. The sidebar expands to show the names of the task categories.
-4. Expand the sidebar and select the **Workspace** tab. Then select the **Users** folder and in the **&#9662;** menu for the **&#8962; *your_user_name*** folder, select **Import**.
-5. In the **Import Notebooks** dialog box, select **URL** and import the notebook from `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/27/Process-Data.ipynb`
-6. Select **&#8962; Home** and then open the **Process-Data** notebook you just imported.
+1. In the Azure portal, browse to the **dp203-*xxxxxxx*** resource group that was created by the script you ran.
+2. Select the **databricks*xxxxxxx*** Azure Databricks Service resource.
+3. In the **Overview** page for **databricks*xxxxxxx***, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
+4. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform.
 
-    **Note**: If a tip is displayed, use the **Got it** button to close it. This applies to any future tips that may be displayed as you navigate the workspace interface for the first time.
+    >**Tip**: As you use the Databricks Workspace portal, various tips and notifications may be displayed. Dismiss these and follow the instructions provided to complete the tasks in this exercise.
 
-7. Review the contents of the notebook, which include some Python code cells to:
+1. In the sidebar on the left, select **Workspace**. Then select the **&#8962; Home** folder.
+1. At the top of the page, in the **&#8942;** menu next to your user name, select **Import**. Then in the **Import** dialog box, select **URL** and import the notebook from `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/27/Process-Data.ipynb`
+1. Review the contents of the notebook, which include some Python code cells to:
     - Retrieve a parameter named **folder** if it is has been passed (otherwise use a default value of *data*).
     - Download data from GitHub and save it in the specified folder in the Databricks File System (DBFS).
     - Exit the notebook, returning the path where the data was saved as an output
@@ -73,8 +73,9 @@ To use Azure Databricks from an Azure Data Factory pipeline, you need to create 
 ### Generate an access token
 
 1. In the Azure Databricks portal, at on the top right menu bar, select the username and then select **User Settings** from the drop-down.
-2. In the **User Settings** page, on the **Access tokens** tab, select **Generate new token** and generate a new token with the comment *Data Factory* and a blank lifetime (so the token doesn't expire). Be careful to *copy the token when it is displayed <u>before</u> selecting **Done***.
-3. Paste the copied token to a text file so you have it handy for later in this exercise.
+1. In the **User Settings** page, select **Developer**. Then next to **Access tokens** select **Manage**.
+1. Select **Generate new token** and generate a new token with the comment *Data Factory* and a blank lifetime (so the token doesn't expire). Be careful to **copy the token when it is displayed <u>before</u> selecting *Done***.
+1. Paste the copied token to a text file so you have it handy for later in this exercise.
 
 ### Create a linked service in Azure Data Factory
 
@@ -94,7 +95,7 @@ To use Azure Databricks from an Azure Data Factory pipeline, you need to create 
     - **Databrick Workspace URL**: *Automatically set to your Databricks workspace URL*
     - **Authentication type**: Access token
     - **Access token**: *Paste your access token*
-    - **Cluster version**: 10.4 LTS (Scala 2.12, Spark 3.2.1)
+    - **Cluster version**: 12.2 LTS (Scala 2.12, Spark 3.2.2)
     - **Cluster node type**: Standard_DS3_v2
     - **Python version**: 3
     - **Worker options**: Fixed
