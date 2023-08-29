@@ -4,6 +4,8 @@ lab:
     ilt-use: 'Lab'
 ---
 
+> **Important**: Microsoft Purview has been updated to restrict organizations to a single Microsoft Purview account per Azure tenant. Consequently, this lab is not supported in shared tenant environments, including many hosted lab environments used in instructor-led training courses.
+
 # Use Microsoft Purview with Azure Synapse Analytics
 
 Microsoft Purview enables you to catalog data assets across your data estate and track the flow of data as it is transferred from one data source to another - a key element of a comprehensive data governance solution.
@@ -12,7 +14,7 @@ This exercise should take approximately **40** minutes to complete.
 
 ## Before you start
 
-You'll need an [Azure subscription](https://azure.microsoft.com/free) in which you have administrative-level access.
+You'll need an [Azure subscription](https://azure.microsoft.com/free) in which you have administrative-level privileges and exclusive access to the tenant in which the subscription is defined.
 
 ## Provision Azure resources
 
