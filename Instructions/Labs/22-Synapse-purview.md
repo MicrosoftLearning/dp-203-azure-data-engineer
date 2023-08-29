@@ -4,7 +4,7 @@ lab:
     ilt-use: 'Lab'
 ---
 
-> **Important**: Microsoft Purview has been updated to restrict organizations to a single Microsoft Purview account per Azure tenant. Consequently, this lab is not supported in shared tenant environments, including many hosted lab environments used in instructor-led training courses.
+> **Important**: Microsoft Purview has been updated to restrict the number of Microsoft Purview accounts available per Azure tenant. Consequently, this lab is not supported in shared tenant environments, including many hosted lab environments used in instructor-led training courses.
 
 # Use Microsoft Purview with Azure Synapse Analytics
 
