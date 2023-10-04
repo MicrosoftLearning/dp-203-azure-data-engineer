@@ -136,7 +136,7 @@ While many data analysis are comfortable using languages like Python or Scala to
     ```
 
 4. Run the new cell, which contains SQL code to return the name and price of products in the *Touring Bikes* category.
-5. In the tab on the left, select the **Data** task, and verify that the **products** table has been created in the default database schema (which is unsurprisingly named **default**). It's possible to use Spark code to create custom database schemas and a schema of relational tables that data analysts can use to explore data and generate analytical reports.
+5. In the tab on the left, select the **Catalog** task, and verify that the **products** table has been created in the default database schema (which is unsurprisingly named **default**). It's possible to use Spark code to create custom database schemas and a schema of relational tables that data analysts can use to explore data and generate analytical reports.
 
 ## Delete Azure Databricks resources
 
