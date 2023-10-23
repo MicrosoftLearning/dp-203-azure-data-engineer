@@ -89,7 +89,7 @@ The script provisions an Azure Synapse Analytics workspace and an Azure Storage 
 
     This code uses the OPENROWSET to read data from the CSV files in the sales folder and retrieves the first 100 rows of data.
 
-5. In this case, the data files include the column names in the first row; so modify the query to add a `HEADER_ROW = TRUE` parameter to the `WITH` clause, as shown here (don't forget to add a comma after the previous parameter):
+5. In this case, the data files include the column names in the first row; so modify the query to add a `HEADER_ROW = TRUE` parameter to the `OPENROWSET` clause, as shown here (don't forget to add a comma after the previous parameter):
 
     ```SQL
     SELECT
