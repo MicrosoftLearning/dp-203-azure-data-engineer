@@ -18,7 +18,7 @@ You'll need an [Azure subscription](https://azure.microsoft.com/free) in which y
 
 In this exercise, you'll use a script to provision a new Azure Databricks workspace.
 
-> **Tip**: If you already have a *Standard* or *Trial* Azure Databricks workspace, you can skip this procedure.
+> **Tip**: If you already have a *Standard* or *Trial* Azure Databricks workspace, you can skip this procedure and use your existing workspace.
 
 1. In a web browser, sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The cloud shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
@@ -51,11 +51,11 @@ In this exercise, you'll use a script to provision a new Azure Databricks worksp
 
 Azure Databricks is a distributed processing platform that uses Apache Spark *clusters* to process data in parallel on multiple nodes. Each cluster consists of a driver node to coordinate the work, and worker nodes to perform processing tasks.
 
-> **Tip**: If you already have a cluster with a 13.3 LTS runtime version, you can use it to complete this exercise and skip this procedure.
+> **Tip**: If you already have a cluster with a 13.3 LTS runtime version in your Azure Databricks workspace, you can use it to complete this exercise and skip this procedure.
 
-1. In the Azure portal, browse to the **dp203-*xxxxxxx*** resource group that was created by the script you ran.
-1. Select the **databricks*xxxxxxx*** Azure Databricks Service resource.
-1. In the **Overview** page for **databricks*xxxxxxx***, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
+1. In the Azure portal, browse to the **dp203-*xxxxxxx*** resource group that was created by the script (or the resource group containing your existing Azure Databricks workspace)
+1. Select your Azure Databricks Service resource (named **databricks*xxxxxxx*** if you used the setup script to create it).
+1. In the **Overview** page for your workspace, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
 
     > **Tip**: As you use the Databricks Workspace portal, various tips and notifications may be displayed. Dismiss these and follow the instructions provided to complete the tasks in this exercise.
 
@@ -79,7 +79,7 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
 
 As in many Spark environments, Databricks supports the use of notebooks to combine notes and interactive code cells that you can use to explore data.
 
-1. In the sidebar on the left, select **Workspace**. Then select the **&#8962; Home** folder.
+1. In the Azure Databricks workspace portal for your workspace, in the sidebar on the left, select **Workspace**. Then select the **&#8962; Home** folder.
 1. At the top of the page, in the **&#8942;** menu next to your user name, select **Import**. Then in the **Import** dialog box, select **URL** and import the notebook from `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/24/Databricks-Spark.ipynb`
 1. Connect the notebook to your cluster, and follow the instructions it contains; running the cells it contains to explore data in files.
 
