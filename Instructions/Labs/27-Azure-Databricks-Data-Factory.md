@@ -18,6 +18,8 @@ You'll need an [Azure subscription](https://azure.microsoft.com/free) in which y
 
 In this exercise, you'll use a script to provision a new Azure Databricks workspace and an Azure Data Factory resource in your Azure subscription.
 
+> **Tip**: If you already have a *Standard* or *Trial* Azure Databricks workspace <u>and</u> an Azure Data Factory v2 resource, you can skip this procedure.
+
 1. In a web browser, sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The cloud shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
@@ -53,10 +55,10 @@ You can create notebooks in your Azure Databricks workspace to run code written 
 1. In the Azure portal, browse to the **dp203-*xxxxxxx*** resource group that was created by the script you ran.
 2. Select the **databricks*xxxxxxx*** Azure Databricks Service resource.
 3. In the **Overview** page for **databricks*xxxxxxx***, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
-4. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform.
 
-    >**Tip**: As you use the Databricks Workspace portal, various tips and notifications may be displayed. Dismiss these and follow the instructions provided to complete the tasks in this exercise.
+    > **Tip**: As you use the Databricks Workspace portal, various tips and notifications may be displayed. Dismiss these and follow the instructions provided to complete the tasks in this exercise.
 
+1. View the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform.
 1. In the sidebar on the left, select **Workspace**. Then select the **&#8962; Home** folder.
 1. At the top of the page, in the **&#8942;** menu next to your user name, select **Import**. Then in the **Import** dialog box, select **URL** and import the notebook from `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/27/Process-Data.ipynb`
 1. Review the contents of the notebook, which include some Python code cells to:
@@ -95,7 +97,7 @@ To use Azure Databricks from an Azure Data Factory pipeline, you need to create 
     - **Databrick Workspace URL**: *Automatically set to your Databricks workspace URL*
     - **Authentication type**: Access token
     - **Access token**: *Paste your access token*
-    - **Cluster version**: 12.2 LTS (Scala 2.12, Spark 3.2.2)
+    - **Cluster version**: 13.3 LTS (Spark 3.4.1, Scala 2.12)
     - **Cluster node type**: Standard_DS3_v2
     - **Python version**: 3
     - **Worker options**: Fixed

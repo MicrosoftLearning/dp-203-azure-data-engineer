@@ -20,6 +20,8 @@ You'll need an [Azure subscription](https://azure.microsoft.com/free) in which y
 
 In this exercise, you'll use a script to provision a new Azure Databricks workspace.
 
+> **Tip**: If you already have a *Standard* or *Trial* Azure Databricks workspace, you can skip this procedure.
+
 1. In a web browser, sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The cloud shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
@@ -51,26 +53,29 @@ In this exercise, you'll use a script to provision a new Azure Databricks worksp
 
 Azure Databricks is a distributed processing platform that uses Apache Spark *clusters* to process data in parallel on multiple nodes. Each cluster consists of a driver node to coordinate the work, and worker nodes to perform processing tasks.
 
-> **Note**: In this exercise, you'll create a *single-node* cluster to minimize the compute resources used in the lab environment (in which resources may be constrained). In a production environment, you'd typically create a cluster with multiple worker nodes.
+In this exercise, you'll create a *single-node* cluster to minimize the compute resources used in the lab environment (in which resources may be constrained). In a production environment, you'd typically create a cluster with multiple worker nodes.
+
+> **Tip**: If you already have a cluster with a 13.3 LTS runtime version, you can use it to complete this exercise and skip this procedure.
 
 1. In the Azure portal, browse to the **dp203-*xxxxxxx*** resource group that was created by the script you ran.
-2. Select the **databricks*xxxxxxx*** Azure Databricks Service resource.
-3. In the **Overview** page for **databricks*xxxxxxx***, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
-4. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains icons for the various tasks you can perform.
+1. Select the **databricks*xxxxxxx*** Azure Databricks Service resource.
+1. In the **Overview** page for **databricks*xxxxxxx***, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
 
-    >**Tip**: As you use the Databricks Workspace portal, various tips and notifications may be displayed. Dismiss these and follow the instructions provided to complete the tasks in this exercise.
+    > **Tip**: As you use the Databricks Workspace portal, various tips and notifications may be displayed. Dismiss these and follow the instructions provided to complete the tasks in this exercise.
 
-1. Select the **(+) New** task, and then select **Cluster**.
+1. View the Azure Databricks workspace portal and note that the sidebar on the left side contains links for the various types of task you can perform.
+
+1. Select the **(+) New** link in the sidebar, and then select **Cluster**.
 1. In the **New Cluster** page, create a new cluster with the following settings:
     - **Cluster name**: *User Name's* cluster (the default cluster name)
     - **Cluster mode**: Single Node
     - **Access mode**: Single user (*with your user account selected*)
-    - **Databricks runtime version**: 12.2 LTS (Scala 2.12, Spark 3.2.2)
+    - **Databricks runtime version**: 13.3 LTS (Spark 3.4.1, Scala 2.12)
     - **Use Photon Acceleration**: Selected
     - **Node type**: Standard_DS3_v2
     - **Terminate after** *30* **minutes of inactivity**
 
-7. Wait for the cluster to be created. It may take a minute or two.
+1. Wait for the cluster to be created. It may take a minute or two.
 
 > **Note**: If your cluster fails to start, your subscription may have insufficient quota in the region where your Azure Databricks workspace is provisioned. See [CPU core limit prevents cluster creation](https://docs.microsoft.com/azure/databricks/kb/clusters/azure-core-limit) for details. If this happens, you can try deleting your workspace and creating a new one in a different region. You can specify a region as a parameter for the setup script like this: `./setup.ps1 eastus`
 
@@ -78,8 +83,8 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
 
 As in many Spark environments, Databricks supports the use of notebooks to combine notes and interactive code cells that you can use to explore data.
 
-1. In the sidebar, use the **(+) New** task to create a **Notebook**.
-1. Change the default notebook name (**Untitled Notebook *[date]***) to **Explore products** and in the **Connect** drop-down list, select your cluster (which may take a minute or so to start).
+1. In the sidebar, use the **(+) New** link to create a **Notebook**.
+1. Change the default notebook name (**Untitled Notebook *[date]***) to **Explore products** and in the **Connect** drop-down list, select your cluster if it is not already selected. If the cluster is not running, it may take a minute or so to start.
 1. Download the [**products.csv**](https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/23/adventureworks/products.csv) file to your local computer, saving it as **products.csv**. Then, in the **Explore products** notebook, on the **File** menu, select **Upload data to DBFS**.
 1. In the **Upload Data** dialog box, note the **DBFS Target Directory** to where the file will be uploaded. Then select the **Files** area, and upload the **products.csv** file you downloaded to your computer. When the file has been uploaded, select **Next**
 1. In the **Access files from notebooks** pane, select the sample PySpark code and copy it to the clipboard. You will use it to load the data from the file into a DataFrame. Then select **Done**.
@@ -136,7 +141,7 @@ While many data analysis are comfortable using languages like Python or Scala to
     ```
 
 4. Run the new cell, which contains SQL code to return the name and price of products in the *Touring Bikes* category.
-5. In the tab on the left, select the **Catalog** task, and verify that the **products** table has been created in the default database schema (which is unsurprisingly named **default**). It's possible to use Spark code to create custom database schemas and a schema of relational tables that data analysts can use to explore data and generate analytical reports.
+5. In the sidebar, select the **Catalog** link, and verify that the **products** table has been created in the default database schema (which is unsurprisingly named **default**). It's possible to use Spark code to create custom database schemas and a schema of relational tables that data analysts can use to explore data and generate analytical reports.
 
 ## Delete Azure Databricks resources
 

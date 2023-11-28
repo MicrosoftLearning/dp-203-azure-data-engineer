@@ -18,6 +18,8 @@ You'll need an [Azure subscription](https://azure.microsoft.com/free) in which y
 
 In this exercise, you'll need a premium-tier Azure Databricks workspace.
 
+> **Tip**: If you already have a *Premium* or *Trial* Azure Databricks workspace, you can skip this procedure.
+
 1. In a web browser, sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The cloud shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
@@ -48,11 +50,11 @@ In this exercise, you'll need a premium-tier Azure Databricks workspace.
 ## View and start a SQL Warehouse
 
 1. When the Azure Databricks workspace resource has been deployed, go to it in the Azure portal.
-2. In the **Overview** page for your Azure Databricks workspace, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
-3. If a **What's your current data project?** message is displayed, select **Finish** to close it. Then view the Azure Databricks workspace portal and note that the sidebar on the left side contains the names of the task categories.
+1. In the **Overview** page for your Azure Databricks workspace, use the **Launch Workspace** button to open your Azure Databricks workspace in a new browser tab; signing in if prompted.
 
-    >**Tip**: As you use the Databricks Workspace portal, various tips and notifications may be displayed. Dismiss these and follow the instructions provided to complete the tasks in this exercise.
+    > **Tip**: As you use the Databricks Workspace portal, various tips and notifications may be displayed. Dismiss these and follow the instructions provided to complete the tasks in this exercise.
 
+1. View the Azure Databricks workspace portal and note that the sidebar on the left side contains the names of the task categories.
 1. In the sidebar, under **SQL**, select **SQL Warehouses**.
 1. Observe that the workspace already includes a SQL Warehouse named **Starter Warehouse**.
 1. In the **Actions** (**&#8285;**) menu for the SQL Warehouse, select **Edit**. Then set the **Cluster size** property to **2X-Small** and save your changes.
@@ -106,16 +108,14 @@ Saving a query makes it easy to retrieve the same data again at a later time.
 1. In the sidebar, select **(+) New** and then select **Dashboard**.
 2. In the **New dashboard** dialog box, enter the name **Adventure Works Products** and select **Save**.
 3. In the **Adventure Works Products** dashboard, in the **Add** drop-down list, select **Visualization**.
-4. In the **Add visualization widget** dialog box, select the **Products and Categories** query. Then select **Create new visualization**, set the title to **Products Per Category**. and select **Create visualization**.
+4. In the **Add visualization widget** dialog box, select the **Products and Categories** query. Then select **Create new visualization**, set the title to **Products Per Category**, and select **Create visualization**.
 5. In the visualization editor, set the following properties:
     - **Visualization type**: bar
     - **Horizontal chart**: selected
     - **Y column**: Category
     - **X columns**: Product ID : Count
-    - **Group by**: Category
-    - **Legend placement**: Automatic (Flexible)
-    - **Legend items order**: Normal
-    - **Stacking**: Stack
+    - **Group by**: *Leave blank*
+    - **Stacking**: Disabled
     - **Normalize values to percentage**: <u>Un</u>selected
     - **Missing and NULL values**: Do not display in chart
 
