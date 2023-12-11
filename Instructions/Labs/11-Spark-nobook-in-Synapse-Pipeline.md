@@ -69,6 +69,8 @@ Before automating a data transformation process with a notebook, it can be usefu
     - Saves the transformed data in Parquet format in the uniquely named folder.
 10. In the notebook toolbar, attach the notebook to your **spark*xxxxxxx*** Spark pool and then use the **&#9655; Run All** button to run all of the code cells in the notebook.
 
+    > **Note**: If you find the notebook is not uploaded during the run script, you should download it from GitHub https://github.com/microsoftlearning/allfiles/labs/11/ with the file extension .ipynb and upload it to Synapse.
+    
     The Spark session may take a few minutes to start before the code cells can run.
 
 11. After all of the notebook cells have run, note the name of the folder in which the transformed data has been saved.
