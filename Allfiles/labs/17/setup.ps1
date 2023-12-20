@@ -99,9 +99,10 @@ $subscriptionId = (Get-AzContext).Subscription.Id
 $userName = ((az ad signed-in-user show) | ConvertFrom-JSON).UserPrincipalName
 New-AzRoleAssignment -SignInName $userName -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$storageAccountName" -ErrorAction SilentlyContinue;
 
+
 # Prepare JavaScript EventHub client app
 write-host "Creating Event Hub client app..."
-npm install @azure/event-hubs | Out-Null
+npm install @azure/event-hubs@5.9.0 -s
 Update-AzConfig -DisplayBreakingChangeWarning $false | Out-Null
 $conStrings = Get-AzEventHubKey -ResourceGroupName $resourceGroupName -NamespaceName $eventNsName -AuthorizationRuleName "RootManageSharedAccessKey"
 $conString = $conStrings.PrimaryConnectionString

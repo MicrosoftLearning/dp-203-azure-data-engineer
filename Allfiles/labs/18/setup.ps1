@@ -172,7 +172,7 @@ New-AzRoleAssignment -SignInName $userName -RoleDefinitionName "Storage Blob Dat
 
 # Prepare JavaScript EventHub client app
 write-host "Creating Event Hub client app..."
-npm install @azure/event-hubs | Out-Null
+npm install @azure/event-hubs@5.9.0 -s
 Update-AzConfig -DisplayBreakingChangeWarning $false | Out-Null
 $conStrings = Get-AzEventHubKey -ResourceGroupName $resourceGroupName -NamespaceName $eventNsName -AuthorizationRuleName "RootManageSharedAccessKey"
 $conString = $conStrings.PrimaryConnectionString
