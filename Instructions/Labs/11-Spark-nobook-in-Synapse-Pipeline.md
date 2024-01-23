@@ -62,15 +62,16 @@ Before automating a data transformation process with a notebook, it can be usefu
 6. Select the files container, and note that it contains a folder named **data**, which contains the data files you're going to transform.
 7. Open the **data**** folder and view the CSV files it contains. Right-click any of the files and select **Preview** to see a sample of the data. Close the preview when finished.
 8. In Synapse Studio, on the **Develop** page, expand **Notebooks** and open the **Spark Transform** notebook.
+
+    > **Note**: If you find the notebook is not uploaded during the run script, you should download it from GitHub [Allfiles/labs/11/notebooks](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks) The file named  Spark Transform.ipynb and upload it to Synapse.
+
 9. Review the code the notebook contains, noting that it:
     - Sets a variable to define a unique folder name.
     - Loads the CSV sales order data from the **/data** folder.
     - Transforms the data by splitting the customer name into multiple fields.
     - Saves the transformed data in Parquet format in the uniquely named folder.
 10. In the notebook toolbar, attach the notebook to your **spark*xxxxxxx*** Spark pool and then use the **&#9655; Run All** button to run all of the code cells in the notebook.
-
-    > **Note**: If you find the notebook is not uploaded during the run script, you should download it from GitHub [Allfiles/labs/11/notebooks](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks) The file named  Spark Transform.ipynb and upload it to Synapse.
-    
+  
     The Spark session may take a few minutes to start before the code cells can run.
 
 11. After all of the notebook cells have run, note the name of the folder in which the transformed data has been saved.
