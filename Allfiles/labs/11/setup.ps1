@@ -171,13 +171,13 @@ Get-ChildItem "./data/*.csv" -File | Foreach-Object {
 
 
 # Import notebooks
-write-host "Importing notebooks..."
-Get-ChildItem "./notebooks/*.ipynb" -File | Foreach-Object {
-    write-host ""
-    $file = $_.FullName
-    $name = $_.Name
-    Write-Host "Importing $name ..."
-    az synapse notebook import --workspace-name $synapseWorkspace --name $name.Replace(".ipynb", "") --file "@$file" --only-show-errors >/dev/null
-}
+#write-host "Importing notebooks..."
+#Get-ChildItem "./notebooks/*.ipynb" -File | Foreach-Object {
+#    write-host ""
+#    $file = $_.FullName
+#    $name = $_.Name
+#    Write-Host "Importing $name ..."
+#    az synapse notebook import --workspace-name $synapseWorkspace --name $name.Replace(".ipynb", "") --file "@$file" --only-show-errors >/dev/null
+#}
 
 write-host "Script completed at $(Get-Date)"

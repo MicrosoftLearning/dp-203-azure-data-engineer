@@ -63,9 +63,10 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 7. Select the **files** container, and note that it contains folders named **data** and **synapse**. The synapse folder is used by Azure Synapse, and the **data** folder contains the data files you are going to query.
 8. Open the **data** folder and observe that it contains .csv files for three years of sales data.
 9. Right-click any of the files and select **Preview** to see the data it contains. Note that the files contain a header row, so you can select the option to display column headers.
-10. Close the preview. Then download the **Spark Transform.ipynb** from [https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/06/notebooks/Spark%20Transform.ipynb](https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/06/notebooks/Spark%20Transform.ipynb)
+10. Close the preview. Then download the **Spark Transform.ipynb** from [from Allfiles/labs/06/notebooks](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/06/notebooks)
 
-    > **Note**: It's best to copy this text using the ***ctrl+a*** then ***ctrl+c*** and pasting into a tool using ***ctrl+v***, such as, notepad and then using file, save as **Spark Transform.ipynb** with a filetype of ***all files***.
+    > **Note**: It's best to copy this text using the ***ctrl+a*** then ***ctrl+c*** and pasting into a tool using ***ctrl+v***, such as, notepad and then using file, save as **Spark Transform.ipynb** with a filetype of ***all files***. You can also download the file by clicking on it, then selecting the ellipses and then download, remembering where you saved it.
+    ![Download Spark notebook from GitHub](./images/select-download-notebook.png)
 
 11. Then on **Develop** page, expand **Notebooks** click on the + Import options
 

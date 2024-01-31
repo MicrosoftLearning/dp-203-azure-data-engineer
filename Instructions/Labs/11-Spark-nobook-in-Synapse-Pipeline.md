@@ -61,10 +61,21 @@ Before automating a data transformation process with a notebook, it can be usefu
 5. Expand your storage account and verify that it contains a file system container named **files (primary)**.
 6. Select the files container, and note that it contains a folder named **data**, which contains the data files you're going to transform.
 7. Open the **data**** folder and view the CSV files it contains. Right-click any of the files and select **Preview** to see a sample of the data. Close the preview when finished.
-8. In Synapse Studio, on the **Develop** page, expand **Notebooks** and open the **Spark Transform** notebook.
+8. Right-click any of the files and select **Preview** to see the data it contains. Note that the files contain a header row, so you can select the option to display column headers.
+9. Close the preview. Then download the **Spark Transform.ipynb** [from Allfiles/labs/11/notebooks](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks)
 
-    > **Note**: If you find the notebook is not uploaded during the run script, you should download it from GitHub [Allfiles/labs/11/notebooks](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks) The file named  Spark Transform.ipynb and upload it to Synapse.
+    > **Note**: It's best to copy this text using the ***ctrl+a*** then ***ctrl+c*** and pasting into a tool using ***ctrl+v***, such as, notepad and then using file, save as **Spark Transform.ipynb** with a filetype of ***all files***. You also have the option to select the file within GitHub and then selecting the ellipses and then select download, saving it to a location you can remember. 
+    ![download notebook file from GitHub](./images/select-download-notebook.png)
 
+10 Then on **Develop** page, expand **Notebooks** click on the + Import options
+
+    ![Spark Notebook import](./image/../images/spark-notebook-import.png)
+        
+12. Select the file you just downloaded and saved as **Spark Transfrom.ipynb**.
+13. Attach the notebook to your **spark*xxxxxxx*** Spark pool.
+14. Review the notes in the notebook and run the code cells.
+
+    > **Note**: The first code cell will take a few minutes to run because the Spark pool must be started. Subsequent cells will run more quickly.
 9. Review the code the notebook contains, noting that it:
     - Sets a variable to define a unique folder name.
     - Loads the CSV sales order data from the **/data** folder.
@@ -99,8 +110,9 @@ Now that you understand the transformation process, you're ready to automate it 
 
     ![Screenshot of a pipeline containing a Notebook activity.](images/notebook-pipeline.png)
 
-4. In the **General** tab for the Notebook activity, change its name to **Run Spark Transform**.
-5. In the **Settings** tab for the Notebook activity, set the following properties:
+4. 
+5. In the **General** tab for the Notebook activity, change its name to **Run Spark Transform**.
+6. In the **Settings** tab for the Notebook activity, set the following properties:
     - **Notebook**: Select the **Spark Transform** notebook.
     - **Base parameters**: Expand this section and define a parameter with the following settings:
         - **Name**: folderName
