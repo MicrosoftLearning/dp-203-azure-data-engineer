@@ -15,3 +15,5 @@ Some of the exercises are suggested as instructor demo's in classroom deliveries
 ## Contributing to this repo
 
 Microsoft Certified Trainers (MCTs) are welcome to submit issues and PRs related to content or assets in this repo, subject to the guidance in the [GitHub User Guide for MCTs](https://microsoftlearning.github.io/MCT-User-Guide/). Trainers should bear in mind that the repo is designed to support self-paced learners on Microsoft Learn as well as students in instructor-led courses, and that some of the exercises in the repo are not included in the hosted lab profiles for classroom delivery. Issues relating to configuration or performance of lab environments provided by ALHs are not supported here - contact your ALH if you experience problems related to the hosted lab environment.
+
+Modified by Afifa

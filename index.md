@@ -15,3 +15,5 @@ To complete these exercises, you'll need a [Microsoft Azure subscription](https:
 | --- | --- |
 {% for activity in labs  %}| [{{ activity.lab.title }}{% if activity.lab.type %} - {{ activity.lab.type }}{% endif %}]({{ site.github.url }}{{ activity.url }}) | {{ activity.lab.ilt-use }} |
 {% endfor %}
+
+Modified by Afifa
