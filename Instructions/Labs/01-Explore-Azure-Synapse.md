@@ -73,8 +73,6 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
         - **sql*xxxxxxx***: A *dedicated* SQL pool that hosts a relational data warehouse database.
     - **Apache Spark pools**:
         - **spark*xxxxxxx***: that you can use on-demand to explore or process data in a data lake by using programming languages like Scala or Python.
-<!---    - **Data Explorer pools**:
-        - **adx*xxxxxxx***: A Data Explorer pool that you can use to analyze data by using Kusto Query Language (KQL). --->
 
 ## Ingest data with a pipeline
 
