@@ -64,7 +64,7 @@ Before automating a data transformation process with a notebook, it can be usefu
 8. Right-click any of the files and select **Preview** to see the data it contains. Note that the files contain a header row, so you can select the option to display column headers.
 9. Close the preview. Then download the **Spark Transform.ipynb** [from Allfiles/labs/11/notebooks](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks)
 
-    > **Note**: It's best to copy this text using the ***ctrl+a*** then ***ctrl+c*** and pasting into a tool using ***ctrl+v***, such as, notepad and then using file, save as **Spark Transform.ipynb** with a filetype of ***all files***. You also have the option to select the file within GitHub and then selecting the ellipses and then select download, saving it to a location you can remember. 
+    > **Note**: It's best to copy this text using the ***ctrl+a*** then ***ctrl+c*** and pasting into a tool using ***ctrl+v***, such as, notepad and then using file, save as **Spark Transform.ipynb** with a filetype of ***all files***. You also have the option to select the file within GitHub and then selecting the ellipsis (...) and then select **Download**, saving it to a location you can remember. 
     ![download notebook file from GitHub](./images/select-download-notebook.png)
 
 10 Then on **Develop** page, expand **Notebooks** click on the + Import options
