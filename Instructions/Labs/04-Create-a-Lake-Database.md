@@ -61,7 +61,7 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 
     ![Select the files folder within the data lake container](./images/dp203-Container.png)
 
-1. Within the **files folder** you'll note the **Authentication method:** is listed as ***Access key (Switch to Azure AD User Account)*** click on this to change to Azure AD User Account.
+1. Within the **files folder** you'll note the **Authentication method:** is listed as ***Access key (Switch to Entra User Account)*** click on this to change to Entra User Account.
 
     ![Change to Azure AD user account](./images/dp203-switch-to-aad-user.png)
 ## Create a lake database
