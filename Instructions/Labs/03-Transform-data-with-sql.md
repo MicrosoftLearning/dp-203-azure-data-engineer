@@ -112,7 +112,7 @@ The script provisions an Azure Synapse Analytics workspace and an Azure Storage 
 
 7. Publish the changes to your script, and then close the script pane.
 
-## Transform data using CREATE EXTERAL TABLE AS SELECT (CETAS) statements
+## Transform data using CREATE EXTERNAL TABLE AS SELECT (CETAS) statements
 
 A simple way to use SQL to transform data in a file and persist the results in another file is to use a CREATE EXTERNAL TABLE AS SELECT (CETAS) statement. This statement creates a table based on the requests of a query, but the data for the table is stored as files in a data lake. The transformed data can then be queried through the external table, or accessed directly in the file system (for example, for inclusion in a downstream process to load the transformed data into a data warehouse).
 
