@@ -263,7 +263,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
         TOP 100 *
     FROM
         OPENROWSET(
-            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/2023/**',
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/2024/**',
             FORMAT = 'CSV',
             PARSER_VERSION = '2.0',
             HEADER_ROW = TRUE
