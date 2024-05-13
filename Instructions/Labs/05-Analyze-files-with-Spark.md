@@ -248,7 +248,7 @@ A picture is proverbially worth a thousand words, and a chart is often better th
 
 5. Verify that the chart looks similar to this:
 
-    ![A bar chart of products by total order quantiies](../images/notebook-chart.png)
+    ![A bar chart of products by total order quantiies](./images/notebook-chart.png)
 
 ### Get started with **matplotlib**
 
