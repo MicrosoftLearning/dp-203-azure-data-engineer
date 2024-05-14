@@ -32,14 +32,14 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 4. In the PowerShell pane, enter the following commands to clone this repo:
 
     ```
-    rm -r dp500 -f
-    git clone https://github.com/MicrosoftLearning/DP-500-Azure-Data-Analyst dp500
+    rm -r dp203 -f
+    git clone  https://github.com/MicrosoftLearning/Dp-203-azure-data-engineer dp203
     ```
 
 5. After the repo has been cloned, enter the following commands to change to the folder for this lab and run the **setup.ps1** script it contains:
 
     ```
-    cd dp500/Allfiles/03
+    cd dp203/Allfiles/08
     ./setup.ps1
     ```
 
