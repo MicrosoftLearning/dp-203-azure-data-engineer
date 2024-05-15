@@ -39,7 +39,7 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 5. After the repo has been cloned, enter the following commands to change to the folder for this lab and run the **setup.ps1** script it contains:
 
     ```
-    cd dp203/Allfiles/08
+    cd dp203/Allfiles/labs/08
     ./setup.ps1
     ```
 
