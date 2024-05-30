@@ -23,7 +23,7 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 1. Sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The cloud shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
-    ![Azure portal with a cloud shell pane](../images/cloud-shell.png)
+    ![Azure portal with a cloud shell pane](./images/cloud-shell.png)
 
     > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, use the the drop-down menu at the top left of the cloud shell pane to change it to ***PowerShell***.
 
@@ -32,7 +32,7 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 4. In the PowerShell pane, enter the following commands to clone this repo:
 
     ```
-    rm -r dp500 -f
+    rm -r dp203 -f
     git clone https://github.com/MicrosoftLearning/DP-203-Azure-Data-Engineer dp203
     ```
 
@@ -249,7 +249,7 @@ A picture is proverbially worth a thousand words, and a chart is often better th
 
 5. Verify that the chart looks similar to this:
 
-    ![A bar chart of products by total order quantiies](../images/notebook-chart.png)
+    ![A bar chart of products by total order quantiies](./images/notebook-chart.png)
 
 ### Get started with **matplotlib**
 
