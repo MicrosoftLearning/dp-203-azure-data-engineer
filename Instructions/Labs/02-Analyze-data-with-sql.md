@@ -1,4 +1,3 @@
-
 ---
 lab:
     title: 'Analyze data in a data lake with Spark'
