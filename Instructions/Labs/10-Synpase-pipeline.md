@@ -127,6 +127,7 @@ To load the data in the text file into the database table, you will implement an
             - **Name**: Data_Warehouse
             - **Description**: Dedicated SQL pool
             - **Connect via integration runtime**: AutoResolveIntegrationRuntime
+            - **Version**: Legacy
             - **Account selection method** From Azure subscription
             - **Azure subscription**: Select your Azure subscription
             - **Server name**: synapse*xxxxxxx* (Synapse workspace)
