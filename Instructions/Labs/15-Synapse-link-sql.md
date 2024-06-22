@@ -117,6 +117,7 @@ Now you're ready to configure Azure Synapse Link for SQL in your Synapse Analyti
         - **Name**: SqlAdventureWorksLT
         - **Description**: Connection to AdventureWorksLT database
         - **Connect via integration runtime**: AutoResolveIntegrationRuntime
+        - **Version**: Legacy
         - **Connection String**: Selected
         - **From Azure subscription**: Selected
         - **Azure subscription**: *Select your Azure subscription*
