@@ -135,7 +135,7 @@ To load the data in the text file into the database table, you will implement an
             - **SQL pool**: sql*xxxxxxx*
             **Authentication type**: System Assigned Managed Identity
         - **Table name**: dbo.DimProduct
-        - **Import schema**: From connection/store
+        - **Import schema**: From connection/store  -- (NB: at this point, this doesn't work. There is an error "Schema import failed: Please select a table". My workaround for this was to select none. Then select the Product table source in the graph, Select "Open" beside the "Dataset" under Source Settings in the bottom tab(The tab window now has tabs "Connection", "Schema", "Parameters"). Under the "Schema" tab, select "Import Schema". This allowed me to get the schema for the table. 
     - **Allow schema drift**: Selected
 4. On the **Projection** tab for the new **ProductTable** source, verify that the following data types are set:
     - **ProductKey**: integer
