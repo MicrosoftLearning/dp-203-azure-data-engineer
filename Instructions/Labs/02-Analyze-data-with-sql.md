@@ -66,6 +66,12 @@ The script provisions an Azure Synapse Analytics workspace and an Azure Storage 
 8. Open the **sales** folder and the **orders** folder it contains, and observe that the **orders** folder contains .csv files for three years of sales data.
 9. Right-click any of the files and select **Preview** to see the data it contains. Note that the files do not contain a header row, so you can unselect the option to display column headers.
 
+> **Note**:
+> It may be necessary to create the folder **sales** and then the folders **csv**, **json**, and **parquet**
+> underneath the **sales** folder. Once this is done you can download the files to your local machine to a folder you remember
+> and the upload the files to each of the appropriate folders based upon the appropriate folder you created above.
+> You can download the files from the following path: https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/02/data
+
 ### Use Spark to explore data
 
 1. Select any of the files in the **orders** folder, and then in the **New notebook** list on the toolbar, select **Load to DataFrame**. A dataframe is a structure in Spark that represents a tabular dataset.
