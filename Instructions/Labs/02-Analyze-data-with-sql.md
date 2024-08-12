@@ -56,6 +56,12 @@ The script provisions an Azure Synapse Analytics workspace and an Azure Storage 
 
 ### View files in the data lake
 
+> **Note**:
+> It may be necessary to create the folder **sales** and then the folders **csv**, **json**, and **parquet**
+> underneath the **sales** folder. Once this is done you can download the files to your local machine to a folder you remember
+> and the upload the files to each of the appropriate folders based upon the appropriate folder you created above.
+> You can download the files from the following path: https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/02/data
+
 1. After the script has completed, in the Azure portal, go to the **dp203-*xxxxxxx*** resource group that it created, and select your Synapse workspace.
 2. In the **Overview** page for your Synapse workspace, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
 3. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within Synapse Studio that you'll use to manage resources and perform data analytics tasks.
@@ -65,12 +71,6 @@ The script provisions an Azure Synapse Analytics workspace and an Azure Storage 
 7. Select the **files** container, and note that it contains folders named **sales** and **synapse**. The **synapse** folder is used by Azure Synapse, and the **sales** folder contains the data files you are going to query.
 8. Open the **sales** folder and the **orders** folder it contains, and observe that the **orders** folder contains .csv files for three years of sales data.
 9. Right-click any of the files and select **Preview** to see the data it contains. Note that the files do not contain a header row, so you can unselect the option to display column headers.
-
-> **Note**:
-> It may be necessary to create the folder **sales** and then the folders **csv**, **json**, and **parquet**
-> underneath the **sales** folder. Once this is done you can download the files to your local machine to a folder you remember
-> and the upload the files to each of the appropriate folders based upon the appropriate folder you created above.
-> You can download the files from the following path: https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/02/data
 
 ### Use Spark to explore data
 
