@@ -1,7 +1,7 @@
 ---
 lab:
     title: 'Query files using a serverless SQL pool'
-    module: 'Model, query, and explore data in Azure Synapse'
+    ilt-use: 'Lab'
 ---
 
 # Query files using a serverless SQL pool
