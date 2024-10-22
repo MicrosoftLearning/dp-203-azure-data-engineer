@@ -60,7 +60,7 @@
       "sparkNodeSize": "Small",
       "sparkAutoPauseEnabled": "true",
       "sparkAutoPauseDelayInMinutes": "15",
-      "sparkVersion": "3.1"
+      "sparkVersion": "3.5"
     },
     "resources": [
       {
