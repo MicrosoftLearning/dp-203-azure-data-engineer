@@ -56,7 +56,7 @@ In this lab, the data warehouse is hosted in a dedicated SQL pool in Azure Synap
 
 ### Start the dedicated SQL pool
 
-1. After the script has completed, in the Azure portal, go to the **dp500-*xxxxxxx*** resource group that it created, and select your Synapse workspace.
+1. After the script has completed, in the Azure portal, go to the **dp203-*xxxxxxx*** resource group that it created, and select your Synapse workspace.
 2. In the **Overview** page for your Synapse workspace, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab; signing in if prompted.
 3. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within Synapse Studio that are used to manage resources and perform data analytics tasks.
 4. On the **Manage** page, ensure the **SQL pools** tab is selected and then select the **sql*xxxxxxx*** dedicated SQL pool and use its **&#9655;** icon to start it; confirming that you want to resume it when prompted.
@@ -304,8 +304,8 @@ If you've finished exploring Azure Synapse Analytics, you should delete the reso
 
 1. Close the Synapse Studio browser tab and return to the Azure portal.
 2. On the Azure portal, on the **Home** page, select **Resource groups**.
-3. Select the **dp500-*xxxxxxx*** resource group for your Synapse Analytics workspace (not the managed resource group), and verify that it contains the Synapse workspace, storage account, and dedicated SQL pool for your workspace.
+3. Select the **dp203-*xxxxxxx*** resource group for your Synapse Analytics workspace (not the managed resource group), and verify that it contains the Synapse workspace, storage account, and dedicated SQL pool for your workspace.
 4. At the top of the **Overview** page for your resource group, select **Delete resource group**.
-5. Enter the **dp500-*xxxxxxx*** resource group name to confirm you want to delete it, and select **Delete**.
+5. Enter the **dp203-*xxxxxxx*** resource group name to confirm you want to delete it, and select **Delete**.
 
     After a few minutes, your Azure Synapse workspace resource group and the managed workspace resource group associated with it will be deleted.
