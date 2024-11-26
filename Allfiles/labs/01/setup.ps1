@@ -69,10 +69,26 @@ while ($complexPassword -ne 1)
 # Register resource providers
 Write-Host "Registering resource providers...";
 $provider_list = "Microsoft.Synapse", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.Compute"
-foreach ($provider in $provider_list){
-    $result = Register-AzResourceProvider -ProviderNamespace $provider
-    $status = $result.RegistrationState
-    Write-Host "$provider : $status"
+$maxRetries = 5
+$waittime = 30
+
+foreach ($provider in $provider_list) {
+    $retryCount = 0
+    while ($retryCount -lt $maxRetries) {
+        $currentStatus = (Get-AzResourceProvider -ProviderNamespace $provider).RegistrationState
+        if ($currentStatus -eq "Registered") {
+            Write-Host "$provider is successfully registered."
+            break
+        }
+        else {
+            Write-Host "$provider is not yet registered. Waiting for $waitTime seconds before rechecking..."
+            Start-Sleep -Seconds $waitTime
+            $retryCount++
+        }
+    }
+    if ($retryCount -eq $maxRetries) {
+        Write-Host "Failed to register $provider after $maxRetries attempts."
+    }
 }
 
 # Generate unique random suffix
