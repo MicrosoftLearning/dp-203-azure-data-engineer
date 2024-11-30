@@ -185,6 +185,9 @@ By defining an external data source in a database, you can use it to reference t
 4. Modify the SQL code to save the results of query in an external table, like this:
 
     ```sql
+    USE Sales;
+    GO;
+    
     CREATE EXTERNAL TABLE ProductSalesTotals
         WITH (
             LOCATION = 'sales/productsales/',
